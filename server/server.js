@@ -22,6 +22,7 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/favorites', favoritesRouter);
