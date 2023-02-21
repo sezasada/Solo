@@ -31,8 +31,8 @@ router.delete('/:userId/:ticker', rejectUnauthenticated, (req, res) => {
     const userId = req.params.userId;
     const ticker = req.params.ticker;
 
-    const queryText2 = `SELECT "user_id" FROM "favorites" WHERE "id"=$1;`;
-    pool.query(queryText2, [userId])
+    const queryText2 = `SELECT "user_id" FROM "favorites" WHERE "user_id"=$1 AND "ticker"=$2;`;
+    pool.query(queryText2, [userId, ticker])
         .then(response => {
             const itemUserId = response.rows[0].user_id;
             if (itemUserId === req.user.id) {
@@ -52,5 +52,4 @@ router.delete('/:userId/:ticker', rejectUnauthenticated, (req, res) => {
             res.sendStatus(500);
         });
 });
-
 module.exports = router;

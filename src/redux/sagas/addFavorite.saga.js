@@ -13,7 +13,7 @@ function* addFavorite(action) {
             body: JSON.stringify(favorite),
         });
         if (response.ok) {
-            yield put({ type: 'ADD_FAVORITE_SUCCESS', payload: favorite });
+            yield put({ type: "FETCH_FAVORITES" })
         } else {
             yield put({ type: 'ADD_FAVORITE_ERROR', payload: 'Error adding favorite.' });
         }

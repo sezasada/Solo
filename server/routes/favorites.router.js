@@ -8,7 +8,7 @@ const {
 
 router.get('/', rejectUnauthenticated, (req, res) => {
     const userId = req.user.id;
-    const queryText = 'SELECT "ticker" FROM "favorites" WHERE "user_id" = $1;';
+    const queryText = 'SELECT * FROM "favorites" WHERE "user_id" = $1;';
     const queryValues = [userId];
     pool
         .query(queryText, queryValues)

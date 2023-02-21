@@ -19,20 +19,21 @@ function UserPage() {
     const symbolInput = event.target.symbolInput.value;
     dispatch({ type: 'SUBMIT_SYMBOL', payload: symbolInput });
   };
-
-  // const handleDeleteFavorite = () => {
-  //   const userId = 1;
-  //   dispatch({ type: 'DELETE_FAVORITE', payload: { userId, ticker: selectedSymbol } });
-  //   setIsFavorite(false);
-  // };
+  const handleDeleteFavorite = () => {
+    const userId = user.id;
+    dispatch({ type: 'DELETE_FAVORITE', payload: { userId, ticker: selectedSymbol } });
+  };
 
   const handleAddFavorite = () => {
     dispatch({ type: 'ADD_FAVORITE', payload: selectedSymbol });
-    setIsFavorite(true);
   };
   useEffect(() => {
     setIsFavorite(Array.isArray(favorites) && favorites.some(favorite => favorite.ticker === selectedSymbol));
   }, [favorites, selectedSymbol]);
+
+  useEffect(() => {
+    dispatch({ type: "FETCH_FAVORITES" })
+  }, [])
 
 
   return (
@@ -47,8 +48,9 @@ function UserPage() {
         {selectedSymbol && (
           <div>
             <h2>Earnings Reports for: {selectedSymbol}</h2>
-            {/* {isFavorite && <button onClick={handleDeleteFavorite}>Delete from favorites</button>} */}
-            {!isFavorite && <button onClick={handleAddFavorite}>Add to favorites</button>}
+            <button onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>{isFavorite ? "Delete from Favorites" : "Add to Favorites"}</button>
+            {/* {isFavorite && <button onClick={handleDeleteFavorite}>Delete from favorites</button>}
+            {!isFavorite && <button onClick={handleAddFavorite}>Add to favorites</button>} */}
           </div>
         )}
         <form onSubmit={handleSubmit}>
