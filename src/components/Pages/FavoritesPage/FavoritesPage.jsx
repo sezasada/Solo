@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
-
+import { useHistory } from 'react-router-dom';
 function FavoritesList() {
-    const { userId } = useParams();
     const history = useHistory();
     const dispatch = useDispatch();
-    const favorites = useSelector(state => state.favorites);
-    const earnings = useSelector(state => state.earnings);
-    const selectedSymbol = useSelector(state => state.selectedSymbol);
+    const favorites = useSelector(state => state.earningsReducer.favorites);
+    const earnings = useSelector(state => state.earningsReducer.earnings);
+    const selectedSymbol = useSelector(state => state.earningsReducer.selectedSymbol);
 
     const [tickers, setTickers] = useState([]);
     const [selectedEarnings, setSelectedEarnings] = useState([]);
@@ -19,7 +17,7 @@ function FavoritesList() {
 
     useEffect(() => {
         const fetchTickers = async () => {
-            const response = await fetch(`/favorites?userId=${userId}`);
+            const response = await fetch('/api/favorites?userId=1');
             const data = await response.json();
             setTickers(data.map((favorite) => favorite.ticker));
         };

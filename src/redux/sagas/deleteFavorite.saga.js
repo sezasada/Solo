@@ -3,7 +3,7 @@ import { put, takeEvery } from 'redux-saga/effects';
 function* deleteFavorite(action) {
     const { userId, ticker } = action.payload;
     try {
-        const response = yield fetch(`/favorites/${userId}/${ticker}`, {
+        const response = yield fetch(`/api//favorites/${userId}/${ticker}`, {
             method: 'DELETE',
         });
         if (response.ok) {

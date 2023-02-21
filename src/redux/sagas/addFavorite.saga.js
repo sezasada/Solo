@@ -1,12 +1,13 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, select } from 'redux-saga/effects';
 
 function* addFavorite(action) {
+    const userId = yield select(state => state.user.id);
     const favorite = {
-        userId: 1,
+        userId,
         ticker: action.payload,
     };
     try {
-        const response = yield fetch('/favorites', {
+        const response = yield fetch('/api/favorites', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(favorite),

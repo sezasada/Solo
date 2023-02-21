@@ -1,4 +1,4 @@
-const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: [], selectedEarnings: [] }, action) => {
+const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: {}, selectedEarnings: [] }, action) => {
     switch (action.type) {
         case 'SET_EARNINGS':
             return { ...state, earnings: action.payload };
