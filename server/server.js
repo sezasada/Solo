@@ -26,7 +26,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/api/favorites', favoritesRouter);
-app.use('/api/earnings', earningsRouter);
+app.use('/api/favorites', earningsRouter);
 
 
 

@@ -1,4 +1,11 @@
-const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: [], selectedEarnings: [] }, action) => {
+const initialState = {
+    earnings: [],
+    selectedSymbol: '',
+    favorites: {},
+    selectedEarnings: [],
+};
+
+const soloReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_EARNINGS':
             return { ...state, earnings: action.payload };
@@ -9,14 +16,13 @@ const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: [], 
         case 'SET_TICKERS':
             return { ...state, tickers: action.payload };
         case 'ADD_FAVORITE':
-            const newFavorite = {
-                userId: 1,
-                ticker: action.payload,
-            };
-            if (state.favorites.some((favorite) => favorite.ticker === action.payload)) {
+            const { userId, ticker } = action.payload;
+            const userFavorites = state.favorites[userId] || [];
+            if (userFavorites.some((favorite) => favorite.ticker === ticker)) {
                 return state;
             } else {
-                return { ...state, favorites: [...state.favorites, newFavorite] };
+                const updatedFavorites = { ...state.favorites, [userId]: [...userFavorites, { ticker }] };
+                return { ...state, favorites: updatedFavorites };
             }
         case 'SET_SELECTED_EARNINGS':
             const selectedEarnings = state.earnings.filter((earning) => earning.symbol === state.selectedSymbol);
@@ -25,5 +31,6 @@ const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: [], 
             return state;
     }
 };
+
 
 export default soloReducer;

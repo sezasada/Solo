@@ -12,7 +12,7 @@ import Nav from './Shared/Nav/Nav';
 import Footer from './Shared/Footer/Footer';
 
 import ProtectedRoute from './Shared/ProtectedRoute/ProtectedRoute';
-
+import FavoritesPage from './Pages/FavoritesPage/FavoritesPage';
 import AboutPage from './Pages/AboutPage/AboutPage';
 import UserPage from './Pages/UserPage/UserPage';
 import InfoPage from './Pages/InfoPage/InfoPage';
@@ -67,6 +67,13 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
+
+          <Route 
+            exact
+            path="/favorites"
+            >
+            <FavoritesPage />
+          </Route>
 
           <Route
             exact
