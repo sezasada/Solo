@@ -4,38 +4,37 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 
 function UserPage() {
-  const user = useSelector((store) => store.user);
-  const earnings = useSelector(store => store.earnings);
-  const selectedSymbol = useSelector(store => store.selectedSymbol);
-  const favorites = useSelector(store => store.favorites);
+  const user = useSelector(store => store.user);
+  const earnings = useSelector(store => store.earningsReducer.earnings);
+  const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol);
+  // const favorites = useSelector(store => store.favorites);
   const dispatch = useDispatch();
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const [isFavorite, setIsFavorite] = useState(false);
   const history = useHistory();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const symbolInput = event.target.elements.symbolInput.value;
+    const symbolInput = event.target.symbolInput.value;
     dispatch({ type: 'SUBMIT_SYMBOL', payload: symbolInput });
   };
 
-  useEffect(() => {
-    dispatch({ type: 'FETCH_EARNINGS' });
-  }, []);
+  // const handleDeleteFavorite = () => {
+  //   const userId = 1;
+  //   dispatch({ type: 'DELETE_FAVORITE', payload: { userId, ticker: selectedSymbol } });
+  //   setIsFavorite(false);
+  // };
 
-  const handleDeleteFavorite = () => {
-    const userId = 1;
-    dispatch({ type: 'DELETE_FAVORITE', payload: { userId, ticker: selectedSymbol } });
-    setIsFavorite(false);
-  };
+  // const handleAddFavorite = () => {
+  //   dispatch({ type: 'ADD_FAVORITE', payload: selectedSymbol });
+  //   setIsFavorite(true);
+  // };
 
-  const handleAddFavorite = () => {
-    dispatch({ type: 'ADD_FAVORITE', payload: selectedSymbol });
-    setIsFavorite(true);
-  };
-
-  useEffect(() => {
-    setIsFavorite(favorites.some(favorite => favorite.ticker === selectedSymbol)); // update state when favorites changes
-  }, [favorites, selectedSymbol]);
+  // useEffect(() => {
+  //   setIsFavorite(favorites.some(favorite => favorite.ticker === selectedSymbol)); // update state when favorites changes
+  // }, [favorites, selectedSymbol]);
+  console.log("this is selectedSymbol", selectedSymbol);
+  console.log("this is earnings", earnings);
 
 
   return (
@@ -47,36 +46,36 @@ function UserPage() {
       </div>
       <div>
         <button onClick={() => history.push("/favorites")}>Favorites Page</button>
-        {selectedSymbol && (
+        {/* {selectedSymbol && (
           <div>
             <h2>Earnings Reports for: {selectedSymbol}</h2>
             {isFavorite && <button onClick={handleDeleteFavorite}>Delete from favorites</button>}
             {!isFavorite && <button onClick={handleAddFavorite}>Add to favorites</button>}
           </div>
-        )}
+        )} */}
         <form onSubmit={handleSubmit}>
           <input name="symbolInput" placeholder="symbol" />
           <button type="submit">Submit</button>
         </form>
-        {earnings.map((report, index) => {
+        {Array.isArray(earnings) && earnings.map((report, index) => {
+          // console.log(report.symbol, selectedSymbol)
           if (report.symbol !== selectedSymbol) {
             return null;
           }
-          return (
-            <div id="reports-container" >
-              <div id="report" key={index}>
-                <p>Symbol {report.symbol}</p>
-                <p>Date: {report.date}</p>
-                <p>Earnings Per Share (EPS): {report.eps}</p>
-                <p>EPS Estimated: {report.epsEstimated}</p>
-                <p>Time: {report.time}</p>
-                <p>Revenue: ${report.revenue.toLocaleString()}</p>
-                <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
-                <p>Updated From Date: {report.updatedFromDate}</p>
-                <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
-              </div>
+          return(
+          <div id="reports-container" key={index}>
+            <div id="report">
+              <p>Symbol {report.symbol}</p>
+              <p>Date: {report.date}</p>
+              <p>Earnings Per Share (EPS): {report.eps}</p>
+              <p>EPS Estimated: {report.epsEstimated}</p>
+              <p>Time: {report.time}</p>
+              <p>Revenue: ${report.revenue.toLocaleString()}</p>
+              <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
+              <p>Updated From Date: {report.updatedFromDate}</p>
+              <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
             </div>
-          );
+          </div>)
         })}
       </div>
     </div>

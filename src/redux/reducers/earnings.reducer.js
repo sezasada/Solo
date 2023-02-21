@@ -1,17 +1,11 @@
-const initialState = {
-    earnings: [],
-    selectedSymbol: '',
-    favorites: {},
-    selectedEarnings: [],
-};
-
-const soloReducer = (state = initialState, action) => {
+const soloReducer = (state = { earnings: [], selectedSymbol: '', favorites: [], selectedEarnings: [] }, action) => {
     switch (action.type) {
         case 'SET_EARNINGS':
             return { ...state, earnings: action.payload };
         case 'SET_SELECTED_SYMBOL':
             return { ...state, selectedSymbol: action.payload };
         case 'SUBMIT_SYMBOL':
+            console.log('Setting selectedSymbol state to', action.payload);
             return { ...state, selectedSymbol: action.payload };
         case 'SET_TICKERS':
             return { ...state, tickers: action.payload };
@@ -31,6 +25,5 @@ const soloReducer = (state = initialState, action) => {
             return state;
     }
 };
-
 
 export default soloReducer;
