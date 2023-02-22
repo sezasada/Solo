@@ -49,8 +49,15 @@ function FavoritesList() {
             await Promise.all(promises);
             setTickerPrices(prices);
         };
+
         if (tickers.length > 0) {
             fetchTickerPrices();
+
+            const intervalId = setInterval(() => {
+                fetchTickerPrices();
+            }, 5000);
+
+            return () => clearInterval(intervalId);
         }
     }, [tickers]);
 
