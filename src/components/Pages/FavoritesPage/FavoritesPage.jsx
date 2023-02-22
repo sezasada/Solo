@@ -11,6 +11,7 @@ function FavoritesList() {
     const selectedPrice = useSelector((state) => state.earningsReducer.selectedPrice);
     const [tickers, setTickers] = useState([]);
     const [selectedEarnings, setSelectedEarnings] = useState([]);
+    const [tickerPrices, setTickerPrices] = useState({});
 
     useEffect(() => {
         dispatch({ type: 'FETCH_EARNINGS' });
@@ -38,19 +39,21 @@ function FavoritesList() {
     }, [favorites]);
 
     useEffect(() => {
-        const fetchTickers = async () => {
-            const response = await fetch('/api/favorites?userId=1');
-            const data = await response.json();
-            setTickers(data.map((favorite) => favorite.ticker));
+        const fetchTickerPrices = async () => {
+            const prices = {};
+            const promises = tickers.map(async (ticker) => {
+                const response = await fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=19198710f19b50ecd5513c63a590ad31`);
+                const data = await response.json();
+                prices[ticker] = data[0].price;
+            });
+            await Promise.all(promises);
+            setTickerPrices(prices);
         };
-        fetchTickers();
-    }, [favorites]);
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            dispatch({ type: 'FETCH_STOCK_PRICE', payload: selectedSymbol });
-        }, 5000); // fetch new price every 5 seconds
-        return () => clearInterval(intervalId);
-    }, [selectedPrice]);
+        if (tickers.length > 0) {
+            fetchTickerPrices();
+        }
+    }, [tickers]);
+
     return (
         <div>
             <div id="favorites">
@@ -61,7 +64,7 @@ function FavoritesList() {
                         {tickers.map((ticker) => (
                             <li key={ticker} onClick={() => handleTickerClick(ticker)}>
                                 <div id="stock">
-                                    {ticker} {selectedSymbol === ticker && selectedPrice && <span>Price: {selectedPrice}</span>}
+                                    {ticker} {tickerPrices[ticker] && <span>Price: {tickerPrices[ticker]}</span>}
                                 </div>
                             </li>
                         ))}
@@ -70,7 +73,6 @@ function FavoritesList() {
                     <p></p>
                 )}
             </div>
-
         </div>
     );
 }
