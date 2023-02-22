@@ -8,7 +8,7 @@ function FavoritesList() {
     const favorites = useSelector(state => state.earningsReducer.favorites);
     const earnings = useSelector(state => state.earningsReducer.earnings);
     const selectedSymbol = useSelector(state => state.earningsReducer.selectedSymbol);
-
+    const selectedPrice = useSelector((state) => state.earningsReducer.selectedPrice);
     const [tickers, setTickers] = useState([]);
     const [selectedEarnings, setSelectedEarnings] = useState([]);
 
@@ -30,6 +30,7 @@ function FavoritesList() {
         const filteredEarnings = earnings.filter((earning) => earning.symbol === ticker);
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
+        dispatch({ type: 'FETCH_STOCK_PRICE', payload: ticker });
     };
 
     useEffect(() => {
@@ -44,26 +45,32 @@ function FavoritesList() {
         };
         fetchTickers();
     }, [favorites]);
-
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            dispatch({ type: 'FETCH_STOCK_PRICE', payload: selectedSymbol });
+        }, 5000); // fetch new price every 5 seconds
+        return () => clearInterval(intervalId);
+    }, [selectedPrice]);
     return (
         <div>
             <div id="favorites">
-                <h2>Favorites:</h2>
+                <h2>Watchlist:</h2>
+                <hr />
                 {tickers && tickers.length > 0 ? (
                     <ul>
                         {tickers.map((ticker) => (
                             <li key={ticker} onClick={() => handleTickerClick(ticker)}>
                                 <div id="stock">
-                                    {ticker}
+                                    {ticker} {selectedSymbol === ticker && selectedPrice && <span>Price: {selectedPrice}</span>}
                                 </div>
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>Loading tickers...</p>
+                    <p></p>
                 )}
             </div>
-            
+
         </div>
     );
 }
