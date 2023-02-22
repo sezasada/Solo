@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
 function FavoritesList() {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -30,6 +31,20 @@ function FavoritesList() {
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
     };
+
+    useEffect(() => {
+        setTickers(favorites.map((favorite) => favorite.ticker));
+    }, [favorites]);
+
+    useEffect(() => {
+        const fetchTickers = async () => {
+            const response = await fetch('/api/favorites?userId=1');
+            const data = await response.json();
+            setTickers(data.map((favorite) => favorite.ticker));
+        };
+        fetchTickers();
+    }, [favorites]);
+
     return (
         <div>
             <div id="favorites">
@@ -48,28 +63,7 @@ function FavoritesList() {
                     <p>Loading tickers...</p>
                 )}
             </div>
-            <div id="back-btn">
-                <button id="back" onClick={() => history.push('/')}>Previous Page</button>
-            </div>
-            {selectedEarnings.length > 0 && (
-                <div>
-                    <h2>Earnings For: {selectedSymbol}</h2>
-                    {selectedEarnings.map((report) => (
-                        <div id="reports-container">
-                            <div id="report" key={report.date}>
-                                <p>Date: {report.date}</p>
-                                <p>Earnings Per Share (EPS): {report.eps}</p>
-                                <p>EPS Estimated: {report.epsEstimated}</p>
-                                <p>Time: {report.time}</p>
-                                <p>Revenue: ${report.revenue.toLocaleString()}</p>
-                                <p>Revenue Estimated: {report.revenueEstimated.toLocaleString()}</p>
-                                <p>Updated From Date: {report.updatedFromDate}</p>
-                                <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+            
         </div>
     );
 }
