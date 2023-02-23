@@ -5,23 +5,21 @@ function* setWatchlistName(action) {
     const { payload } = action;
 
     try {
-        yield call(axios.put, `/api/watchlist/${payload.userId}`, { name: payload.name });
+        yield call(axios.put, `/api/earnings`, payload);
 
-        yield put({ type: 'SET_WATCHLIST_NAME_SUCCESS', payload: payload.name });
+        yield put ({ type: 'FETCH_WATCHLIST_NAME', payload: payload.userId });
     } catch (error) {
-        yield put({ type: 'SET_WATCHLIST_NAME_ERROR', payload: error.message });
+        console.log('Error in setting the watchlist name', error);
     }
 }
-
 function* fetchWatchlistName(action) {
-    const { payload } = action;
-
     try {
-        const response = yield call(axios.get, `/api/watchlist/${payload}`);
-
-        yield put({ type: 'SET_WATCHLIST_NAME_SUCCESS', payload: response.data.name });
+        
+        const response = yield call(axios.get, `/api/earnings/${action.payload}`);
+        yield console.log(response);
+        yield put({ type: 'FETCH_WATCHLIST_NAME_SUCCESS', payload: response.data });
     } catch (error) {
-        yield put({ type: 'SET_WATCHLIST_NAME_ERROR', payload: error.message });
+        console.log('Error in fetching watchlist name', error);
     }
 }
 
