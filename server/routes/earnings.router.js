@@ -9,7 +9,19 @@ const router = express.Router();
 router.get('/', (req, res) => {
     // GET route code here
 });
-
+router.get('/:userId', rejectUnauthenticated, (req, res) => {
+    const userId = req.params.userId;
+    const queryText = `SELECT watchlist_name FROM "user" WHERE "id" = $1;`;
+  
+    pool.query(queryText, [userId])
+      .then(response => {
+        res.status(200).json(response.rows[0]);
+      })
+      .catch(error => {
+        console.log('Error in GET /watchlist/:userId', error);
+        res.sendStatus(500);
+      });
+  });
 /**
  * POST route template
  */
@@ -49,6 +61,18 @@ router.delete('/:userId/:ticker', rejectUnauthenticated, (req, res) => {
         })
         .catch((error) => {
             console.log('Error in DELETE /favorites/:userId/:ticker', error);
+            res.sendStatus(500);
+        });
+});
+router.put('/:userId', rejectUnauthenticated, (req, res) => {
+    const userId = req.params.userId;
+    const watchlistName = req.query.watchlistName; // access watchlistName query parameter
+    const queryText = 'UPDATE "user" SET "watchlist_name" = $1 WHERE "id" = $2;';
+    pool
+        .query(queryText, [watchlistName, userId])
+        .then(() => res.sendStatus(200))
+        .catch((error) => {
+            console.log('Error updating watchlist name in database', error);
             res.sendStatus(500);
         });
 });

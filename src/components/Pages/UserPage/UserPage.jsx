@@ -1,7 +1,6 @@
-import LogOutButton from '../../Shared/LogOutButton/LogOutButton';
-import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import News from '../../Shared/News/News';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
 import './UserPage.css';
@@ -16,6 +15,7 @@ function UserPage() {
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
 
   const history = useHistory();
 
@@ -29,8 +29,7 @@ function UserPage() {
 
   const handleDeleteFavorite = () => {
     const userId = user.id;
-    dispatch({ type: 'DELETE_FAVORITE', payload: { userId, ticker: selectedSymbol } });
-    dispatch({ type: 'FETCH_FAVORITES' });
+    dispatch({ type: 'DELETE_FAVORITE', payload: { userId: user.id, ticker: selectedSymbol } });
   };
 
   const handleAddFavorite = () => {
@@ -45,7 +44,12 @@ function UserPage() {
     dispatch({ type: 'FETCH_FAVORITES' });
   }, []);
 
-  const selectedEarnings = earnings.filter((earning) => earning.symbol === selectedSymbol);
+  const selectedEarnings = earnings.filter((earning) => earning.symbol === selectedSymbol && earning.date.includes(selectedYear));
+
+  const handleChangeYear = (event) => {
+    setSelectedYear(event.target.value);
+    dispatch({ type: 'FILTER_EARNINGS', payload: event.target.value });
+  };
 
   return (
     <div id="bod">
@@ -63,7 +67,7 @@ function UserPage() {
                   <div>
                     <h2>Earnings Reports for: {selectedSymbol} {selectedPrice && <p>Price: {selectedPrice}</p>}</h2>
                     <button onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
-                      {isFavorite ? 'Delete from Favorites' : 'Add to Favorites'}
+                      {isFavorite ? 'Delete from Watchlist' : 'Add to Watchlist'}
                     </button>
                   </div>
                 )}
@@ -76,6 +80,14 @@ function UserPage() {
                   />
                   <button type="submit">Submit</button>
                 </form>
+                <div>
+                  <label htmlFor="year">Year:</label>
+                  <select name="year" id="year" onChange={handleChangeYear}>
+                    <option value="">All</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                  </select>
+                </div>
                 {Array.isArray(selectedEarnings) && selectedEarnings.map((report, index) => {
                   return (
                     <div id="reports-container" key={index}>
@@ -90,7 +102,8 @@ function UserPage() {
                         <p>Updated From Date: {report.updatedFromDate}</p>
                         <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
                       </div>
-                    </div>)
+                    </div>
+                  );
                 })}
               </div>
             </div>
@@ -103,6 +116,4 @@ function UserPage() {
     </div>
   );
 }
-
-// this allows us to use <App /> in index.js
 export default UserPage;

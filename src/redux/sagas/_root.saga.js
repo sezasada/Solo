@@ -8,6 +8,7 @@ import registrationSaga from './registration.saga';
 import watchStockPrice from './stockPrice.saga';
 import watchSubmitSymbol from './symbolSubmit.saga';
 import userSaga from './user.saga';
+import { watchFetchWatchlistName, watchSetWatchlistName } from './watchlistName.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -27,5 +28,7 @@ export default function* rootSaga() {
     watchDeleteFavorite(),
     watchFetchTickers(),
     watchStockPrice(),
+    watchSetWatchlistName(),
+    watchFetchWatchlistName(),
   ]);
 }
