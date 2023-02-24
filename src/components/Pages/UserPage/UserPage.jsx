@@ -16,8 +16,21 @@ function UserPage() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
-
+  const [newsReport, setNewsReport] = useState([]);
   const history = useHistory();
+
+  useEffect(() => {
+    if (selectedSymbol) {
+      fetch(`https://financialmodelingprep.com/api/v3/stock_news?tickers=${selectedSymbol}&limit=2&apikey=19198710f19b50ecd5513c63a590ad31`)
+        .then(response => response.json())
+        .then(data => {
+          setNewsReport(data);
+        })
+        .catch(error => {
+          console.log('Error displaying news for:', error);
+        });
+    }
+  }, [selectedSymbol]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,6 +38,7 @@ function UserPage() {
     dispatch({ type: 'SUBMIT_SYMBOL', payload: input });
     dispatch({ type: 'FETCH_STOCK_PRICE', payload: input });
     setSymbolInput('');
+    setNewsReport([]);
   };
 
   const handleDeleteFavorite = () => {
@@ -50,7 +64,7 @@ function UserPage() {
     setSelectedYear(event.target.value);
     dispatch({ type: 'FILTER_EARNINGS', payload: event.target.value });
   };
-
+  console.log(selectedSymbol);
   return (
     <div id="bod">
       <div className="container">
@@ -69,8 +83,7 @@ function UserPage() {
                     <button onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
                       {isFavorite ? 'Delete from Watchlist' : 'Add to Watchlist'}
                     </button>
-                  </div>
-                )}
+                  </div>)}
                 <form onSubmit={handleSubmit}>
                   <input
                     name="symbolInput"
@@ -105,13 +118,29 @@ function UserPage() {
                     </div>
                   );
                 })}
+                {newsReport && newsReport.length > 0 && (
+                  <div>
+                    <h3>Recent News Articles for {selectedSymbol}:</h3>
+                    <ul>
+                      {newsReport.map((article, index) => (
+                        <li key={index}>
+                          <a href={article.url} rel="noreferrer">{article.title}</a>
+                          <p>{article.publishedDate}</p>
+                          <p><img src={article.image} alt={article.title} /></p>
+                          <p>{article.site}</p>
+                          <p>{article.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div className='news text-center'>
-          <News />
-        </div>
+      </div>
+      <div className='news text-center'>
+        <News />
       </div>
     </div>
   );
