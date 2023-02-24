@@ -17,6 +17,7 @@ function UserPage() {
   const [symbolInput, setSymbolInput] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [newsReport, setNewsReport] = useState([]);
+  const [stockData, setStockData] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -32,6 +33,20 @@ function UserPage() {
     }
   }, [selectedSymbol]);
 
+  useEffect(() => {
+    if (selectedSymbol) {
+      const intervalId = setInterval(() => {
+        fetch(`https://financialmodelingprep.com/api/v3/quote/${selectedSymbol}?apikey=19198710f19b50ecd5513c63a590ad31`)
+          .then(response => response.json())
+          .then(data => {
+            setStockData(data);
+          })
+          .catch(error => {
+            console.log('Error displaying news for:', error);
+          });
+      }, 10000); // update every 10 seconds
+    }
+  }, [selectedSymbol]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const input = event.target.symbolInput.value;
@@ -39,6 +54,7 @@ function UserPage() {
     dispatch({ type: 'FETCH_STOCK_PRICE', payload: input });
     setSymbolInput('');
     setNewsReport([]);
+    setStockData([]);
   };
 
   const handleDeleteFavorite = () => {
@@ -101,6 +117,26 @@ function UserPage() {
                     <option value="2022">2022</option>
                   </select>
                 </div>
+                {stockData && stockData.length > 0 && (
+                  <div>
+                    <h5> Data For {selectedSymbol}:</h5>
+                    <hr />
+                    <ul>
+                      {stockData.map((info, index) => (
+                        <li key={index}>
+                          <li>Company name: {info.name}</li>
+                          <li>Share Price: {info.price}</li>
+                          <li>Percent Price Change Today{info.changesPercentage}</li>
+                          <li>Year High: {info.yearHigh}</li>
+                          <li>Year Low: {info.yearLow}</li>
+                          <li>Market Capitalization: {info.marketCap}</li>
+                          <li>Earnings Announcement: {info.earningsAnnouncement}</li>
+                          <li>Todays volume: {info.volume}</li>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 {Array.isArray(selectedEarnings) && selectedEarnings.map((report, index) => {
                   return (
                     <div id="reports-container" key={index}>

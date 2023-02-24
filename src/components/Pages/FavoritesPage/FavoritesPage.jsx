@@ -65,7 +65,7 @@ function FavoritesList() {
 
             const intervalId = setInterval(() => {
                 fetchTickerPrices();
-            }, 5000);
+            }, 10000);
 
             return () => clearInterval(intervalId);
         }
