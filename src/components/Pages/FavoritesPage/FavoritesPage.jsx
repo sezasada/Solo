@@ -34,6 +34,31 @@ function FavoritesList() {
         fetchTickers();
     }, []);
 
+
+    useEffect(() => {
+        const fetchTickerPrices = async () => {
+            const prices = {};
+            for (const ticker of tickers) {
+                try {
+                    const response = await fetch(`/api/earnings/selectedPrice/${ticker}`);
+                    const data = await response.json();
+                    prices[ticker] = data;
+                } catch (error) {
+                    console.log(`Error fetching stock price for ${ticker}`, error);
+                }
+            }
+            setTickerPrices(prices);
+        };
+
+        if (tickers.length > 0) {
+            fetchTickerPrices();
+            const intervalId = setInterval(fetchTickerPrices, 10000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [tickers]);
+
+
     const handleTickerClick = (ticker) => {
         console.log(ticker);
         const filteredEarnings = earnings.filter((earning) => earning.symbol === ticker);
@@ -45,31 +70,6 @@ function FavoritesList() {
     useEffect(() => {
         setTickers(favorites.map((favorite) => favorite.ticker));
     }, [favorites]);
-
-    useEffect(() => {
-        const fetchTickerPrices = async () => {
-            const prices = {};
-            const promises = tickers.map(async (ticker) => {
-                const response = await fetch(
-                    `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=19198710f19b50ecd5513c63a590ad31`
-                );
-                const data = await response.json();
-                prices[ticker] = data[0].price;
-            });
-            await Promise.all(promises);
-            setTickerPrices(prices);
-        };
-
-        if (tickers.length > 0) {
-            fetchTickerPrices();
-
-            const intervalId = setInterval(() => {
-                fetchTickerPrices();
-            }, 10000);
-
-            return () => clearInterval(intervalId);
-        }
-    }, [tickers]);
 
     const handleSaveWatchlistName = (event) => {
         event.preventDefault();

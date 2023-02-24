@@ -15,7 +15,7 @@ function* setWatchlistName(action) {
 function* fetchWatchlistName(action) {
     try {
         
-        const response = yield call(axios.get, `/api/earnings/${action.payload}`);
+        const response = yield call(axios.get, `/api/earnings/watchlist/${action.payload}`);
         yield console.log(response);
         yield put({ type: 'FETCH_WATCHLIST_NAME_SUCCESS', payload: response.data });
     } catch (error) {

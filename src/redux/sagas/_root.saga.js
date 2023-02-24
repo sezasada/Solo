@@ -5,6 +5,7 @@ import watchFetchEarnings from './fetchEarnings.saga';
 import watchFetchTickers from './fetchFavorites.saga';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
+import watchStockNews from './stockNews.saga';
 import watchStockPrice from './stockPrice.saga';
 import watchSubmitSymbol from './symbolSubmit.saga';
 import userSaga from './user.saga';
@@ -30,5 +31,6 @@ export default function* rootSaga() {
     watchStockPrice(),
     watchSetWatchlistName(),
     watchFetchWatchlistName(),
+    watchStockNews(),
   ]);
 }

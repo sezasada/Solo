@@ -12,6 +12,8 @@ function UserPage() {
   const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol);
   const selectedPrice = useSelector(store => store.earningsReducer.selectedPrice);
   const favorites = useSelector(store => store.earningsReducer.favorites);
+  const selectedStocksNews = useSelector(store => store.earningsReducer.selectedStocksNews);
+  const selectedStockData = useSelector(store => store.earningsReducer.selectedStockData);
   const dispatch = useDispatch();
   const [isFavorite, setIsFavorite] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
@@ -20,16 +22,10 @@ function UserPage() {
   const [stockData, setStockData] = useState([]);
   const history = useHistory();
 
+
   useEffect(() => {
-    if (selectedSymbol) {
-      fetch(`https://financialmodelingprep.com/api/v3/stock_news?tickers=${selectedSymbol}&limit=2&apikey=19198710f19b50ecd5513c63a590ad31`)
-        .then(response => response.json())
-        .then(data => {
-          setNewsReport(data);
-        })
-        .catch(error => {
-          console.log('Error displaying news for:', error);
-        });
+    if (selectedSymbol !== '') { 
+      dispatch({ type: 'FETCH_STOCK_NEWS', payload: selectedSymbol });
     }
   }, [selectedSymbol]);
 
@@ -52,6 +48,7 @@ function UserPage() {
     const input = event.target.symbolInput.value;
     dispatch({ type: 'SUBMIT_SYMBOL', payload: input });
     dispatch({ type: 'FETCH_STOCK_PRICE', payload: input });
+    dispatch({ type: 'FETCH_STOCK_NEWS', payload: input });
     setSymbolInput('');
     setNewsReport([]);
     setStockData([]);
@@ -154,11 +151,11 @@ function UserPage() {
                     </div>
                   );
                 })}
-                {newsReport && newsReport.length > 0 && (
+                {selectedStocksNews && selectedStocksNews.length > 0 && (
                   <div>
                     <h3>Recent News Articles for {selectedSymbol}:</h3>
                     <ul>
-                      {newsReport.map((article, index) => (
+                      {selectedStocksNews.map((article, index) => (
                         <li key={index}>
                           <a href={article.url} rel="noreferrer">{article.title}</a>
                           <p>{article.publishedDate}</p>

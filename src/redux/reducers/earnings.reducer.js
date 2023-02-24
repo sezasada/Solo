@@ -14,6 +14,8 @@ const soloReducer = (
             return { ...state, earnings: action.payload };
         case 'SET_STOCK_PRICE':
             return { ...state, selectedPrice: action.payload };
+        case 'SET_SELECTED_NEWS':
+            return { ...state, selectedStocksNews: action.payload };
         case 'SET_SELECTED_SYMBOL':
             return { ...state, selectedSymbol: action.payload };
         case 'SUBMIT_SYMBOL':

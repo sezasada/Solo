@@ -26,7 +26,67 @@ router.get('/earnings', async (req, res) => {
     }
 });
 
-router.get('/:userId', rejectUnauthenticated, (req, res) => {
+router.get('/selectedPrice/:symbol', async (req, res) => {
+    const { symbol } = req.params;
+    try {
+        const response = await axios.get(
+            `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`
+        );
+        const data = response.data[0].price;
+
+        res.send(`${data}`);
+    } catch (error) {
+        console.log('Error fetching stock price', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.get('/stockData/:symbol', async (req, res) => {
+    const { symbol } = req.params;
+    try {
+        console.log('this is symbol', symbol);
+        const response = await axios.get(
+            'https://financialmodelingprep.com/api/v3/quote/${selectedSymbol}?apikey=19198710f19b50ecd5513c63a590ad31'
+        );
+        const data = response.data.map(info => ({
+            name: info.name,
+            price: info.price, 
+            changePercentage: info.changesPercentage,
+            yearHigh: info.yearHigh,
+            yearLow: info.yearLow,
+            marketCap: info.marketCap,
+            earningsAnnouncement: info.earningsAnnouncement,
+            volume: info.volume
+        }));
+        console.log(data);
+        res.send(data);
+    } catch (error) {
+        console.log('Error fetching stock news', error);
+        res.status(500).send('Internal server error at /stockData/:symbol');
+    }
+});
+router.get('/stockNews/:symbol', async (req, res) => {
+    const { symbol } = req.params;
+    try {
+        const response = await axios.get(
+            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=2&apikey=19198710f19b50ecd5513c63a590ad31`
+        );
+        const data = response.data.map(article => ({
+            title: article.title,
+            publishedDate: article.published_date,
+            image: article.image,
+            site: article.site,
+            text: article.text
+        }));
+        console.log(data);
+        res.send(data);
+    } catch (error) {
+        console.log('Error fetching stock news', error);
+        res.status(500).send('Internal server error');
+    }
+});
+
+router.get('/watchlist/:userId', rejectUnauthenticated, (req, res) => {
     const userId = req.params.userId;
     const queryText = `SELECT watchlist_name FROM "user" WHERE "id" = $1;`;
     pool
