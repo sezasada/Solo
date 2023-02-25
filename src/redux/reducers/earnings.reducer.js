@@ -53,10 +53,8 @@ const soloReducer = (
         case 'SET_SELECTED_PRICE':
             return { ...state, selectedPrice: action.payload };
         case 'SET_WATCHLIST_NAME_SUCCESS':
-            console.log(action.payload);
             return { ...state, watchlistName: action.payload };
         case 'FETCH_WATCHLIST_NAME_SUCCESS':
-            console.log(action.payload);
             return { ...state, watchlistName: action.payload };
         default:
             return state;
