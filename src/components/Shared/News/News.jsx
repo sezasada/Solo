@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './News.css';
 function News() {
+
+    const marketNews = useSelector(store => store.earningsReducer.marketNews);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch({ type: 'FETCH_MARKET_NEWS' });
+    }, []);
+
     const [news, setNews] = useState([]);
     useEffect(() => {
-        fetch('https://stocknewsapi.com/api/v1/category?section=general&items=3&page=1&token=9knkgcm8m9iqlnrnj0hyqumlsnpjrocziwvo31mf')
-            .then(response => response.json())
-            .then(data => {
-                setNews(data.data); // update the component state with the API response's data array
-            })
-            .catch(error => {
-                console.error('Error fetching API data:', error);
-            });
-    }, []); // run the effect only once, on component mount
+        setNews(marketNews);
+    }, [marketNews]);
+
 
     return (
         <>

@@ -65,9 +65,6 @@ function FavoritesList() {
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
         dispatch({ type: 'FETCH_STOCK_PRICE', payload: ticker });
-        // dispatch({type: 'FETCH_STOCK_NEWS', payload: ticker});
-        dispatch({ type: 'FETCH_STOCK_DATA', payload: ticker });
-
     };
 
     useEffect(() => {
@@ -95,7 +92,7 @@ function FavoritesList() {
                 ) : (
                     <div onClick={() => setShowInput(true)}>
                         <h2>{watchlistName}</h2>
-                        <p>edit watchlist name</p>
+                        <button>Edit</button>
 
                     </div>
                 )}

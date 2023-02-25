@@ -10,6 +10,7 @@ import watchStockPrice from './stockPrice.saga';
 import watchSubmitSymbol from './symbolSubmit.saga';
 import watchStockData from './stockData.saga';
 import userSaga from './user.saga';
+import watchFetchMarketNews from './marketNews.saga';
 import { watchFetchWatchlistName, watchSetWatchlistName } from './watchlistName.saga';
 
 // rootSaga is the primary saga.
@@ -34,5 +35,6 @@ export default function* rootSaga() {
     watchFetchWatchlistName(),
     watchStockNews(),
     watchStockData(),
+    watchFetchMarketNews(),
   ]);
 }

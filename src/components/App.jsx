@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Nav from './Shared/Nav/Nav';
 import Footer from './Shared/Footer/Footer';
-
+import WelcomePage from './Pages/WelcomePage/WelcomePage';
 import ProtectedRoute from './Shared/ProtectedRoute/ProtectedRoute';
 import FavoritesPage from './Pages/FavoritesPage/FavoritesPage';
 import AboutPage from './Pages/AboutPage/AboutPage';
@@ -68,10 +68,10 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
-          <Route 
+          <Route
             exact
             path="/favorites"
-            >
+          >
             <FavoritesPage />
           </Route>
 
@@ -103,9 +103,17 @@ function App() {
             }
           </Route>
 
+          <Route exact path="/home">
+            {/* {user.id ? */}
+              {/* <Redirect to="/user" /> */}
+              {/* : */}
+              <WelcomePage />
+              {/* } */}
+          </Route>
+
           <Route
             exact
-            path="/home"
+            path="/landing"
           >
             {user.id ?
               // If the user is already logged in, 

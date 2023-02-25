@@ -29,7 +29,13 @@ function UserPage() {
     }
   }, [selectedSymbol]);
 
-
+  useEffect(() => {
+    if (selectedSymbol) {
+      setIsLoading(true);
+      dispatch({ type: 'FETCH_STOCK_DATA', payload: selectedSymbol })
+      setIsLoading(false);
+    }
+  }, [selectedSymbol]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,7 +74,6 @@ function UserPage() {
     setSelectedYear(event.target.value);
     dispatch({ type: 'FILTER_EARNINGS', payload: event.target.value });
   };
-  console.log('selectedStockData:', selectedStockData);
 
   return (
     <div id="bod">
@@ -107,30 +112,27 @@ function UserPage() {
                     <option value="2022">2022</option>
                   </select>
                 </div>
-                {selectedStockData && selectedStockData.length > 0 ? (
+                {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
                   <div>
                     <h5> Data For {selectedSymbol}:</h5>
                     <hr />
                     <ul>
                       {selectedStockData.map((info, index) => {
-                        console.log('info:', info);
                         return (
                           <li key={index}>
                             <li>Company name: {info.name}</li>
                             <li>Share Price: {info.price}</li>
-                            <li>Percent Price Change Today{info.changesPercentage}</li>
+                            <li>Percent Price Change Today: {info.changesPercentage?.toFixed(2)}%</li>
                             <li>Year High: {info.yearHigh}</li>
                             <li>Year Low: {info.yearLow}</li>
-                            <li>Market Capitalization: {info.marketCap}</li>
-                            <li>Earnings Announcement: {info.earningsAnnouncement}</li>
-                            <li>Todays volume: {info.volume}</li>
+                            <li>Market Capitalization: ${info.marketCap.toLocaleString()}</li>
+                            <li>Earnings Announcement: {info.earningsAnnouncement?.substring(0, 10)}</li>
+                            <li>Todays volume: {info.volume.toLocaleString()}</li>
                           </li>
                         );
                       })}
                     </ul>
                   </div>
-                ) : (
-                  <div>Loading stock data...</div>
                 )}
                 {Array.isArray(selectedEarnings) ? (
                   selectedEarnings.map((report, index) => {
@@ -139,8 +141,8 @@ function UserPage() {
                         <div id="report">
                           <p>Symbol {report.symbol}</p>
                           <p>Date: {report.date}</p>
-                          <p>Earnings Per Share (EPS): {report.eps}</p>
-                          <p>EPS Estimated: {report.epsEstimated}</p>
+                          <p>Earnings Per Share (EPS): {report.eps.toFixed(2)}</p>
+                          <p>EPS Estimated: {report.epsEstimated.toFixed(2)}</p>
                           <p>Time: {report.time}</p>
                           <p>Revenue: ${report.revenue.toLocaleString()}</p>
                           <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
