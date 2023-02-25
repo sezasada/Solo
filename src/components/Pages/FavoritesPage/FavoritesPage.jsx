@@ -65,6 +65,9 @@ function FavoritesList() {
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
         dispatch({ type: 'FETCH_STOCK_PRICE', payload: ticker });
+        // dispatch({type: 'FETCH_STOCK_NEWS', payload: ticker});
+        dispatch({ type: 'FETCH_STOCK_DATA', payload: ticker });
+
     };
 
     useEffect(() => {

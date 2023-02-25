@@ -44,27 +44,26 @@ router.get('/selectedPrice/:symbol', async (req, res) => {
 router.get('/stockData/:symbol', async (req, res) => {
     const { symbol } = req.params;
     try {
-        console.log('this is symbol', symbol);
-        const response = await axios.get(
-            'https://financialmodelingprep.com/api/v3/quote/${selectedSymbol}?apikey=19198710f19b50ecd5513c63a590ad31'
-        );
-        const data = response.data.map(info => ({
-            name: info.name,
-            price: info.price, 
-            changePercentage: info.changesPercentage,
-            yearHigh: info.yearHigh,
-            yearLow: info.yearLow,
-            marketCap: info.marketCap,
-            earningsAnnouncement: info.earningsAnnouncement,
-            volume: info.volume
-        }));
+        const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`);
+        const data = {
+            name: response.data[0].name,
+            price: response.data[0].price,
+            changesPercentage: response.data[0].changesPercentage,
+            yearHigh: response.data[0].yearHigh,
+            yearLow: response.data[0].yearLow,
+            marketCap: response.data[0].marketCap,
+            earningsAnnouncement: response.data[0].earningsAnnouncement,
+            volume: response.data[0].volume,
+        };
         console.log(data);
-        res.send(data);
+        res.send([data]); // wrap data object inside an array so that it can be used with `selectedStockData`
     } catch (error) {
-        console.log('Error fetching stock news', error);
-        res.status(500).send('Internal server error at /stockData/:symbol');
+        console.log('Error fetching stock data', error.message);
+        res.status(500).send(`Internal server error: ${error.message}`);
     }
 });
+
+
 router.get('/stockNews/:symbol', async (req, res) => {
     const { symbol } = req.params;
     try {
@@ -78,7 +77,6 @@ router.get('/stockNews/:symbol', async (req, res) => {
             site: article.site,
             text: article.text
         }));
-        console.log(data);
         res.send(data);
     } catch (error) {
         console.log('Error fetching stock news', error);
