@@ -3,6 +3,7 @@ import './LandingPage.css';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import News from '../../Shared/News/News';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function LandingPage() {
   const earnings = useSelector(store => store.earningsReducer.earnings);
@@ -101,7 +102,7 @@ function LandingPage() {
                 </ul>
               </div>
             ) : (
-              <div>Loading stock data...</div>
+              <div></div>
             )}
             {Array.isArray(selectedEarnings) ? (
               selectedEarnings.map((report, index) => {
@@ -122,7 +123,7 @@ function LandingPage() {
                 );
               })
             ) : (
-              <div>Loading earnings reports...</div>
+              <div></div>
             )}
             {selectedStocksNews && selectedStocksNews.length > 0 ? (
               <div>
@@ -140,7 +141,7 @@ function LandingPage() {
                 </ul>
               </div>
             ) : (
-              <div>Loading News...</div>
+              <div></div>
             )}
           </div>
         </div>

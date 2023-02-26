@@ -19,7 +19,7 @@ import InfoPage from './Pages/InfoPage/InfoPage';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import RegisterPage from './Pages/RegisterPage/RegisterPage';
-
+import TickerBar from './Shared/TickerBar/TickerBar';
 import './App.css';
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
   return (
     <Router>
       <div>
+        <TickerBar />
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -105,10 +106,10 @@ function App() {
 
           <Route exact path="/home">
             {/* {user.id ? */}
-              {/* <Redirect to="/user" /> */}
-              {/* : */}
-              <WelcomePage />
-              {/* } */}
+            {/* <Redirect to="/user" /> */}
+            {/* : */}
+            <WelcomePage />
+            {/* } */}
           </Route>
 
           <Route

@@ -60,7 +60,6 @@ function FavoritesList() {
 
 
     const handleTickerClick = (ticker) => {
-        console.log(ticker);
         const filteredEarnings = earnings.filter((earning) => earning.symbol === ticker);
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });

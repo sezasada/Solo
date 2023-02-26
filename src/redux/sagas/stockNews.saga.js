@@ -5,8 +5,6 @@ function* stockNews({ payload: symbol }) {
         console.log('this is data', symbol);
         const response = yield fetch(`/api/earnings/stockNews/${symbol}`);
         const data = yield response.json();
-        console.log('this is data', data);
-        console.log('this is response', response);
         yield put({ type: 'SET_SELECTED_NEWS', payload: data });
     } catch (error) {
         console.log('Error fetching stock news', error);

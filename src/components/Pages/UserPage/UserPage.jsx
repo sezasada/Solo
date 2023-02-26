@@ -28,7 +28,7 @@ function UserPage() {
       setIsLoading(false)
     }
   }, [selectedSymbol]);
-
+  
   useEffect(() => {
     if (selectedSymbol) {
       setIsLoading(true);
@@ -171,7 +171,7 @@ function UserPage() {
                     </ul>
                   </div>
                 ) : (
-                  <div>Loading News...</div>
+                  <div></div>
                 )}
               </div>
             </div>
