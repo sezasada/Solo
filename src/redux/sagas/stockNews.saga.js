@@ -1,8 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects';
-
 function* stockNews({ payload: symbol }) {
     try {
-        console.log('this is data', symbol);
         const response = yield fetch(`/api/earnings/stockNews/${symbol}`);
         const data = yield response.json();
         yield put({ type: 'SET_SELECTED_NEWS', payload: data });

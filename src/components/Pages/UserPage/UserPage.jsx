@@ -24,7 +24,20 @@ function UserPage() {
   const history = useHistory();
   const [numNewsArticles, setNumNewsArticles] = useState(2);
   const originalNewsLength = selectedStocksNews?.length;
-  const tickers = favorites.map((favorite) => favorite.ticker);
+  const [tickers, setTickers] = useState([]);
+
+  useEffect(() => {
+    setIsFavorite(Array.isArray(favorites) && favorites.some(favorite => favorite.ticker === selectedSymbol));
+  }, [favorites, selectedSymbol]);
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_FAVORITES' });
+  }, []);
+
+  useEffect(() => {
+    const newTickers = favorites.map((favorite) => favorite.ticker);
+    setTickers(newTickers);
+  }, [favorites]);
 
   useEffect(() => {
     if (selectedSymbol !== '') {
@@ -75,6 +88,28 @@ function UserPage() {
     dispatch({ type: 'FETCH_FAVORITES' });
   }, []);
 
+  useEffect(() => {
+    const newTickers = favorites.map((favorite) => favorite.ticker);
+    setTickers(newTickers);
+  }, [favorites]);
+
+  useEffect(() => {
+    if (selectedSymbol !== '') {
+      setIsLoading(true);
+      dispatch({ type: 'FETCH_STOCK_NEWS', payload: selectedSymbol })
+      setIsLoading(false);
+    }
+  }, [selectedSymbol]);
+
+  useEffect(() => {
+    if (selectedSymbol) {
+      setIsLoading(true);
+      dispatch({ type: 'FETCH_STOCK_DATA', payload: selectedSymbol })
+      setIsLoading(false);
+    }
+  }, [selectedSymbol]);
+
+
   const selectedEarnings = earnings.filter((earning) => earning.symbol === selectedSymbol && earning.date.includes(selectedYear));
 
   const handleChangeYear = (event) => {
@@ -96,7 +131,7 @@ function UserPage() {
   console.log('this is the selectedstocknews', selectedStocksNews);
   return (
     <div className="bod">
-      <TickerBar tickers={tickers}/>
+      <TickerBar tickers={tickers} />
       <div className="container">
         <div className="row">
           <h2>Welcome, {user.username}!</h2>
@@ -142,6 +177,9 @@ function UserPage() {
                       {selectedStockData.map((info, index) => {
                         return (
                           <li key={index}>
+                            <div className="col-md-9">
+                              <img src={`https://storage.googleapis.com/iexcloud-hl37opg/api/logos/${selectedSymbol}.png`} alt="company logo" />
+                            </div>
                             <li>Company name: {info.name}</li>
                             <li>Share Price: {info.price}</li>
                             <li>Percent Price Change Today: {info.changesPercentage?.toFixed(2)}%</li>

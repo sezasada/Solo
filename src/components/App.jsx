@@ -23,7 +23,6 @@ import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-  const [tickers, setTickers] = useState([]);
 
   const user = useSelector(store => store.user);
 
