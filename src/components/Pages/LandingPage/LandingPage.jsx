@@ -53,96 +53,99 @@ function LandingPage() {
   console.log('selectedStockData:', selectedStockData);
 
   return (
-    <div className="container">
-      <div className="col-md-9 pl-0 pr-0">
-        <div className="w-100">
-          <div>
-            {selectedSymbol && selectedPrice && (
-              <div>
-                <h2>Earnings Reports for: {selectedSymbol} {selectedPrice && <p>Price: {selectedPrice}</p>}</h2>
-              </div>
-            )}
-            <form onSubmit={handleSubmit}>
-              <input
-                name="symbolInput"
-                placeholder="symbol"
-                value={symbolInput}
-                onChange={(event) => setSymbolInput(event.target.value)}
-              />
-              <button type="submit">Submit</button>
-            </form>
+    <div>
+      <div className="container">
+        <div className="col-md-9 pl-0 pr-0">
+          <div className="w-100">
             <div>
-              <label htmlFor="year">Year:</label>
-              <select name="year" id="year" onChange={handleChangeYear}>
-                <option value="">All</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-              </select>
-            </div>
-            {selectedStockData && selectedStockData.length > 0 ? (
+              {selectedSymbol && selectedPrice && (
+                <div>
+                  <h2>Earnings Reports for: {selectedSymbol} {selectedPrice && <p>Price: {selectedPrice}</p>}</h2>
+                </div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <input
+                  name="symbolInput"
+                  placeholder="symbol"
+                  value={symbolInput}
+                  onChange={(event) => setSymbolInput(event.target.value)}
+                />
+                <button type="submit">Submit</button>
+              </form>
               <div>
-                <h5> Data For {selectedSymbol}:</h5>
-                <hr />
-                <ul>
-                  {selectedStockData.map((info, index) => {
-                    console.log('info:', info);
-                    return (
-                      <li key={index}>
-                        <li>Company name: {info.name}</li>
-                        <li>Share Price: {info.price}</li>
-                        <li>Percent Price Change Today: {info.changesPercentage?.toFixed(2)}%</li>
-                        <li>Year High: {info.yearHigh}</li>
-                        <li>Year Low: {info.yearLow}</li>
-                        <li>Market Capitalization: ${info.marketCap.toLocaleString()}</li>
-                        <li>Earnings Announcement: {info.earningsAnnouncement?.substring(0, 10)}</li>
-                        <li>Todays volume: {info.volume.toLocaleString()}</li>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <label htmlFor="year">Year:</label>
+                <select name="year" id="year" onChange={handleChangeYear}>
+                  <option value="">All</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                </select>
               </div>
-            ) : (
-              <div></div>
-            )}
-            {Array.isArray(selectedEarnings) ? (
-              selectedEarnings.map((report, index) => {
-                return (
-                  <div id="reports-container" key={index}>
-                    <div id="report">
-                      <p>Symbol {report.symbol}</p>
-                      <p>Date: {report.date}</p>
-                      <p>Earnings Per Share (EPS): {report.eps.toFixed(2)}</p>
-                      <p>EPS Estimated: {report.epsEstimated.toFixed(2)}</p>
-                      <p>Time: {report.time}</p>
-                      <p>Revenue: ${report.revenue.toLocaleString()}</p>
-                      <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
-                      <p>Updated From Date: {report.updatedFromDate}</p>
-                      <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
+              {selectedStockData && selectedStockData.length > 0 ? (
+                <div>
+                  <h5> Data For {selectedSymbol}:</h5>
+                  <hr />
+                  <ul>
+                    {selectedStockData.map((info, index) => {
+                      console.log('info:', info);
+                      return (
+                        <li key={index}>
+                          <li>Company name: {info.name}</li>
+                          <li>Share Price: {info.price}</li>
+                          <li>Percent Price Change Today: {info.changesPercentage?.toFixed(2)}%</li>
+                          <li>Year High: {info.yearHigh}</li>
+                          <li>Year Low: {info.yearLow}</li>
+                          <li>Market Capitalization: ${info.marketCap.toLocaleString()}</li>
+                          <li>Earnings Announcement: {info.earningsAnnouncement?.substring(0, 10)}</li>
+                          <li>Todays volume: {info.volume.toLocaleString()}</li>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {Array.isArray(selectedEarnings) ? (
+                selectedEarnings.map((report, index) => {
+                  return (
+                    <div id="reports-container" key={index}>
+                      <div id="report">
+                        <p>Symbol {report.symbol}</p>
+                        <p>Date: {report.date}</p>
+                        <p>Earnings Per Share (EPS): {report.eps.toFixed(2)}</p>
+                        <p>EPS Estimated: {report.epsEstimated.toFixed(2)}</p>
+                        <p>Time: {report.time}</p>
+                        <p>Revenue: ${report.revenue.toLocaleString()}</p>
+                        <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
+                        <p>Updated From Date: {report.updatedFromDate}</p>
+                        <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
+                      </div>
                     </div>
+                  );
+                })
+              ) : (
+                <div></div>
+              )}
+              {selectedStocksNews && selectedStocksNews.length > 0 ? (
+                <div>
+                  <h3>Recent News Articles for {selectedSymbol}:</h3>
+                  <div>
+                    {selectedStocksNews.map((article, index) => (
+                      <div key={index}>
+                        <div>{article.title}</div>
+                        <p>{article.publishedDate}</p>
+                        <p><img src={article.image} alt={article.title} /></p>
+                        <p>{article.site}</p>
+                        <p>{article.text}</p>
+                        <a href={article.url} rel="noreferrer">find out more</a>
+                      </div>
+                    ))}
                   </div>
-                );
-              })
-            ) : (
-              <div></div>
-            )}
-            {selectedStocksNews && selectedStocksNews.length > 0 ? (
-              <div>
-                <h3>Recent News Articles for {selectedSymbol}:</h3>
-                <ul>
-                  {selectedStocksNews.map((article, index) => (
-                    <li key={index}>
-                      <a href={article.url} rel="noreferrer">{article.title}</a>
-                      <p>{article.publishedDate}</p>
-                      <p><img src={article.image} alt={article.title} /></p>
-                      <p>{article.site}</p>
-                      <p>{article.text}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <div></div>
-            )}
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
           </div>
         </div>
       </div>

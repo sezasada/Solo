@@ -1,3 +1,7 @@
+.bod {
+    background-color:#181818;
+    color: white;
+}
 #reports-container {
     display: inline-block;
     white-space: nowrap;

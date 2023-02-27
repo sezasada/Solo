@@ -14,6 +14,8 @@ const soloReducer = (
     switch (action.type) {
         case 'SET_EARNINGS':
             return { ...state, earnings: action.payload };
+        case 'SET_SELECTED_STOCK_NEWS':
+            return { ...state, selectedStocksNews: action.payload };
         case 'SET_MARKET_NEWS':
             return { ...state, marketNews: action.payload }
         case 'SET_STOCK_PRICE':

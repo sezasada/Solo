@@ -1,7 +1,4 @@
-.ticker-bar-container.top {
-    position: fixed;
-    top: 0;
-    left: 0;
+.ticker-bar-container {
+    height: 30px;
     width: 100%;
-    z-index: 100;
 }

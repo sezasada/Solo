@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HashRouter as Router,
   Redirect,
@@ -19,11 +19,11 @@ import InfoPage from './Pages/InfoPage/InfoPage';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import RegisterPage from './Pages/RegisterPage/RegisterPage';
-import TickerBar from './Shared/TickerBar/TickerBar';
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
+  const [tickers, setTickers] = useState([]);
 
   const user = useSelector(store => store.user);
 
@@ -34,7 +34,6 @@ function App() {
   return (
     <Router>
       <div>
-        <TickerBar />
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}

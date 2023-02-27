@@ -17,6 +17,21 @@ router.get('/earnings', async (req, res) => {
             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-02-11&to=2022-04-10&apikey=19198710f19b50ecd5513c63a590ad31'),
             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-12-11&to=2022-02-10&apikey=19198710f19b50ecd5513c63a590ad31'),
             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-10-11&to=2021-12-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-08-11&to=2021-10-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-06-11&to=2021-08-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-04-11&to=2021-06-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-02-11&to=2021-04-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-01-11&to=2021-02-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-11-11&to=2021-01-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-09-11&to=2020-11-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-07-11&to=2020-09-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-05-11&to=2020-07-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-03-11&to=2020-05-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-01-11&to=2020-03-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-11-11&to=2020-01-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-09-11&to=2019-11-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+            axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-07-11&to=2019-09-10&apikey=19198710f19b50ecd5513c63a590ad31'),
+
         ]);
         const data = responses.reduce((result, response) => [...result, ...response.data], []);
         res.json(data);
@@ -68,16 +83,21 @@ router.get('/stockNews/:symbol', async (req, res) => {
     const { symbol } = req.params;
     try {
         const response = await axios.get(
-            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=2&apikey=19198710f19b50ecd5513c63a590ad31`
+            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=50&apikey=19198710f19b50ecd5513c63a590ad31`
         );
-        const data = response.data.map(article => ({
+        const data = response.data.map((article) => ({
             title: article.title,
             publishedDate: article.published_date,
             image: article.image,
             site: article.site,
-            text: article.text
+            text: article.text,
+            url: article.url,
         }));
-        res.send(data);
+        const randomIndexes = Array.from({ length: 2 }, () =>
+            Math.floor(Math.random() * data.length)
+        );
+        const selectedNews = randomIndexes.map((index) => data[index]);
+        res.send(selectedNews);
     } catch (error) {
         console.log('Error fetching stock news', error);
         res.status(500).send('Internal server error');

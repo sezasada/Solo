@@ -12,6 +12,7 @@ import watchStockData from './stockData.saga';
 import userSaga from './user.saga';
 import watchFetchMarketNews from './marketNews.saga';
 import { watchFetchWatchlistName, watchSetWatchlistName } from './watchlistName.saga';
+import watchFetchStockNews from './fetchMoreStockNews.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -36,5 +37,6 @@ export default function* rootSaga() {
     watchStockNews(),
     watchStockData(),
     watchFetchMarketNews(),
+    watchFetchStockNews(),
   ]);
 }

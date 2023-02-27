@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+
 function FavoritesList() {
     const history = useHistory();
     const dispatch = useDispatch();
@@ -92,7 +93,6 @@ function FavoritesList() {
                     <div onClick={() => setShowInput(true)}>
                         <h2>{watchlistName}</h2>
                         <button>Edit</button>
-
                     </div>
                 )}
                 <hr />

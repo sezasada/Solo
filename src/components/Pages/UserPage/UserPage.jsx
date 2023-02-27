@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import News from '../../Shared/News/News';
 import FavoritesPage from '../FavoritesPage/FavoritesPage';
+import axios from 'axios';
 import './UserPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import TickerBar from '../../Shared/TickerBar/TickerBar';
 
 function UserPage() {
   const user = useSelector(store => store.user);
   const earnings = useSelector(store => store.earningsReducer.earnings);
-  const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol);
+  const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol) || '';
   const selectedPrice = useSelector(store => store.earningsReducer.selectedPrice);
   const favorites = useSelector(store => store.earningsReducer.favorites);
   const selectedStocksNews = useSelector(store => store.earningsReducer.selectedStocksNews);
@@ -20,15 +22,18 @@ function UserPage() {
   const [selectedYear, setSelectedYear] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+  const [numNewsArticles, setNumNewsArticles] = useState(2);
+  const originalNewsLength = selectedStocksNews?.length;
+  const tickers = favorites.map((favorite) => favorite.ticker);
 
   useEffect(() => {
     if (selectedSymbol !== '') {
       setIsLoading(true);
       dispatch({ type: 'FETCH_STOCK_NEWS', payload: selectedSymbol })
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }, [selectedSymbol]);
-  
+
   useEffect(() => {
     if (selectedSymbol) {
       setIsLoading(true);
@@ -41,18 +46,20 @@ function UserPage() {
     event.preventDefault();
     const input = event.target.symbolInput.value;
     setIsLoading(true);
-    await Promise.all([
-      dispatch({ type: 'SUBMIT_SYMBOL', payload: input }),
-      dispatch({ type: 'FETCH_STOCK_PRICE', payload: input }),
-      dispatch({ type: 'FETCH_STOCK_NEWS', payload: input }),
-      dispatch({ type: 'FETCH_STOCK_DATA', payload: input })
-    ]);
-    setIsLoading(false);
-    setSymbolInput('');
+    try {
+      await Promise.all([
+        dispatch({ type: 'SUBMIT_SYMBOL', payload: input }),
+        dispatch({ type: 'FETCH_STOCK_PRICE', payload: input }),
+        dispatch({ type: 'FETCH_STOCK_NEWS', payload: input }),
+        dispatch({ type: 'FETCH_STOCK_DATA', payload: input })
+      ]);
+    } finally {
+      setIsLoading(false);
+      setSymbolInput('');
+    }
   };
 
   const handleDeleteFavorite = () => {
-    const userId = user.id;
     dispatch({ type: 'DELETE_FAVORITE', payload: { userId: user.id, ticker: selectedSymbol } });
   };
 
@@ -75,14 +82,27 @@ function UserPage() {
     dispatch({ type: 'FILTER_EARNINGS', payload: event.target.value });
   };
 
+  const handleLoadMoreNews = async () => {
+    setIsLoading(true);
+    try {
+      await dispatch({ type: 'FETCH_MORE_STOCK_NEWS', payload: { symbol: selectedSymbol, numArticles: numNewsArticles + 2 } });
+      const displayedArticles = selectedStocksNews.slice(0, numNewsArticles);
+      const newArticles = selectedStocksNews.slice(numNewsArticles).filter(article => !displayedArticles.some(displayedArticle => displayedArticle.title === article.title));
+      setNumNewsArticles(numNewsArticles + newArticles.length);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  console.log('this is the selectedstocknews', selectedStocksNews);
   return (
-    <div id="bod">
+    <div className="bod">
+      <TickerBar tickers={tickers}/>
       <div className="container">
         <div className="row">
           <h2>Welcome, {user.username}!</h2>
           <hr />
           <div className="col-md-3">
-            <FavoritesPage />
+            <FavoritesPage tickers={favorites.map((favorite) => favorite.ticker)} />
           </div>
           <div className="col-md-9 pl-0 pr-0">
             <div className="w-100">
@@ -110,6 +130,8 @@ function UserPage() {
                     <option value="">All</option>
                     <option value="2023">2023</option>
                     <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
                   </select>
                 </div>
                 {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
@@ -141,8 +163,8 @@ function UserPage() {
                         <div id="report">
                           <p>Symbol {report.symbol}</p>
                           <p>Date: {report.date}</p>
-                          <p>Earnings Per Share (EPS): {report.eps.toFixed(2)}</p>
-                          <p>EPS Estimated: {report.epsEstimated.toFixed(2)}</p>
+                          <p>Earnings Per Share (EPS): {report.eps}</p>
+                          <p>EPS Estimated: {report.epsEstimated}</p>
                           <p>Time: {report.time}</p>
                           <p>Revenue: ${report.revenue.toLocaleString()}</p>
                           <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
@@ -158,30 +180,42 @@ function UserPage() {
                 {selectedStocksNews && selectedStocksNews.length > 0 ? (
                   <div>
                     <h3>Recent News Articles for {selectedSymbol}:</h3>
-                    <ul>
-                      {selectedStocksNews.map((article, index) => (
-                        <li key={index}>
-                          <a href={article.url} rel="noreferrer">{article.title}</a>
+                    <div>
+                      {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
+                        <div key={index}>
+                          <div>{article.title}</div>
                           <p>{article.publishedDate}</p>
                           <p><img src={article.image} alt={article.title} /></p>
                           <p>{article.site}</p>
                           <p>{article.text}</p>
-                        </li>
+                          <a href={article.url} rel="noreferrer">find out more</a>
+                        </div>
                       ))}
-                    </ul>
+                      {selectedStocksNews?.length > numNewsArticles && (
+                        <div>
+                          <button onClick={handleLoadMoreNews}>Load More News</button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <div></div>
+                )}
+                {selectedSymbol && (
+                  <div>
+                    <button onClick={handleLoadMoreNews}>See New Articles</button>
+                  </div>
                 )}
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className='news text-center'>
-        <News />
+        <div className='news text-center'>
+          <News />
+        </div>
       </div>
     </div>
   );
+
 }
 export default UserPage;
