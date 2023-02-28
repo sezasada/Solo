@@ -1,7 +1,9 @@
 .bod {
-    background-color:#181818;
+    background-color: #181818;
     color: white;
+    margin: 0;
 }
+
 #reports-container {
     display: inline-block;
     white-space: nowrap;
@@ -16,5 +18,26 @@
 
 .col-md-3 {
     border: 2px solid black;
+    margin: 0;
 }
 
+.input-text-box {
+    width: 1000px;
+}
+
+.input-row {
+    width: 100%;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+}
+
+.price-container h3 {
+    margin-right: 10px;
+}
+
+.price {
+    margin-right: 10px;
+}

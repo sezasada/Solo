@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
+import './FavoritesPage.css';
 
 function FavoritesList() {
     const history = useHistory();
@@ -76,10 +76,11 @@ function FavoritesList() {
         dispatch({ type: 'SET_WATCHLIST_NAME', payload: { userId: user.id, watchlistName: newWatchlistName } });
         setShowInput(false);
         setNewWatchlistName('');
+
     };
     return (
-        <div>
-            <div id="favorites">
+        <div className="favorites-container" >
+            <div className="favorites">
                 {showInput ? (
                     <form onSubmit={handleSaveWatchlistName}>
                         <input
