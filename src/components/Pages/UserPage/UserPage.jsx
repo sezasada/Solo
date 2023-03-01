@@ -137,182 +137,172 @@ function UserPage() {
         <div className="row ">
           <h2>Welcome, {user.username}!</h2>
           <hr />
-          <div className="col-md-3" style={{ maxWidth: '300px', height: '550px' }}>
-            <FavoritesPage tickers={favorites.map((favorite) => favorite.ticker)} />
+          <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
+
+            <form onSubmit={handleSubmit}>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control input-text-box"
+                  placeholder="symbol"
+                  aria-label="Text input with dropdown button"
+                  name="symbolInput"
+                  value={symbolInput}
+                  onChange={(event) => setSymbolInput(event.target.value)}
+
+                />
+                <select className="btn btn-dark mx-2" name="year" id="year" value={selectedYear} onChange={handleChangeYear}>
+                  <option value="">All</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                </select>
+                <button type="submit" className="btn btn-dark">Submit</button>
+              </div>
+            </form>
           </div>
-          <div className="col-md-9 ">
-            <div className="w-100">
-              <div>
-                {selectedSymbol && selectedPrice && (
+          <div className='col-md-6'>
+            <br />
+            <div style={{ display: 'flex' }}>
+              <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1' }}>
+                <FavoritesPage tickers={favorites.map((favorite) => favorite.ticker)} />
+              </div>
+              {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
+                <div style={{ display: 'inline-block', width: '90%' }}>
                   <div>
-                    <div class="row align-items-center">
-                      <div class="col-md-10">
-                        <h2 style={{ fontSize: '43px', display: 'inline-flex', alignItems: 'center' }}>
-                          {selectedSymbol}'s <img src={`https://storage.googleapis.com/iexcloud-hl37opg/api/logos/${selectedSymbol}.png`} alt="company logo" style={{ height: '43px', width: '43px', marginLeft: '10px' }} /> Earnings Reports
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <form onSubmit={handleSubmit}>
-                  <div className="input-group">
-                    <div className="row input-row">
-                      <div className="col-9">
-                        <input
-                          type="text"
-                          className="form-control input-text-box"
-                          placeholder="symbol"
-                          aria-label="Text input with dropdown button"
-                          name="symbolInput"
-                          value={symbolInput}
-                          onChange={(event) => setSymbolInput(event.target.value)}
-                        />
-                      </div>
-                      <div className="col-3 d-flex align-items-center justify-content-end">
-                        <select className="btn btn-dark mx-2" name="year" id="year" value={selectedYear} onChange={handleChangeYear} style={{ marginRight: '50px' }}>
-                          <option value="">All</option>
-                          <option value="2023">2023</option>
-                          <option value="2022">2022</option>
-                          <option value="2021">2021</option>
-                          <option value="2020">2020</option>
-                        </select>
-                        <button type="submit" className="btn btn-dark">Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-                <div className='row'>
-                  <div className='col-md-6'>
-                    {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
-                      <div>
-                        <div>
-                          {selectedStockData.map((info, index) => {
-                            return (
-                              <div className='stock-data-div'>
-                                <div key={index}>
-                                  <div className="row">
-                                    <div className="col-md-6">
-                                      <h4>{info.name} ({selectedSymbol})</h4>
-                                    </div>
-                                    <div className="col-md-6 d-flex justify-content-end">
-                                      <button className="btn btn-dark" onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
-                                        {isFavorite ? `Delete ${selectedSymbol} from Watchlist` : `Add ${selectedSymbol} to Watchlist`}
-                                      </button>
-                                    </div>
-                                  </div>
-                                  <div className='row'>
-                                    <div className="price-container">
-                                      <h3 className="price">{info.price}</h3>
-                                      <h4>({info.changesPercentage?.toFixed(2)}%)</h4>
-                                    </div>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Share Price:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.price}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Percent Price Change Today:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.changesPercentage?.toFixed(2)}%</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Year High:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.yearHigh}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Year Low:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.yearLow}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Market Capitalization:</p>
-                                    <p style={{ marginLeft: 'auto' }}>${info.marketCap.toLocaleString()}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Earnings Announcement:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.earningsAnnouncement?.substring(0, 10)}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
-                                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <p style={{ marginRight: 'auto' }}>Today's Volume:</p>
-                                    <p style={{ marginLeft: 'auto' }}>{info.volume.toLocaleString()}</p>
-                                  </div>
-                                  <hr style={{ marginTop: 5, marginBottom: 5 }} />
+                    <div>
+                      {selectedStockData.map((info, index) => {
+                        return (
+                          <div className='stock-data-div'>
+                            <div key={index} style={{ borderTop: '1px solid black', borderBottom: '1px solid black', padding: '10px' }}>
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <h4>{info.name} ({selectedSymbol})</h4>
+                                </div>
+                                <div className="col-md-6 d-flex justify-content-end">
+                                  <button className="btn btn-dark" onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
+                                    {isFavorite ? `Delete ${selectedSymbol} from Watchlist` : `Add ${selectedSymbol} to Watchlist`}
+                                  </button>
                                 </div>
                               </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <div className='col-md-6'>
-                    {selectedStocksNews && selectedStocksNews.length > 0 ? (
-                      <div>
-                        <h3>Recent News Articles for {selectedSymbol}:</h3>
-                        <div>
-                          {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
-                            <div key={index}>
-                              <div>{article.title}</div>
-                              <p>{article.publishedDate}</p>
-                              <p><img src={article.image} alt={article.title} /></p>
-                              <p>{article.site}</p>
-                              <p>{article.text}</p>
-                              <a href={article.url} rel="noreferrer">find out more</a>
+                              <div className='row'>
+                                <div className="price-container">
+                                  <h3 className="price">{info.price}</h3>
+                                  <h4 style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
+                                    ({info.changesPercentage?.toFixed(2)}%)
+                                  </h4>
+                                </div>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid grey', paddingTop: '10px' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Share Price:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.price}</p>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Price Action Today:</p>
+                                <p style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black', marginLeft: 'auto', paddingRight: '30px' }}>{info.changesPercentage?.toFixed(2)}%</p>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year High:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearHigh}</p>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year Low:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearLow}</p>
+                              </div>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Market Capitalization:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>${info.marketCap.toLocaleString()}</p>
+                              </div>
+
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Earnings Announcement:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.earningsAnnouncement?.substring(0, 10)}</p>
+                              </div>
+
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Today's Volume:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.volume.toLocaleString()}</p>
+                              </div>
+
                             </div>
-                          ))}
-                          {selectedStocksNews?.length > numNewsArticles && (
-                            <div>
-                              <button onClick={handleLoadMoreNews}>Load More News</button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-                    {selectedSymbol && (
-                      <div>
-                        <button onClick={handleLoadMoreNews}>See New Articles</button>
-                      </div>
-                    )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-                {Array.isArray(selectedEarnings) ? (
-                  selectedEarnings.map((report, index) => {
-                    return (
-                      <div id="reports-container" key={index}>
-                        <div id="report">
-                          <p>Symbol {report.symbol}</p>
-                          <p>Date: {report.date}</p>
-                          <p>Earnings Per Share (EPS): {report.eps}</p>
-                          <p>EPS Estimated: {report.epsEstimated}</p>
-                          <p>Time: {report.time}</p>
-                          <p>Revenue: ${report.revenue.toLocaleString()}</p>
-                          <p>Revenue Estimated: ${report.revenueEstimated.toLocaleString()}</p>
-                          <p>Updated From Date: {report.updatedFromDate}</p>
-                          <p>Fiscal Date Ending: {report.fiscalDateEnding}</p>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div>Loading earnings reports...</div>
-                )}
-              </div>
+              )}
             </div>
+            {Array.isArray(selectedEarnings) ? (
+              <table style={{ border: '1px solid grey' }}>
+                <thead>
+                  <tr>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Time</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Revenue</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Revenue Estimated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {selectedEarnings.map((report, index) => {
+                    return (
+                      <tr key={index}>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.symbol}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.date}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.eps.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.epsEstimated.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.time}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>${report.revenue.toLocaleString()}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>${report.revenueEstimated?.toLocaleString()}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+
+
+            ) : (
+              <p>No earnings data available.</p>
+            )}
+
+          </div>
+          <div className='col-md-6'>
+            {selectedStocksNews && selectedStocksNews.length > 0 ? (
+              <div>
+                <h3>Recent News Articles for {selectedSymbol}:</h3>
+                <div>
+                  {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
+                    <div key={index}>
+                      <div>{article.title}</div>
+                      <p>{article.publishedDate}</p>
+                      <p><img src={article.image} alt={article.title} /></p>
+                      <p>{article.site}</p>
+                      <p>{article.text}</p>
+                      <a href={article.url} rel="noreferrer">find out more</a>
+                    </div>
+                  ))}
+                  {selectedStocksNews?.length > numNewsArticles && (
+                    <div>
+                      <button onClick={handleLoadMoreNews}>Load More News</button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
-        <div className='news text-center'>
-          <News />
-        </div>
+      </div>
+      <div className='news text-center'>
+        <News />
       </div>
     </div>
   );
+};
 
-}
 export default UserPage;

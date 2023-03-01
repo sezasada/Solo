@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -9,13 +11,13 @@ function FavoritesList() {
     const user = useSelector(store => store.user);
     const favorites = useSelector((store) => store.earningsReducer.favorites);
     const earnings = useSelector((store) => store.earningsReducer.earnings);
-    const selectedSymbol = useSelector((store) => store.earningsReducer.selectedSymbol);
+    const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol) || '';
     const selectedPrice = useSelector((store) => store.earningsReducer.selectedPrice);
     const watchlistName = useSelector((store) => store.earningsReducer.watchlistName);
     const [tickers, setTickers] = useState([]);
     const [selectedEarnings, setSelectedEarnings] = useState([]);
     const [tickerPrices, setTickerPrices] = useState({});
-    const [newWatchlistName, setNewWatchlistName] = useState('');
+    const [newWatchlistName, setNewWatchlistName] = useState('Watchlist');
     const [showInput, setShowInput] = useState(false); // add state variable to track input display
     const [newsReport, setNewsReport] = useState([]);
 
@@ -34,7 +36,6 @@ function FavoritesList() {
         };
         fetchTickers();
     }, []);
-
 
     useEffect(() => {
         const fetchTickerPrices = async () => {
@@ -66,11 +67,9 @@ function FavoritesList() {
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
         dispatch({ type: 'FETCH_STOCK_PRICE', payload: ticker });
     };
-
     useEffect(() => {
         setTickers(favorites.map((favorite) => favorite.ticker));
     }, [favorites]);
-
     const handleSaveWatchlistName = (event) => {
         event.preventDefault();
         dispatch({ type: 'SET_WATCHLIST_NAME', payload: { userId: user.id, watchlistName: newWatchlistName } });
@@ -78,6 +77,8 @@ function FavoritesList() {
         setNewWatchlistName('');
 
     };
+
+
     return (
         <div className="favorites-container" >
             <div className="favorites">
@@ -92,24 +93,25 @@ function FavoritesList() {
                     </form>
                 ) : (
                     <div onClick={() => setShowInput(true)}>
-                        <h2>{watchlistName}</h2>
-                        <button>Edit</button>
+                        <div className='name-div text-center'>
+                            <h2 className='name-title'>{watchlistName}</h2>
+                        </div>
                     </div>
                 )}
                 <hr />
                 {tickers && tickers.length > 0 ? (
-                    <ul>
+                    <div>
                         {tickers.map((ticker) => (
-                            <li key={ticker} onClick={() => handleTickerClick(ticker)}>
-                                <div id="stock">
-                                    {ticker}{" "}
+                            <div key={ticker} onClick={() => handleTickerClick(ticker)}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span style={{ marginRight: 'auto', paddingLeft: '20px' }}>{ticker}{" "}</span>
                                     {tickerPrices[ticker] && (
-                                        <span>Price: {tickerPrices[ticker]}</span>
+                                        <span style={{ marginLeft: 'auto', paddingRight: '20px' }}>{tickerPrices[ticker]}</span>
                                     )}
                                 </div>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 ) : (
                     <p>No tickers in watchlist.</p>
                 )}

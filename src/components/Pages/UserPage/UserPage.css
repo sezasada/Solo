@@ -21,12 +21,9 @@
     margin: 0;
 }
 
-.input-text-box {
-    width: 1000px;
-}
 
 .input-row {
-    width: 100%;
+    width: 500px;
 }
 
 .price-container {
@@ -40,4 +37,16 @@
 
 .price {
     margin-right: 10px;
+}
+
+.stock-data-div {
+    margin: 20px;
+}
+
+
+td,
+th {
+    border: 1px solid grey;
+    padding: 5px;
+    text-align: left;
 }

@@ -6,7 +6,7 @@ const soloReducer = (
         selectedEarnings: [],
         selectedPrice: null,
         selectedStockData: [],
-        watchlistName: '',
+        watchlistName: 'Watchlist',
         marketNews: [],
     },
     action

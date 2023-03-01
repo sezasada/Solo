@@ -70,7 +70,7 @@ router.get('/stockData/:symbol', async (req, res) => {
             earningsAnnouncement: response.data[0].earningsAnnouncement,
             volume: response.data[0].volume,
         };
-        console.log(data);
+        console.log('this is data', data);
         res.send([data]); // wrap data object inside an array so that it can be used with `selectedStockData`
     } catch (error) {
         console.log('Error fetching stock data', error.message);
