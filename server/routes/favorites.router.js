@@ -7,7 +7,6 @@ const {
     rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
-
 router.get('/stockData', rejectUnauthenticated, (req, res) => {
     const userId = req.user.id;
     const queryText = 'SELECT * FROM "favorites" WHERE "user_id" = $1;';
@@ -22,7 +21,7 @@ router.get('/stockData', rejectUnauthenticated, (req, res) => {
             for (let x = 0; x < favorites.length; x++) {
                 const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${favorites[x]}?apikey=19198710f19b50ecd5513c63a590ad31`)
                 const data = {
-                    ticker: favorites[x], 
+                    ticker: favorites[x],
                     name: response.data[0].name,
                     price: response.data[0].price,
                     changesPercentage: response.data[0].changesPercentage,

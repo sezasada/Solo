@@ -9,6 +9,8 @@ const soloReducer = (
         watchlistsTickers: [],
         watchlistName: 'Watchlist',
         marketNews: [],
+        newData: {}
+
     },
     action
 ) => {
@@ -61,6 +63,8 @@ const soloReducer = (
             return { ...state, watchlistName: action.payload };
         case 'FETCH_WATCHLIST_NAME_SUCCESS':
             return { ...state, watchlistName: action.payload };
+        case 'SET_NEW_DATA': 
+            return { ...state, newData: action.payload };
         default:
             return state;
     }

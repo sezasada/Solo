@@ -2,7 +2,6 @@ import { all } from 'redux-saga/effects';
 import watchAddFavorite from './addFavorite.saga';
 import watchDeleteFavorite from './deleteFavorite.saga';
 import watchFetchEarnings from './fetchEarnings.saga';
-import watchFetchTickers from './fetchFavorites.saga';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import watchStockNews from './stockNews.saga';
@@ -30,7 +29,6 @@ export default function* rootSaga() {
     watchSubmitSymbol(),
     watchAddFavorite(),
     watchDeleteFavorite(),
-    watchFetchTickers(),
     watchStockPrice(),
     watchSetWatchlistName(),
     watchFetchWatchlistName(),

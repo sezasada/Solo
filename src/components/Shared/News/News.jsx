@@ -27,7 +27,7 @@ function News() {
                                 <div className="image-container" style={{ height: '300px', marginBottom: '10px' }}>
                                     <img className="image" style={{ border: '1px solid grey', margin: '0 auto', height: '100%', objectFit: 'cover' }} src={item.image_url} alt={item.title} />
                                 </div>
-                                <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
+                                <div style={{ backgroundColor: '#343434', marginBottom: '20px', paddingTop: '10px', height: '200px' }}>
                                     <div className="text-container" style={{ flex: '1' }}>
                                         <p style={{ fontStyle: 'italic', paddingLeft: '5px' }} className="source">{item.source_name}</p>
                                         <h5 style={{ paddingLeft: '5px' }} className="description">{item.text}</h5>
@@ -39,6 +39,7 @@ function News() {
                     );
                 })}
             </div>
+
 
         </>
     );

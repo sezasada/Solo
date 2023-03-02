@@ -11,7 +11,7 @@ function Nav() {
     <div className="nav">
       <div className="nav-container">
         <Link to="/home">
-          <h2 className="nav-title">Financial Reports App</h2>
+          <h2 className="nav-title">Market Watcher</h2>
         </Link>
       </div>
       <div className="nav-links">

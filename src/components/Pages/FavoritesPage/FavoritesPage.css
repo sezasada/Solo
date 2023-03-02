@@ -1,7 +1,7 @@
 .favorites-container {
     border: 1px solid grey;
     width: 300px;
-    padding-right: 10px;
+
 }
 
 .name-title {
@@ -10,13 +10,26 @@
 }
 
 .name-div {
-    margin: 10px;
-    padding: 5px;
-    border: 1px solid grey;
+    margin-top: 0;
+    margin-bottom: 0;
     border-radius: 3px;
     color: grey;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
+    position: relative;
+    
+}
+
+.name-div .fa-pen-to-square {
+    font-size: 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.name-div .fa-pen-to-square:hover {
+    transform: scale(1.6);
 }
