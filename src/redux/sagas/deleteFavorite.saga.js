@@ -7,7 +7,7 @@ function* deleteFavorite(action) {
             method: 'DELETE',
         });
         if (response.ok) {
-            yield put({ type: 'DELETE_FAVORITE_SUCCESS', payload: ticker });
+            yield put({ type:"FETCH_WATCHLIST_STOCKS"});
         } else {
             yield put({ type: 'DELETE_FAVORITE_ERROR', payload: 'Error deleting favorite.' });
         }

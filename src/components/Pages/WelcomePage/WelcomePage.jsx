@@ -1,6 +1,8 @@
 import { useHistory } from "react-router-dom";
+import backgroundImage from "./Back.jpeg";
+import './WelcomePage.css';
 
-function welcomePage() {
+function WelcomePage() {
     const history = useHistory();
 
     function handleSubmit() {
@@ -8,22 +10,16 @@ function welcomePage() {
     }
 
     return (
-        <div>
-            <h2>Welcome</h2>
-            <button onClick={handleSubmit}>Go</button>
+        <div className="welcome-container">
+            <div className="d-flex justify-content-center align-items-center h-100">
+                <div className="col-md-6 offset-md-3" style={{color: 'white', paddingBottom: '300px'}}>
+                    <h2>Welcome To Market Watcher</h2>
+                    <h3>The easiest way to view financial reports</h3>
+                    <button className="btn btn-primary" onClick={handleSubmit}>Go</button>
+                </div>
+            </div>
         </div>
     )
 }
 
-
-    // useEffect(() => {
-    //     fetch('https://stocknewsapi.com/api/v1/category?section=general&items=3&page=1&token=9knkgcm8m9iqlnrnj0hyqumlsnpjrocziwvo31mf')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setNews(data.data); // update the component state with the API response's data array
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching API data:', error);
-    //         });
-    // }, []); // run the effect only once, on component mount
-export default welcomePage;
+export default WelcomePage;

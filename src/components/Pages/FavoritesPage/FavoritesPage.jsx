@@ -9,7 +9,6 @@ function FavoritesList() {
     const history = useHistory();
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user);
-    const favorites = useSelector((store) => store.earningsReducer.favorites);
     const earnings = useSelector((store) => store.earningsReducer.earnings);
     const selectedSymbol = useSelector((store) => store.earningsReducer.selectedSymbol) || '';
     const selectedStockData = useSelector((store) => store.earningsReducer.selectedStockData);
@@ -19,30 +18,35 @@ function FavoritesList() {
     const [tickers, setTickers] = useState([]);
     const [selectedEarnings, setSelectedEarnings] = useState([]);
     const [newWatchlistName, setNewWatchlistName] = useState('Watchlist');
-    const [showInput, setShowInput] = useState(false); 
+    const [showInput, setShowInput] = useState(false);
     const [newsReport, setNewsReport] = useState([]);
     const [tickerInfo, setTickerInfo] = useState({});
 
     useEffect(() => {
+        dispatch({ type: 'UPDATE_TICKERS' });
+    }, []);
+    useEffect(() => {
         console.log(user);
         if (user.id) {
             dispatch({ type: 'FETCH_WATCHLIST_NAME', payload: user.id });
-            dispatch({ type: "FETCH_WATCHLIST_STOCKS" })
-
-            setInterval(() => {
-                dispatch({type: "FETCH_WATCHLIST_STOCKS"})
-            }, 5000);
+            dispatch({ type: 'FETCH_WATCHLIST_STOCKS' });
         }
     }, []);
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (newData) {
+                dispatch({ type: 'FETCH_WATCHLIST_STOCKS' });
+            }
+        }, 15000);
+
+        return () => clearInterval(intervalId);
+    }, [newData]);
 
     const handleTickerClick = (ticker) => {
         const filteredEarnings = earnings.filter((earning) => earning.symbol === ticker);
         setSelectedEarnings(filteredEarnings);
         dispatch({ type: 'SET_SELECTED_SYMBOL', payload: ticker });
     };
-    useEffect(() => {
-        setTickers(favorites.map((favorite) => favorite.ticker));
-    }, [favorites]);
 
     const handleSaveWatchlistName = (event) => {
         event.preventDefault();

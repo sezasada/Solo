@@ -8,35 +8,27 @@ import './UserPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TickerBar from '../../Shared/TickerBar/TickerBar';
 
-
 function UserPage() {
   const user = useSelector(store => store.user);
   const earnings = useSelector(store => store.earningsReducer.earnings);
   const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol) || '';
   const selectedPrice = useSelector(store => store.earningsReducer.selectedPrice);
-  const favorites = useSelector(store => store.earningsReducer.favorites);
   const selectedStocksNews = useSelector(store => store.earningsReducer.selectedStocksNews);
   const selectedStockData = useSelector(store => store.earningsReducer.selectedStockData);
   const watchlistsTickers = useSelector(store => store.earningsReducer.watchlistsTickers);
   const dispatch = useDispatch();
-  const [isFavorite, setIsFavorite] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const [numNewsArticles, setNumNewsArticles] = useState(2);
   const originalNewsLength = selectedStocksNews?.length;
-  const [tickers, setTickers] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
 
   useEffect(() => {
-    setIsFavorite(Array.isArray(favorites) && favorites.some(favorite => favorite.ticker === selectedSymbol));
-  }, [favorites, selectedSymbol]);
-
-  useEffect(() => {
-    const newTickers = favorites.map((favorite) => favorite.ticker);
-    setTickers(newTickers);
-  }, [favorites]);
+    setFavorites(watchlistsTickers.map(stock => stock.ticker));
+  }, [watchlistsTickers]);
 
   useEffect(() => {
     if (selectedSymbol !== '') {
@@ -46,13 +38,6 @@ function UserPage() {
     }
   }, [selectedSymbol]);
 
-  useEffect(() => {
-    if (selectedSymbol) {
-      setIsLoading(true);
-      dispatch({ type: 'FETCH_STOCK_DATA', payload: selectedSymbol })
-      setIsLoading(false);
-    }
-  }, [selectedSymbol]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,9 +46,6 @@ function UserPage() {
     try {
       await Promise.all([
         dispatch({ type: 'SUBMIT_SYMBOL', payload: input }),
-        dispatch({ type: 'FETCH_STOCK_PRICE', payload: input }),
-        dispatch({ type: 'FETCH_STOCK_NEWS', payload: input }),
-        dispatch({ type: 'FETCH_STOCK_DATA', payload: input })
       ]);
     } finally {
       setIsLoading(false);
@@ -78,16 +60,7 @@ function UserPage() {
     dispatch({ type: 'ADD_FAVORITE', payload: selectedSymbol });
   };
 
-  useEffect(() => {
-    setIsFavorite(Array.isArray(favorites) && favorites.some(favorite => favorite.ticker === selectedSymbol));
-  }, [favorites, selectedSymbol]);
-  useEffect(() => {
-    dispatch({ type: 'FETCH_FAVORITES' });
-  }, []);
-  useEffect(() => {
-    const newTickers = favorites.map((favorite) => favorite.ticker);
-    setTickers(newTickers);
-  }, [favorites]);
+
 
   useEffect(() => {
     if (selectedSymbol !== '') {
@@ -125,10 +98,10 @@ function UserPage() {
       setIsLoading(false);
     }
   };
-
+  console.log('this is watchticks', watchlistsTickers)
   return (
     <div className="bod">
-      <TickerBar tickers={tickers} />
+      <TickerBar favorites={favorites}/>
       <div className=".container-fluid">
         <div className="row ">
           <h2>Welcome, {user.username}!</h2>
@@ -145,7 +118,6 @@ function UserPage() {
                   name="symbolInput"
                   value={symbolInput}
                   onChange={(event) => setSymbolInput(event.target.value)}
-
                 />
                 <select className="btn btn-dark mx-2" name="year" id="year" value={selectedYear} onChange={handleChangeYear}>
                   <option value="">All</option>
@@ -162,7 +134,7 @@ function UserPage() {
             <br />
             <div style={{ display: 'flex' }}>
               <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px' }}>
-                <FavoritesPage tickers={watchlistsTickers.map((stock) => stock.ticker)} />
+                <FavoritesPage watchlistsTickers={watchlistsTickers} />
               </div>
               {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
                 <div style={{ display: 'inline-block', width: '90%' }}>
@@ -177,9 +149,16 @@ function UserPage() {
                                   <h4>{info.name} ({selectedSymbol})</h4>
                                 </div>
                                 <div className="col-md-6 d-flex justify-content-end">
-                                  <button className="btn btn-dark" onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
-                                    {isFavorite ? `Delete ${selectedSymbol} from Watchlist` : `Add ${selectedSymbol} to Watchlist`}
-                                  </button>
+                                  {watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                    <button className="btn btn-dark" onClick={handleDeleteFavorite}>
+                                      Delete from Watchlist
+                                    </button>
+                                  )}
+                                  {!watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                    <button className="btn btn-dark" onClick={handleAddFavorite}>
+                                      Add to Watchlist
+                                    </button>
+                                  )}
                                 </div>
                               </div>
                               <div className='row'>
@@ -296,7 +275,7 @@ function UserPage() {
           </div>
         </div>
       </div>
-      
+
       <div className='news text-center' style={{ paddingBottom: '90px' }}>
         <News />
       </div>

@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import './TickerBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function TickerBar({ tickers }) {
+
+
+function TickerBar({favorites}) {
     useEffect(() => {
         const script = document.createElement('script');
         script.src =
@@ -14,7 +16,7 @@ function TickerBar({ tickers }) {
                     proName: 'FOREXCOM:SPXUSD',
                     title: 'S&P 500',
                 },
-                ...(tickers || []).map((ticker) => ({
+                ...(favorites || []).map((ticker) => ({
                     proName: `NASDAQ:${ticker}`,
                     title: ticker,
                 })),
@@ -36,7 +38,7 @@ function TickerBar({ tickers }) {
                 widgetContainer.innerHTML = '';
             }
         };
-    }, [tickers]);
+    }, [favorites]);
     return (
         <div id="ticker-bar-container" className="ticker-bar-container">
             <div className="tradingview-widget-container__widget tradingview-widget-container__widget--ticker-tape"></div>
