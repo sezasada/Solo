@@ -2,9 +2,41 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
+const axios = require('axios');
 const {
     rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
+
+
+router.get('/stockData', rejectUnauthenticated, (req, res) => {
+    const userId = req.user.id;
+    const queryText = 'SELECT * FROM "favorites" WHERE "user_id" = $1;';
+    const queryValues = [userId];
+    pool
+        .query(queryText, queryValues)
+        .then((async (result) => {
+            const favorites = result.rows.map((row) => {
+                return row.ticker;
+            });
+            const apiresponses = [];
+            for (let x = 0; x < favorites.length; x++) {
+                const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${favorites[x]}?apikey=19198710f19b50ecd5513c63a590ad31`)
+                const data = {
+                    ticker: favorites[x], 
+                    name: response.data[0].name,
+                    price: response.data[0].price,
+                    changesPercentage: response.data[0].changesPercentage,
+                }
+                apiresponses.push(data);
+
+            }
+            res.send(apiresponses);
+        }))
+        .catch((error) => {
+            console.log('Error in GET /favorites', error);
+            res.sendStatus(500);
+        });
+})
 
 router.get('/', rejectUnauthenticated, (req, res) => {
     const userId = req.user.id;

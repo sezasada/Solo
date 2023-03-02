@@ -175,13 +175,13 @@ function UserPage() {
                       {selectedStockData.map((info, index) => {
                         return (
                           <div className='stock-data-div'>
-                            <div key={index} style={{ borderTop: '1px solid black', borderBottom: '1px solid black', padding: '10px' }}>
+                            <div key={index} style={{ borderBottom: '1px solid black', padding: '10px' }}>
                               <div className="row">
                                 <div className="col-md-6">
                                   <h4>{info.name} ({selectedSymbol})</h4>
                                 </div>
                                 <div className="col-md-6 d-flex justify-content-end">
-                                  <button className="btn btn-dark" onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
+                                  <button className="btn btn-dark" style={{}} onClick={isFavorite ? handleDeleteFavorite : handleAddFavorite}>
                                     {isFavorite ? `Delete ${selectedSymbol} from Watchlist` : `Add ${selectedSymbol} to Watchlist`}
                                   </button>
                                 </div>
@@ -235,73 +235,77 @@ function UserPage() {
               )}
             </div>
             {Array.isArray(selectedEarnings) ? (
-              <table style={{ border: '1px solid grey' }}>
+              <table style={{ border: '1px solid grey', marginLeft: '20px' }}>
                 <thead>
                   <tr>
                     <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
                     <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
                     <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
                     <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Time</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Revenue</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Revenue Estimated</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue</th>
+                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue Estimated</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selectedEarnings.map((report, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.symbol}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.date}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.eps.toFixed(2)}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.epsEstimated.toFixed(2)}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>{report.time}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>${report.revenue.toLocaleString()}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>${report.revenueEstimated?.toLocaleString()}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.symbol}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.date}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.eps.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.epsEstimated.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenue.toLocaleString()}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenueEstimated?.toLocaleString()}</td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
-
-
             ) : (
               <p>No earnings data available.</p>
             )}
 
+
           </div>
           <div className='col-md-6'>
-            {selectedStocksNews && selectedStocksNews.length > 0 ? (
-              <div>
-                <h3>Recent News Articles for {selectedSymbol}:</h3>
-                <div>
-                  {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
-                    <div key={index}>
-                      <div>{article.title}</div>
-                      <p>{article.publishedDate}</p>
-                      <p><img src={article.image} alt={article.title} /></p>
-                      <p>{article.site}</p>
-                      <p>{article.text}</p>
-                      <a href={article.url} rel="noreferrer">find out more</a>
-                    </div>
-                  ))}
-                  {selectedStocksNews?.length > numNewsArticles && (
-                    <div>
-                      <button onClick={handleLoadMoreNews}>Load More News</button>
-                    </div>
-                  )}
+            <div style={{ textAlign: 'left', paddingLeft: '20px', paddingTop: '20px', paddingRight: '20px' }}>
+              {selectedStocksNews && selectedStocksNews.length > 0 ? (
+                <div style={{ borderLeft: '1px solid grey', paddingLeft: '60px' }}>
+                  <div>
+                    {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
+                      <div key={index}>
+                        <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center"  >{article.title}</h3>
+                        <p>{article.publishedDate}</p>
+                        <p style={{}}><img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} /></p>
+                        <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px'}}>
+                          <p style={{ fontStyle: 'italic', paddingLeft: '5px' }}>Source: {article.site}</p>
+                          <h5 style={{ paddingLeft: '5px' }}>{article.text}</h5>
+                          <a className="link-danger" style={{ paddingLeft: '5px' }} href={article.url}  rel="noreferrer">find out more</a>
+                        </div>
+                      </div>
+                    ))}
+                    {selectedStocksNews?.length > numNewsArticles && (
+                      <div>
+                        <button onClick={handleLoadMoreNews}>Load More News</button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div></div>
-            )}
+              ) : (
+                <div></div>
+              )}
+            </div>
+
+
           </div>
         </div>
       </div>
-      <div className='news text-center'>
+      <div className='news text-center' style={{paddingBottom: '90px'}}>
         <News />
       </div>
+    
     </div>
+    
   );
 };
 

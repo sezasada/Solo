@@ -44,9 +44,30 @@
 }
 
 
-td,
-th {
+table {
+    border-collapse: collapse;
     border: 1px solid grey;
-    padding: 5px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+th,
+td {
     text-align: left;
+    padding: 5px;
+    color: white;
+    border: 1px solid grey;
+    width: 14.28%;
+}
+
+th {
+    background-color: #333;
+}
+
+td {
+    height: 20px;
+}
+
+.revenue-cell {
+    width: auto;
 }

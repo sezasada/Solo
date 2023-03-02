@@ -1,6 +1,7 @@
 .favorites-container {
     border: 1px solid grey;
     width: 300px;
+    padding-right: 10px;
 }
 
 .name-title {

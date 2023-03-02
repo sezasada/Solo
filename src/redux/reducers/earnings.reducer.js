@@ -6,6 +6,7 @@ const soloReducer = (
         selectedEarnings: [],
         selectedPrice: null,
         selectedStockData: [],
+        watchlistsTickers: [],
         watchlistName: 'Watchlist',
         marketNews: [],
     },
@@ -22,6 +23,8 @@ const soloReducer = (
             return { ...state, selectedPrice: action.payload };
         case 'SET_SELECTED_STOCK_DATA':
             return { ...state, selectedStockData: action.payload };
+        case 'SET_WATCHLIST_STOCKS':
+            return { ...state, watchlistsTickers: action.payload };
         case 'SET_SELECTED_NEWS':
             return { ...state, selectedStocksNews: action.payload };
         case 'SET_SELECTED_SYMBOL':

@@ -5,8 +5,6 @@ function* stockData({ payload: symbol }) {
         console.log('stock data:', symbol);
         const response = yield fetch(`/api/earnings/stockData/${symbol}`);
         const data = yield response.json();
-        console.log('stock data', response);
-        console.log('stock data:', data);
         yield put({ type: 'SET_SELECTED_STOCK_DATA', payload: data });
         console.log('stock data', data);
     } catch (error) {

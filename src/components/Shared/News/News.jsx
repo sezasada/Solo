@@ -18,38 +18,28 @@ function News() {
 
     return (
         <>
-            <div className="news-container">
+            <div style={{ display: 'flex', margin: '30px', borderBottom: '1px solid grey', borderTop: '1px solid grey', height: '620px' }}>
                 {news.map((item, index) => {
-                    if (index === 0) {
-                        return (<>
-                            <div className="news-item" key={item.news_url}>
-                                <div className="image-container">
-                                    <img className="image" src={item.image_url} alt={item.title} />
+                    return (
+                        <div style={{ display: 'flex', flex: '1', flexDirection: 'column', marginRight: '10px', marginLeft: '10px' }}>
+                            <div className="news-item" style={{ padding: '10px', height: '100%' }} key={item.news_url}>
+                                <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center"  >{item.title}</h3>
+                                <div className="image-container" style={{ height: '300px', marginBottom: '10px' }}>
+                                    <img className="image" style={{ border: '1px solid grey', margin: '0 auto', height: '100%', objectFit: 'cover' }} src={item.image_url} alt={item.title} />
                                 </div>
-                                <div className="text-container">
-                                    <h2 className="title">{item.title}</h2>
-                                    <p className="description">{item.text}</p>
-                                    <p className="source">{item.source_name}</p>
-                                    <a className="link" href={item.news_url}>Watch video</a>
-                                </div>
-                            </div></>)
-                    } else {
-                        return (
-                            <div className="news-item" key={item.news_url}>
-                                <div className="image-container">
-                                    <img className="image" src={item.image_url} alt={item.title} />
-                                </div>
-                                <div className="text-container">
-                                    <h2 className="title">{item.title}</h2>
-                                    <p className="description">{item.text}</p>
-                                    <p className="source">{item.source_name}</p>
-                                    <a className="link" href={item.news_url}>Watch video</a>
+                                <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
+                                    <div className="text-container" style={{ flex: '1' }}>
+                                        <p style={{ fontStyle: 'italic', paddingLeft: '5px' }} className="source">{item.source_name}</p>
+                                        <h5 style={{ paddingLeft: '5px' }} className="description">{item.text}</h5>
+                                        <a className="link-danger" href={item.news_url}>Watch video</a>
+                                    </div>
                                 </div>
                             </div>
-                        )
-                    }
+                        </div>
+                    );
                 })}
             </div>
+
         </>
     );
 }
