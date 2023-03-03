@@ -100,10 +100,11 @@ function UserPage() {
       <TickerBar favorites={favorites} />
       <div className=".container-fluid">
         <div className="row ">
-          <div className="jump">
-            <h3>$ Market Watcher</h3>
+          <div className='paretn'>
+            <h3 className="market-watcher">Market Watcher</h3>
           </div>
           <hr />
+
           <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
 
             <form onSubmit={handleSubmit}>
@@ -237,17 +238,10 @@ function UserPage() {
                 </tbody>
               </table>
             ) : (
-              <div style={{paddingLeft: '375px', paddingTop: '100px'}}>
-                {/* <div class="dots-bars-1"></div> */}
+              <div style={{ paddingLeft: '375px', paddingTop: '100px' }}>
+
                 <div class="dots-bars-2"></div>
-                {/* <div class="dots-bars-3"></div>
-                <div class="dots-bars-4"></div>
-                <div className="dots-bars-5"></div>
-                <div class="dots-bars-6"></div>
-                <div class="dots-bars-7"></div>
-                <div class="dots-bars-8"></div>
-                <div class="dots-bars-9"></div>
-                <div class="dots-bars-10"></div> */}
+
               </div>
             )}
 

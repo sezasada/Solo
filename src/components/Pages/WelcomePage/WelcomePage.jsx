@@ -10,7 +10,7 @@ function WelcomePage() {
     }
 
     return (
-        <div className="welcome-container">
+        <div className="bodys">
             <div className="d-flex justify-content-center align-items-center h-100">
                 <div className="col-md-6 offset-md-3" style={{ color: 'white', paddingBottom: '300px', marginRight: '200px' }}>
                     <h2>Welcome To Market Watcher</h2>

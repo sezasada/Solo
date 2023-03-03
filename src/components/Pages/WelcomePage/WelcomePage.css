@@ -1,4 +1,5 @@
-.welcome-container {
+.bodys {
+ 
   background: linear-gradient(-45deg, #222222,
       #444444,
       #666666,
@@ -22,6 +23,5 @@
   100% {
     background-position: 0% 50%;
   }
-}
-
+} 
 
