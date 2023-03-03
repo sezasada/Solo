@@ -101,10 +101,10 @@ function UserPage() {
   console.log('this is watchticks', watchlistsTickers)
   return (
     <div className="bod">
-      <TickerBar favorites={favorites}/>
+      <TickerBar favorites={favorites} />
       <div className=".container-fluid">
         <div className="row ">
-          <h2>Welcome, {user.username}!</h2>
+          <h2 style={{marginLeft: '20px'}}>Welcome, {user.username}!</h2>
           <hr />
           <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
 
@@ -133,7 +133,7 @@ function UserPage() {
           <div className='col-md-6'>
             <br />
             <div style={{ display: 'flex' }}>
-              <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px' }}>
+              <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px', marginBottom: '20px' }}>
                 <FavoritesPage watchlistsTickers={watchlistsTickers} />
               </div>
               {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
@@ -144,29 +144,31 @@ function UserPage() {
                         return (
                           <div className='stock-data-div'>
                             <div key={index} style={{ borderBottom: '1px solid black', padding: '10px' }}>
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <h4>{info.name} ({selectedSymbol})</h4>
+                              <div style={{marginRight: 'auto', paddingLeft: '30px'}}>
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <h4>{info.name} ({selectedSymbol})</h4>
+                                  </div>
+                                  <div className="col-md-6 d-flex justify-content-end">
+                                    {watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                      <button className="btn btn-dark" onClick={handleDeleteFavorite}>
+                                        Delete from Watchlist
+                                      </button>
+                                    )}
+                                    {!watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                      <button className="btn btn-dark" onClick={handleAddFavorite}>
+                                        Add to Watchlist
+                                      </button>
+                                    )}
+                                  </div>
                                 </div>
-                                <div className="col-md-6 d-flex justify-content-end">
-                                  {watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
-                                    <button className="btn btn-dark" onClick={handleDeleteFavorite}>
-                                      Delete from Watchlist
-                                    </button>
-                                  )}
-                                  {!watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
-                                    <button className="btn btn-dark" onClick={handleAddFavorite}>
-                                      Add to Watchlist
-                                    </button>
-                                  )}
-                                </div>
-                              </div>
-                              <div className='row'>
-                                <div className="price-container">
-                                  <h3 className="price">{info.price}</h3>
-                                  <h4 style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
-                                    ({info.changesPercentage?.toFixed(2)}%)
-                                  </h4>
+                                <div className='row'>
+                                  <div className="price-container">
+                                    <h3 className="price">{info.price}</h3>
+                                    <h4 style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
+                                      ({info.changesPercentage?.toFixed(2)}%)
+                                    </h4>
+                                  </div>
                                 </div>
                               </div>
                               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid grey', paddingTop: '10px' }}>
@@ -251,7 +253,7 @@ function UserPage() {
                       <div key={index}>
                         <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center"  >{article.title}</h3>
                         <p>{article.publishedDate}</p>
-                        <p style={{}}><img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} /></p>
+                        <p><img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} /></p>
                         <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
                           <p style={{ fontStyle: 'italic', paddingLeft: '5px' }}>Source: {article.site}</p>
                           <h5 style={{ paddingLeft: '5px' }}>{article.text}</h5>
@@ -276,10 +278,10 @@ function UserPage() {
         </div>
       </div>
 
-      <div className='news text-center' style={{ paddingBottom: '90px' }}>
+      <div className='news text-center' >
         <News />
       </div>
-
+      
     </div>
 
   );

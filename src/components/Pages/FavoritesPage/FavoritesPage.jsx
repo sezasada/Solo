@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './FavoritesPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-regular-svg-icons'
 
 function FavoritesList() {
     const history = useHistory();
@@ -37,7 +38,7 @@ function FavoritesList() {
             if (newData) {
                 dispatch({ type: 'FETCH_WATCHLIST_STOCKS' });
             }
-        }, 15000);
+        }, 60000);
 
         return () => clearInterval(intervalId);
     }, [newData]);
@@ -62,12 +63,23 @@ function FavoritesList() {
             <div className="favorites">
                 {showInput ? (
                     <form onSubmit={handleSaveWatchlistName}>
-                        <input
-                            type="text"
-                            value={newWatchlistName}
-                            onChange={(event) => setNewWatchlistName(event.target.value)}
-                        />
-                        <button type="submit">Save</button>
+                        <div className='name-div text-center bg-dark' style={{ borderBottom: '1px solid grey' }}>
+                            <input
+                                className='name-div text-center bg-dark'
+                                style={{ color: 'white', height: '40px', fontSize: '25px', width: '100%', border: 'none', outline: 'none' }}
+                                type="text"
+                                placeholder='Insert New Name'
+                                value={newWatchlistName}
+                                onChange={(event) => setNewWatchlistName(event.target.value)}
+                            />
+                            <span onClick={handleSaveWatchlistName}>
+                                <FontAwesomeIcon
+                                    icon={faCheckCircle}
+                                    className="fa-pen-to-square"
+                                    style={{ color: 'white', fontSize: '22px', marginLeft: '10px', cursor: 'pointer' }}
+                                />
+                            </span>
+                        </div>
                     </form>
                 ) : (
                     <div>
@@ -81,12 +93,15 @@ function FavoritesList() {
                             <span onClick={() => setShowInput(true)}>
                                 <FontAwesomeIcon
                                     icon={faPenToSquare}
+                                    style={{color: 'white'}}
                                     className="fa-pen-to-square"
                                 />
                             </span>
                         </div>
                     </div>
                 )}
+
+
                 {watchlistsTickers && watchlistsTickers.length > 0 ? (
                     <div>
                         {watchlistsTickers.map((stock) => (

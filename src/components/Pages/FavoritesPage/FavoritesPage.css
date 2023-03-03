@@ -10,8 +10,6 @@
 }
 
 .name-div {
-    margin-top: 0;
-    margin-bottom: 0;
     border-radius: 3px;
     color: grey;
     display: flex;
@@ -23,6 +21,7 @@
 }
 
 .name-div .fa-pen-to-square {
+    color: grey;
     font-size: 20px;
     position: absolute;
     top: 0;
