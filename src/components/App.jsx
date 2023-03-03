@@ -19,6 +19,9 @@ import InfoPage from './Pages/InfoPage/InfoPage';
 import LandingPage from './Pages/LandingPage/LandingPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import RegisterPage from './Pages/RegisterPage/RegisterPage';
+import TickerBar from './Shared/TickerBar/TickerBar';
+
+
 import './App.css';
 
 function App() {
@@ -29,6 +32,7 @@ function App() {
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
+
 
   return (
     <Router>

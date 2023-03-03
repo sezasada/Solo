@@ -4,7 +4,20 @@
   align-items: center;
   margin: 0 0 30px;
   background-color: #181818;
-  overflow: hidden;
+  position: relative;
+}
+
+
+.nav-icon {
+  color: red;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.nav-container {
+  position: relative;
 }
 
 .nav a {
@@ -28,7 +41,7 @@
 .navLink {
   display: inline-block;
   color: #f2f2f2;
-  background-color: #181818;
+  background-color: transparent;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;

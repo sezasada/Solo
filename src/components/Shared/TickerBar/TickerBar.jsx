@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import './TickerBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-function TickerBar({favorites}) {
+function TickerBar({ favorites }) {
     useEffect(() => {
         const script = document.createElement('script');
         script.src =
@@ -46,4 +46,12 @@ function TickerBar({favorites}) {
     );
 }
 
-export default TickerBar;
+// check to see if the favorites have actually changed or if they
+// are simply a copy of previous values
+export default memo(TickerBar, (oldProps, newProps) => {
+    let oldTicker = oldProps.favorites;
+    let newTicker = newProps.favorites;
+    let newSet = new Set([...newTicker]);
+    return (oldTicker.length === newTicker.length) &&
+        oldTicker.every(t => newSet.has(t))
+})

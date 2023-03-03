@@ -23,12 +23,8 @@ function UserPage() {
   const history = useHistory();
   const [numNewsArticles, setNumNewsArticles] = useState(2);
   const originalNewsLength = selectedStocksNews?.length;
-  const [favorites, setFavorites] = useState([]);
 
-
-  useEffect(() => {
-    setFavorites(watchlistsTickers.map(stock => stock.ticker));
-  }, [watchlistsTickers]);
+  const favorites = watchlistsTickers.map(stock => stock.ticker);
 
   useEffect(() => {
     if (selectedSymbol !== '') {
@@ -98,13 +94,15 @@ function UserPage() {
       setIsLoading(false);
     }
   };
-  console.log('this is watchticks', watchlistsTickers)
+  // console.log('this is watchticks', watchlistsTickers)
   return (
     <div className="bod">
       <TickerBar favorites={favorites} />
       <div className=".container-fluid">
         <div className="row ">
-          <h2 style={{marginLeft: '20px'}}>Welcome, {user.username}!</h2>
+          <div className="jump">
+            <h3>$ Market Watcher</h3>
+          </div>
           <hr />
           <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
 
@@ -134,7 +132,7 @@ function UserPage() {
             <br />
             <div style={{ display: 'flex' }}>
               <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px', marginBottom: '20px' }}>
-                <FavoritesPage watchlistsTickers={watchlistsTickers} />
+                <FavoritesPage />
               </div>
               {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
                 <div style={{ display: 'inline-block', width: '90%' }}>
@@ -144,7 +142,7 @@ function UserPage() {
                         return (
                           <div className='stock-data-div'>
                             <div key={index} style={{ borderBottom: '1px solid black', padding: '10px' }}>
-                              <div style={{marginRight: 'auto', paddingLeft: '30px'}}>
+                              <div style={{ marginRight: 'auto', paddingLeft: '30px' }}>
                                 <div className="row">
                                   <div className="col-md-6">
                                     <h4>{info.name} ({selectedSymbol})</h4>
@@ -239,7 +237,18 @@ function UserPage() {
                 </tbody>
               </table>
             ) : (
-              <p></p>
+              <div style={{paddingLeft: '375px', paddingTop: '100px'}}>
+                {/* <div class="dots-bars-1"></div> */}
+                <div class="dots-bars-2"></div>
+                {/* <div class="dots-bars-3"></div>
+                <div class="dots-bars-4"></div>
+                <div className="dots-bars-5"></div>
+                <div class="dots-bars-6"></div>
+                <div class="dots-bars-7"></div>
+                <div class="dots-bars-8"></div>
+                <div class="dots-bars-9"></div>
+                <div class="dots-bars-10"></div> */}
+              </div>
             )}
 
 
@@ -281,10 +290,11 @@ function UserPage() {
       <div className='news text-center' >
         <News />
       </div>
-      
+
     </div>
 
   );
 };
 
 export default UserPage;
+

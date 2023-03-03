@@ -38,7 +38,7 @@ function FavoritesList() {
             if (newData) {
                 dispatch({ type: 'FETCH_WATCHLIST_STOCKS' });
             }
-        }, 60000);
+        }, 5000);
 
         return () => clearInterval(intervalId);
     }, [newData]);
@@ -93,7 +93,7 @@ function FavoritesList() {
                             <span onClick={() => setShowInput(true)}>
                                 <FontAwesomeIcon
                                     icon={faPenToSquare}
-                                    style={{color: 'white'}}
+                                    style={{ color: 'white' }}
                                     className="fa-pen-to-square"
                                 />
                             </span>
@@ -101,31 +101,28 @@ function FavoritesList() {
                     </div>
                 )}
 
-
-                {watchlistsTickers && watchlistsTickers.length > 0 ? (
-                    <div>
-                        {watchlistsTickers.map((stock) => (
-                            <div key={stock.ticker} onClick={() => handleTickerClick(stock.ticker)}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid grey', paddingTop: '5px', paddingBottom: '5px' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '10px' }}>
-                                        <h7>{stock.ticker}</h7>
-                                        <div style={{ fontSize: '13px' }}>{stock.name}{" "}</div>
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', paddingRight: '10px' }}>
-                                        <span style={{ color: stock.price && stock.changesPercentage ? (stock.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
-                                            {stock.price ? stock.price.toFixed(2) : '-'}
-                                        </span>
-                                        <span style={{ color: stock.price && stock.changesPercentage ? (stock.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
-                                            {stock.changesPercentage ? `(${stock.changesPercentage.toFixed(2)}%)` : ''}
-                                        </span>
-                                    </div>
+                {watchlistsTickers.map((stock) => (
+                    <div key={stock.ticker} onClick={() => handleTickerClick(stock.ticker)}>
+                        <div className="ticker" style={{ display: "flex", justifyContent: "space-between", borderBottom: "1px solid grey", paddingTop: "5px", paddingBottom: "5px" }}>
+                            <div className='thisisit' style={{ display: "flex", flexDirection: "column", paddingLeft: "10px" }}>
+                                <h7 className='tick' >{stock.ticker}</h7>
+                                <div className="company-name" style={{ fontSize: "13px" }}>
+                                    {stock.name}{" "}
                                 </div>
                             </div>
-                        ))}
+                            <div style={{ display: "flex", flexDirection: "column", paddingRight: "10px" }}>
+                                <span style={{ color: stock.price && stock.changesPercentage ? (stock.changesPercentage > 0 ? "green" : "red") : "black" }}>
+                                    {stock.price ? stock.price.toFixed(2) : "-"}
+                                </span>
+                                <span style={{ color: stock.price && stock.changesPercentage ? (stock.changesPercentage > 0 ? "green" : "red") : "black" }}>
+                                    {stock.changesPercentage ? `(${stock.changesPercentage.toFixed(2)}%)` : ""}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                ) : (
-                    <p>No tickers in watchlist.</p>
-                )}
+                ))}
+
+
             </div>
         </div>
     );

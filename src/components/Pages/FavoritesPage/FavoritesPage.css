@@ -17,11 +17,10 @@
     align-items: center;
     height: 100%;
     position: relative;
-    
+
 }
 
 .name-div .fa-pen-to-square {
-    color: grey;
     font-size: 20px;
     position: absolute;
     top: 0;
@@ -31,4 +30,13 @@
 
 .name-div .fa-pen-to-square:hover {
     transform: scale(1.6);
+}
+
+.favorites-container div:hover {
+    cursor: pointer;
+}
+
+
+.thisisit:hover{
+    transform: scale(1.05);
 }
