@@ -17,6 +17,7 @@ function UserPage() {
   const selectedStockData = useSelector(store => store.earningsReducer.selectedStockData);
   const watchlistsTickers = useSelector(store => store.earningsReducer.watchlistsTickers);
   const dispatch = useDispatch();
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [symbolInput, setSymbolInput] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +44,7 @@ function UserPage() {
       await Promise.all([
         dispatch({ type: 'SUBMIT_SYMBOL', payload: input }),
       ]);
+      setSubmitClicked(true);
     } finally {
       setIsLoading(false);
       setSymbolInput('');
@@ -216,7 +218,7 @@ function UserPage() {
                 {selectedStockData.map((info, index) => {
                   return (
                     <div key={index}>
-                      <div style={{marginLeft: '20px', width: '100%', paddingTop: '20px'}}>
+                      <div style={{ marginLeft: '20px', width: '100%', paddingTop: '20px' }}>
                         <h2 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center">Earnings Reports For: {info.name}</h2>
                       </div>
                     </div>
@@ -224,38 +226,38 @@ function UserPage() {
                 })}
               </>
             )}
-            {Array.isArray(selectedEarnings) && selectedEarnings.length > 0 ? (
-              <table style={{ border: '1px solid grey', marginLeft: '20px' }}>
-                <thead>
-                  <tr>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue</th>
-                    <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue Estimated</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedEarnings.map((report, index) => {
-                    return (
-                      <tr key={index}>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.symbol}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.date}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.eps.toFixed(2)}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.epsEstimated.toFixed(2)}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenue.toLocaleString()}</td>
-                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenueEstimated?.toLocaleString()}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-
-            ) : (
+            {submitClicked && selectedEarnings.length === 0 ? (
               <div style={{ paddingLeft: '375px', paddingTop: '100px' }}>
-                <div class="dots-bars-2"></div>
+                <div className="dots-bars-2"></div>
               </div>
+            ) : (<table style={{ border: '1px solid grey', marginLeft: '20px' }}>
+              {submitClicked ? (
+              <thead>
+                <tr>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue</th>
+                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue Estimated</th>
+                </tr>
+              </thead>
+              ) : null}
+              <tbody>
+                {selectedEarnings.map((report, index) => {
+                  return (
+                    <tr key={index}>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.symbol}</td>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.date}</td>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.eps.toFixed(2)}</td>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.epsEstimated.toFixed(2)}</td>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenue.toLocaleString()}</td>
+                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenueEstimated?.toLocaleString()}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
             )}
           </div>
           <div className='col-md-6'>
