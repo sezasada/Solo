@@ -1,0 +1,9 @@
+.input-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 1.5rem;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: #aaa;
+    pointer-events: none;
+}

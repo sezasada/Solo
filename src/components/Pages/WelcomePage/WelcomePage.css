@@ -27,14 +27,15 @@
 
 
 
-.titl {
-  margin-left: 420px;
-  padding-top: 200px;
-}
+
 
 .market-watchers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 200px;
+  padding-bottom: 20px;
   margin: 0;
-  padding: 0;
   font-size: 100px;
   font-family: Noto, serif;
   color: #ffffff;

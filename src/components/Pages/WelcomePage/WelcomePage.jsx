@@ -11,14 +11,28 @@ function WelcomePage() {
 
     return (
         <div className="bodys">
-            <div className='titl'>
-                <h3 className="market-watchers">Market Watcher</h3>
-            </div>
-            <div style={{ color: 'white', marginLeft: '360px', paddingTop: '30px' }}>
-                <h3>Offering easy access to earnings reports, news, and financial data of over 2,500 companies</h3>
-                <div style={{marginLeft: '460px', paddingTop: '40px'}}>
-                    <button className="btn btn-dark" onClick={handleSubmit}>Get Started</button>
-                </div>
+            <h3 className="market-watchers">Market Watcher</h3>
+            <div style={{ color: 'white' }}>
+                <h3 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '20px' }}>Offering easy access to earnings reports, news, and financial data of over 2,500 companies</h3>
+                <input onClick={handleSubmit} className="btn" type="submit" name="submit" value="Get Started"
+                    style={{
+                        marginLeft: '780px',
+                        borderRadius: '25px',
+                        width: '200px',
+                        height: '40px',
+                        fontSize: '1.3rem',
+                        color: 'white',
+                        fontWeight: '700',
+                        background: 'rgb(34,193,195)',
+                        background: 'black',
+                        border: '0px',
+                        cursor: 'pointer',
+                        transition: 'opacity 0.25s ease-out',
+                    }}
+                    onMouseOver={(event) => event.target.style.opacity = '0.7'}
+                    onMouseOut={(event) => event.target.style.opacity = '1'}
+                />
+
             </div>
         </div>
     )
