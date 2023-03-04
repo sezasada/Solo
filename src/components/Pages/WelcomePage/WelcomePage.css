@@ -47,5 +47,12 @@
 .market-watchers:hover {
   letter-spacing: 10px;
   margin: 0 -50px;
+}
 
+button {
+  transition: transform .5s ease-out;
+}
+
+button:hover {
+  transform: scale(1.1);
 }

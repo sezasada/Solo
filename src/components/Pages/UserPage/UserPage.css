@@ -4,15 +4,12 @@
     margin: 0;
 }
 
-.paretn {
-    margin-left: 400px;
-
-}
 
 .market-watcher {
 
-    margin: 0;
-    padding: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
     font-size: 100px;
     font-family: Noto, serif;
     color: #ffffff;

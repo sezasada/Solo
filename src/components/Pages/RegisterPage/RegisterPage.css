@@ -1,0 +1,27 @@
+.bo {
+    padding-top: 25vh;
+    background: linear-gradient(-45deg, #222222,
+            #444444,
+            #666666,
+            #888888,
+            #666666,
+            #222222);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+

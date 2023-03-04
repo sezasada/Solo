@@ -142,7 +142,7 @@ function UserPage() {
                       {selectedStockData.map((info, index) => {
                         return (
                           <div className='stock-data-div'>
-                            <div key={index} style={{ borderBottom: '1px solid black', padding: '10px' }}>
+                            <div key={index} style={{ padding: '10px' }}>
                               <div style={{ marginRight: 'auto', paddingLeft: '30px' }}>
                                 <div className="row">
                                   <div className="col-md-6">
@@ -211,10 +211,20 @@ function UserPage() {
                 </div>
               )}
             </div>
-            <h2>Earnings for {selectedSymbol}</h2>
+            {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
+              <>
+                {selectedStockData.map((info, index) => {
+                  return (
+                    <div key={index}>
+                      <div style={{marginLeft: '20px', width: '100%', paddingTop: '20px'}}>
+                        <h2 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center">Earnings Reports For: {info.name}</h2>
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            )}
             {Array.isArray(selectedEarnings) && selectedEarnings.length > 0 ? (
-
-
               <table style={{ border: '1px solid grey', marginLeft: '20px' }}>
                 <thead>
                   <tr>
