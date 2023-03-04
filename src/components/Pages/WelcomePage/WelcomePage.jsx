@@ -11,12 +11,12 @@ function WelcomePage() {
 
     return (
         <div className="bodys">
-            <div className="d-flex justify-content-center align-items-center h-100">
-                <div className="col-md-6 offset-md-3" style={{ color: 'white', paddingBottom: '300px', marginRight: '200px' }}>
-                    <h2>Welcome To Market Watcher</h2>
-                    <h3>Offering easy access to earnings reports, news, and financial data of over 2,500 companies</h3>
-                    <button className="btn btn-primary" onClick={handleSubmit}>Go</button>
-                </div>
+            <div className='titl'>
+                <h3 className="market-watchers">Market Watcher</h3>
+            </div>
+            <div style={{ color: 'white', marginLeft: '300px', paddingTop: '30px' }}>
+                <h3>Offering easy access to earnings reports, news, and financial data of over 2,500 companies</h3>
+                <button className="btn btn-dark" onClick={handleSubmit}>Go</button>
             </div>
         </div>
     )

@@ -69,6 +69,9 @@ router.get('/stockData/:symbol', async (req, res) => {
             marketCap: response.data[0].marketCap,
             earningsAnnouncement: response.data[0].earningsAnnouncement,
             volume: response.data[0].volume,
+            exchange: response.data[0].exchange,
+            sharesOutstanding: response.data[0].sharesOutstanding
+
         };
         console.log('this is data', data);
         res.send([data]); // wrap data object inside an array so that it can be used with `selectedStockData`

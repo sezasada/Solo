@@ -1,5 +1,5 @@
 .bodys {
- 
+
   background: linear-gradient(-45deg, #222222,
       #444444,
       #666666,
@@ -23,5 +23,29 @@
   100% {
     background-position: 0% 50%;
   }
-} 
+}
 
+
+
+.titl {
+  margin-left: 420px;
+  padding-top: 200px;
+}
+
+.market-watchers {
+  margin: 0;
+  padding: 0;
+  font-size: 100px;
+  font-family: Noto, serif;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  text-transform: uppercase;
+  transition-duration: 1s;
+  -webkit-background-clip: text;
+}
+
+.market-watchers:hover {
+  letter-spacing: 10px;
+  margin: 0 -50px;
+
+}

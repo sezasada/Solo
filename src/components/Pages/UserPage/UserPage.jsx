@@ -170,14 +170,6 @@ function UserPage() {
                                   </div>
                                 </div>
                               </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid grey', paddingTop: '10px' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Share Price:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.price}</p>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Price Action Today:</p>
-                                <p style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black', marginLeft: 'auto', paddingRight: '30px' }}>{info.changesPercentage?.toFixed(2)}%</p>
-                              </div>
                               <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
                                 <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year High:</p>
                                 <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearHigh}</p>
@@ -201,6 +193,15 @@ function UserPage() {
                                 <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.volume.toLocaleString()}</p>
                               </div>
 
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Exchange:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.exchange?.substring(0, 10)}</p>
+                              </div>
+
+                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
+                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Shares Outstanding:</p>
+                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.sharesOutstanding.toLocaleString()}</p>
+                              </div>
                             </div>
                           </div>
                         );
@@ -210,7 +211,10 @@ function UserPage() {
                 </div>
               )}
             </div>
+            <h2>Earnings for {selectedSymbol}</h2>
             {Array.isArray(selectedEarnings) && selectedEarnings.length > 0 ? (
+
+
               <table style={{ border: '1px solid grey', marginLeft: '20px' }}>
                 <thead>
                   <tr>
@@ -237,15 +241,12 @@ function UserPage() {
                   })}
                 </tbody>
               </table>
+
             ) : (
               <div style={{ paddingLeft: '375px', paddingTop: '100px' }}>
-
                 <div class="dots-bars-2"></div>
-
               </div>
             )}
-
-
           </div>
           <div className='col-md-6'>
             <div style={{ textAlign: 'left', paddingLeft: '20px', paddingTop: '20px', paddingRight: '20px' }}>
@@ -254,9 +255,8 @@ function UserPage() {
                   <div>
                     {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
                       <div key={index}>
-                        <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center"  >{article.title}</h3>
-                        <p>{article.publishedDate}</p>
-                        <p><img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} /></p>
+                        <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center" >{article.title}</h3>
+                        <img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} />
                         <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
                           <p style={{ fontStyle: 'italic', paddingLeft: '5px' }}>Source: {article.site}</p>
                           <h5 style={{ paddingLeft: '5px' }}>{article.text}</h5>
