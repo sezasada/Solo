@@ -98,206 +98,208 @@ function UserPage() {
   };
   // console.log('this is watchticks', watchlistsTickers)
   return (
-    <div className="bod">
-      <TickerBar favorites={favorites} />
-      <div className=".container-fluid">
-        <div className="row ">
-          <div className='paretn'>
-            <h3 className="market-watcher">Market Watcher</h3>
-          </div>
-          <hr />
+  
+      <div className="bod">
+        <TickerBar favorites={favorites} />
+        <div className=".container-fluid">
+          <div className="row ">
+            <div className='paretn'>
+              <h3 className="market-watcher">Market Watcher</h3>
+            </div>
+            <hr />
 
-          <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
+            <div className="row input-row" style={{ width: '53%', margin: '0 auto' }}>
 
-            <form onSubmit={handleSubmit}>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control input-text-box"
-                  placeholder="symbol"
-                  aria-label="Text input with dropdown button"
-                  name="symbolInput"
-                  value={symbolInput}
-                  onChange={(event) => setSymbolInput(event.target.value)}
-                />
-                <select className="btn btn-dark mx-2" name="year" id="year" value={selectedYear} onChange={handleChangeYear}>
-                  <option value="">All</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
-                  <option value="2020">2020</option>
-                </select>
-                <button type="submit" className="btn btn-dark">Submit</button>
-              </div>
-            </form>
-          </div>
-          <div className='col-md-6'>
-            <br />
-            <div style={{ display: 'flex' }}>
-              <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px', marginBottom: '20px' }}>
-                <FavoritesPage />
-              </div>
-              {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
-                <div style={{ display: 'inline-block', width: '90%' }}>
-                  <div>
+              <form onSubmit={handleSubmit}>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control input-text-box"
+                    placeholder="symbol"
+                    aria-label="Text input with dropdown button"
+                    name="symbolInput"
+                    value={symbolInput}
+                    onChange={(event) => setSymbolInput(event.target.value)}
+                  />
+                  <select className="btn btn-dark mx-2" name="year" id="year" value={selectedYear} onChange={handleChangeYear}>
+                    <option value="">All</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                  </select>
+                  <button type="submit" className="btn btn-dark">Submit</button>
+                </div>
+              </form>
+            </div>
+            <div className='col-md-6'>
+              <br />
+              <div style={{ display: 'flex' }}>
+                <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px', marginBottom: '20px' }}>
+                  <FavoritesPage />
+                </div>
+                {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
+                  <div style={{ display: 'inline-block', width: '90%' }}>
                     <div>
-                      {selectedStockData.map((info, index) => {
-                        return (
-                          <div className='stock-data-div'>
-                            <div key={index} style={{ padding: '10px' }}>
-                              <div style={{ marginRight: 'auto', paddingLeft: '30px' }}>
-                                <div className="row">
-                                  <div className="col-md-6">
-                                    <h4>{info.name} ({selectedSymbol})</h4>
+                      <div>
+                        {selectedStockData.map((info, index) => {
+                          return (
+                            <div className='stock-data-div'>
+                              <div key={index} style={{ padding: '10px' }}>
+                                <div style={{ marginRight: 'auto', paddingLeft: '30px' }}>
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <h4>{info.name} ({selectedSymbol})</h4>
+                                    </div>
+                                    <div className="col-md-6 d-flex justify-content-end">
+                                      {watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                        <button className="btn btn-dark" onClick={handleDeleteFavorite}>
+                                          Delete from Watchlist
+                                        </button>
+                                      )}
+                                      {!watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
+                                        <button className="btn btn-dark" onClick={handleAddFavorite}>
+                                          Add to Watchlist
+                                        </button>
+                                      )}
+                                    </div>
                                   </div>
-                                  <div className="col-md-6 d-flex justify-content-end">
-                                    {watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
-                                      <button className="btn btn-dark" onClick={handleDeleteFavorite}>
-                                        Delete from Watchlist
-                                      </button>
-                                    )}
-                                    {!watchlistsTickers.find(ticker => ticker.ticker === selectedSymbol) && (
-                                      <button className="btn btn-dark" onClick={handleAddFavorite}>
-                                        Add to Watchlist
-                                      </button>
-                                    )}
+                                  <div className='row'>
+                                    <div className="price-container">
+                                      <h3 className="price">{info.price}</h3>
+                                      <h4 style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
+                                        ({info.changesPercentage?.toFixed(2)}%)
+                                      </h4>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className='row'>
-                                  <div className="price-container">
-                                    <h3 className="price">{info.price}</h3>
-                                    <h4 style={{ color: info.changesPercentage ? (info.changesPercentage > 0 ? 'green' : 'red') : 'black' }}>
-                                      ({info.changesPercentage?.toFixed(2)}%)
-                                    </h4>
-                                  </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year High:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearHigh}</p>
                                 </div>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year High:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearHigh}</p>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year Low:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearLow}</p>
-                              </div>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Market Capitalization:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>${info.marketCap.toLocaleString()}</p>
-                              </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Year Low:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.yearLow}</p>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Market Capitalization:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>${info.marketCap.toLocaleString()}</p>
+                                </div>
 
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Earnings Announcement:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.earningsAnnouncement?.substring(0, 10)}</p>
-                              </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Earnings Announcement:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.earningsAnnouncement?.substring(0, 10)}</p>
+                                </div>
 
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Today's Volume:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.volume.toLocaleString()}</p>
-                              </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Today's Volume:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.volume.toLocaleString()}</p>
+                                </div>
 
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Exchange:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.exchange?.substring(0, 10)}</p>
-                              </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Exchange:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.exchange?.substring(0, 10)}</p>
+                                </div>
 
-                              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
-                                <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Shares Outstanding:</p>
-                                <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.sharesOutstanding.toLocaleString()}</p>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid grey', borderBottom: '1px solid grey' }}>
+                                  <p style={{ marginRight: 'auto', paddingLeft: '30px' }}>Shares Outstanding:</p>
+                                  <p style={{ marginLeft: 'auto', paddingRight: '30px' }}>{info.sharesOutstanding.toLocaleString()}</p>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-            {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
-              <>
-                {selectedStockData.map((info, index) => {
-                  return (
-                    <div key={index}>
-                      <div style={{ marginLeft: '20px', width: '100%', paddingTop: '20px' }}>
-                        <h2 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center">Earnings Reports For: {info.name}</h2>
+                          );
+                        })}
                       </div>
                     </div>
-                  );
-                })}
-              </>
-            )}
-            {submitClicked && selectedEarnings.length === 0 ? (
-              <div style={{ paddingLeft: '375px', paddingTop: '100px' }}>
-                <div className="dots-bars-2"></div>
+                  </div>
+                )}
               </div>
-            ) : (<table style={{ border: '1px solid grey', marginLeft: '20px' }}>
-              {submitClicked ? (
-              <thead>
-                <tr>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue</th>
-                  <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue Estimated</th>
-                </tr>
-              </thead>
-              ) : null}
-              <tbody>
-                {selectedEarnings.map((report, index) => {
-                  return (
-                    <tr key={index}>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.symbol}</td>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.date}</td>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.eps.toFixed(2)}</td>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.epsEstimated.toFixed(2)}</td>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenue.toLocaleString()}</td>
-                      <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenueEstimated?.toLocaleString()}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            )}
-          </div>
-          <div className='col-md-6'>
-            <div style={{ textAlign: 'left', paddingLeft: '20px', paddingTop: '20px', paddingRight: '20px' }}>
-              {selectedStocksNews && selectedStocksNews.length > 0 ? (
-                <div style={{ borderLeft: '1px solid grey', paddingLeft: '60px' }}>
-                  <div>
-                    {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
+              {selectedStockData && selectedStockData.length > 0 && selectedSymbol && (
+                <>
+                  {selectedStockData.map((info, index) => {
+                    return (
                       <div key={index}>
-                        <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center" >{article.title}</h3>
-                        <img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} />
-                        <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
-                          <p style={{ fontStyle: 'italic', paddingLeft: '5px' }}>Source: {article.site}</p>
-                          <h5 style={{ paddingLeft: '5px' }}>{article.text}</h5>
-                          <a className="link-danger" style={{ paddingLeft: '5px' }} href={article.url} rel="noreferrer">find out more</a>
+                        <div style={{ marginLeft: '20px', width: '100%', paddingTop: '20px' }}>
+                          <h2 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center">Earnings Reports For: {info.name}</h2>
                         </div>
                       </div>
-                    ))}
-                    {selectedStocksNews?.length > numNewsArticles && (
-                      <div>
-                        <button onClick={handleLoadMoreNews}>Load More News</button>
-                      </div>
-                    )}
-                  </div>
+                    );
+                  })}
+                </>
+              )}
+              {submitClicked && selectedEarnings.length === 0 ? (
+                <div style={{ paddingLeft: '375px', paddingTop: '100px' }}>
+                  <div className="dots-bars-2"></div>
                 </div>
-              ) : (
-                <div></div>
+              ) : (<table style={{ border: '1px solid grey', marginLeft: '20px' }}>
+                {submitClicked ? (
+                  <thead>
+                    <tr>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Symbol</th>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>Date</th>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS</th>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }}>EPS Estimated</th>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue</th>
+                      <th style={{ border: '1px solid grey', padding: '5px', textAlign: 'left' }} className="revenue-cell">Revenue Estimated</th>
+                    </tr>
+                  </thead>
+                ) : null}
+                <tbody>
+                  {selectedEarnings.map((report, index) => {
+                    return (
+                      <tr key={index}>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.symbol}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.date}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.eps.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }}>{report.epsEstimated.toFixed(2)}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenue.toLocaleString()}</td>
+                        <td style={{ border: '1px solid grey', padding: '5px', textAlign: 'left', height: '50px' }} className="revenue-cell">${report.revenueEstimated?.toLocaleString()}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
               )}
             </div>
+            <div className='col-md-6'>
+              <div style={{ textAlign: 'left', paddingLeft: '20px', paddingTop: '20px', paddingRight: '20px' }}>
+                {selectedStocksNews && selectedStocksNews.length > 0 ? (
+                  <div style={{ borderLeft: '1px solid grey', paddingLeft: '60px' }}>
+                    <div>
+                      {selectedStocksNews.slice(0, numNewsArticles).map((article, index) => (
+                        <div key={index}>
+                          <h3 style={{ width: '100%' }} className="d-inline-block bg-dark text-white p-2 text-center" >{article.title}</h3>
+                          <img style={{ border: '1px solid grey', margin: '0 auto', width: '100%' }} src={article.image} alt={article.title} />
+                          <div style={{ backgroundColor: '#343434', marginBottom: '20px', padding: '10px' }}>
+                            <p style={{ fontStyle: 'italic', paddingLeft: '5px' }}>Source: {article.site}</p>
+                            <h5 style={{ paddingLeft: '5px' }}>{article.text}</h5>
+                            <a className="link-danger" style={{ paddingLeft: '5px' }} href={article.url} rel="noreferrer">find out more</a>
+                          </div>
+                        </div>
+                      ))}
+                      {selectedStocksNews?.length > numNewsArticles && (
+                        <div>
+                          <button onClick={handleLoadMoreNews}>Load More News</button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
 
 
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className='news text-center' >
-        <News />
-      </div>
+        <div className='news text-center' >
+          <News />
+        </div>
 
-    </div>
+      </div>
+    
 
   );
 };

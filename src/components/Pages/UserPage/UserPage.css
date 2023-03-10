@@ -5,6 +5,7 @@
 }
 
 
+
 .market-watcher {
     display: flex;
     justify-content: center;
@@ -134,3 +135,10 @@ th {
         background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(0% - 2px), 100% calc(100% + 2px);
     }
 }
+
+
+
+
+  
+
+

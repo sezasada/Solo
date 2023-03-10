@@ -11,12 +11,11 @@ function Nav() {
 
   return (
     <div className="nav">
-      <div className="nav-container">
-        <Link to="/home">
-          <h2 className="nav-title"></h2>
-        </Link>
-      </div>
+      <p></p>
       <div className="nav-links">
+        <Link className="navLink" to="/home">
+          Home
+        </Link>
         {!user.id && (
           <Link className="navLink" to="/login">
             Login / Register
@@ -24,15 +23,10 @@ function Nav() {
         )}
         {user.id && (
           <>
-            <Link className="navLink" to="/home">
-              Home
-            </Link>
+
             <LogOutButton className="navLink" />
           </>
         )}
-        <Link className="navLink" to="/about">
-          About
-        </Link>
       </div>
     </div>
   );

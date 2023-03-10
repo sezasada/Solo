@@ -7,7 +7,7 @@ function RegisterPage() {
   const history = useHistory();
 
   return (
-    <div>
+ 
       <div className='bo'>
         <RegisterForm />
         <center>
@@ -34,7 +34,8 @@ function RegisterPage() {
           />
         </center>
       </div>
-    </div>
+  
+
   );
 }
 
