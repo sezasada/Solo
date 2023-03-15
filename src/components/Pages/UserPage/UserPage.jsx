@@ -96,9 +96,8 @@ function UserPage() {
       setIsLoading(false);
     }
   };
-  // console.log('this is watchticks', watchlistsTickers)
+  console.log('this is watchticks', watchlistsTickers)
   return (
-  
       <div className="bod">
         <TickerBar favorites={favorites} />
         <div className=".container-fluid">

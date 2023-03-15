@@ -14,12 +14,15 @@ let pool;
 // eg: 
 //  DATABASE_URL=postgresql://jDoe354:secretPw123@some.db.com/prime_app
 if (process.env.DATABASE_URL) {
+    console.log('this is the .env', process.env.DATABASE_URL);
     pool = new pg.Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: false
         }
+        
     });
+    console.log('this is the .env', process.env.DATABASE_URL);
 }
 
 // When we're running this app on our own computer

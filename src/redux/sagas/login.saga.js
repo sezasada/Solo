@@ -11,12 +11,12 @@ function* loginUser(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-
+    console.log('this is the config', config);
     // send the action.payload as the body
     // the config includes credentials which
     // allow the server session to recognize the user
     yield axios.post('/api/user/login', action.payload, config);
-
+    console.log('this is the config', config);
     // after the user has logged in
     // get the user information from the server
     yield put({ type: 'FETCH_USER' });
@@ -42,13 +42,14 @@ function* logoutUser(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
+    console.log('this is the config', config);
 
     // the config includes credentials which
     // allow the server session to recognize the user
     // when the server recognizes the user session
     // it will end the session
     yield axios.post('/api/user/logout', config);
-
+    console.log('this is the config', config);
     // now that the session has ended on the server
     // remove the client-side user object to let
     // the client-side code know the user is logged out
