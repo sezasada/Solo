@@ -12,7 +12,7 @@ function Nav() {
   return (
     <div className="nav">
       <p></p>
-      <div className="nav-links">
+      <div className="nav-links" style={{marginRight: '10px'}}>
         <Link className="navLink" to="/home">
           Home
         </Link>
@@ -23,7 +23,6 @@ function Nav() {
         )}
         {user.id && (
           <>
-
             <LogOutButton className="navLink" />
           </>
         )}

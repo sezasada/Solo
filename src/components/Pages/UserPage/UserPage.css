@@ -1,144 +1,181 @@
 .bod {
-    background-color: #181818;
-    color: white;
-    margin: 0;
+  background-color: #181818;
+  color: white;
+  margin: 0;
 }
 
-
-
 .market-watcher {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: 100px;
-    font-family: Noto, serif;
-    color: #ffffff;
-    text-shadow: 2px 2px #000000;
-    text-transform: uppercase;
-    transition-duration: 1s;
-    -webkit-background-clip: text;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 100px;
+  font-family: Noto, serif;
+  color: #ffffff;
+  text-shadow: 2px 2px #000000;
+  text-transform: uppercase;
+  transition-duration: 1s;
+  -webkit-background-clip: text;
 }
 
 .market-watcher:hover {
-    letter-spacing: 10px;
-    margin: 0 -50px;
-
+  letter-spacing: 10px;
+  margin: 0 -50px;
 }
 
 #reports-container {
-    display: inline-block;
-    white-space: nowrap;
-    overflow-x: auto;
+  display: inline-block;
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 #report {
-    display: inline-block;
-    width: 300px;
-    border: 1px solid black;
+  display: inline-block;
+  width: 300px;
+  border: 1px solid black;
 }
 
 .col-md-3 {
-    border: 2px solid black;
-    margin: 0;
+  border: 2px solid black;
+  margin: 0;
 }
 
-
 .input-row {
-    width: 500px;
+  width: 500px;
 }
 
 .price-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .price-container h3 {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .price {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .stock-data-div {
-    margin: 20px;
+  margin: 20px;
 }
 
-
 table {
-    border-collapse: collapse;
-    border: 1px solid grey;
-    width: 100%;
-    table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid grey;
+  width: 100%;
+  table-layout: fixed;
 }
 
 th,
 td {
-    text-align: left;
-    padding: 5px;
-    color: white;
-    border: 1px solid grey;
-    width: 14.28%;
+  text-align: left;
+  padding: 5px;
+  color: white;
+  border: 1px solid grey;
+  width: 14.28%;
 }
 
 th {
-    background-color: #333;
+  background-color: #333;
 }
-
 
 .revenue-cell {
-    width: auto;
+  width: auto;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.text-container {
+  position: relative;
+  text-align: center;
+  margin-top: 100px;
+
+}
+.text-animation {
+  position: absolute;
+  animation: textAnimation 10s ease-in-out infinite;
+  white-space: nowrap;
+  opacity: 0;
+  font-size: 3vh;
 }
 
+.text-animation:nth-child(2) {
+  animation-delay: 4s;
+}
+
+@keyframes textAnimation {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(-50%);
+    opacity: 0;
+  }
+  10%,
+  40% {
+    transform: translateY(-50%) translateX(-50%);
+    opacity: 1;
+  }
+  50%,
+  60% {
+    transform: translateY(-50%) translateX(-50%);
+    opacity: 0;
+  }
+}
+
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  margin-top: 40px;
+}
 
 .dots-bars-2 {
-    width: 80px;
-    height: 80px;
-    --c: linear-gradient(currentColor 0 0);
-    --r1: radial-gradient(farthest-side at bottom, currentColor 93%, #0000);
-    --r2: radial-gradient(farthest-side at top, currentColor 93%, #0000);
-    background:
-        var(--c),
-        var(--r1),
-        var(--r2),
-        var(--c),
-        var(--r1),
-        var(--r2),
-        var(--c),
-        var(--r1),
-        var(--r2);
-    background-repeat: no-repeat;
-    animation: db2 1s infinite alternate;
+  width: 80px;
+  height: 80px;
+  --c: linear-gradient(currentColor 0 0);
+  --r1: radial-gradient(farthest-side at bottom, currentColor 93%, #0000);
+  --r2: radial-gradient(farthest-side at top, currentColor 93%, #0000);
+  background: var(--c), var(--r1), var(--r2), var(--c), var(--r1), var(--r2),
+    var(--c), var(--r1), var(--r2);
+  background-repeat: no-repeat;
+  animation: db2 1s infinite alternate;
 }
 
 @keyframes db2 {
+  0%,
+  25% {
+    background-size: 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0,
+      8px 4px, 8px 4px;
+    background-position: 0 50%, 0 calc(50% - 2px), 0 calc(50% + 2px), 50% 50%,
+      50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px),
+      100% calc(50% + 2px);
+  }
 
-    0%,
-    25% {
-        background-size: 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(50% - 2px), 0 calc(50% + 2px), 50% 50%, 50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
+  50% {
+    background-size: 8px 100%, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0,
+      8px 4px, 8px 4px;
+    background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%,
+      50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px),
+      100% calc(50% + 2px);
+  }
 
-    50% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(50% - 2px), 50% calc(50% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
+  75% {
+    background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px,
+      8px 0, 8px 4px, 8px 4px;
+    background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%,
+      50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(50% - 2px),
+      100% calc(50% + 2px);
+  }
 
-    75% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px, 8px 0, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(50% - 2px), 100% calc(50% + 2px);
-    }
-
-    95%,
-    100% {
-        background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px;
-        background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%, 50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(0% - 2px), 100% calc(100% + 2px);
-    }
+  95%,
+  100% {
+    background-size: 8px 100%, 8px 4px, 8px 4px, 8px 100%, 8px 4px, 8px 4px,
+      8px 100%, 8px 4px, 8px 4px;
+    background-position: 0 50%, 0 calc(0% - 2px), 0 calc(100% + 2px), 50% 50%,
+      50% calc(0% - 2px), 50% calc(100% + 2px), 100% 50%, 100% calc(0% - 2px),
+      100% calc(100% + 2px);
+  }
 }
-
-
-
-
-  
-
-
