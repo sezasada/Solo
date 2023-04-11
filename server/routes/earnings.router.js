@@ -49,59 +49,14 @@ router.get('/earnings', async (req, res) => {
     }
 });
 
-// router.get('/earnings', async (req, res) => {
-//     try {
-//         const responses = await Promise.all([
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-12-12&to=2023-02-11&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-10-11&to=2022-12-11&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-08-11&to=2022-10-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-06-11&to=2022-08-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-04-11&to=2022-06-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2022-02-11&to=2022-04-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-12-11&to=2022-02-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-10-11&to=2021-12-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-08-11&to=2021-10-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-06-11&to=2021-08-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-04-11&to=2021-06-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-02-11&to=2021-04-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2021-01-11&to=2021-02-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-11-11&to=2021-01-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-09-11&to=2020-11-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-07-11&to=2020-09-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-05-11&to=2020-07-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-03-11&to=2020-05-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2020-01-11&to=2020-03-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-11-11&to=2020-01-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-09-11&to=2019-11-10&apikey=19198710f19b50ecd5513c63a590ad31'),
-//             axios.get('https://financialmodelingprep.com/api/v3/earning_calendar?from=2019-07-11&to=2019-09-10&apikey=19198710f19b50ecd5513c63a590ad31'),
 
-//         ]);
-//         const data = responses.reduce((result, response) => [...result, ...response.data], []);
-//         res.json(data);
-//     } catch (error) {
-//         console.log('Error fetching earnings', error);
-//         res.status(500).send('Internal server error');
-//     }
-// });
-
-router.get('/selectedPrice/:symbol', async (req, res) => {
-    const { symbol } = req.params;
+router.get('/stockData/:identifier', async (req, res) => {
+    const { identifier } = req.params;
     try {
-        const response = await axios.get(
-            `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`
-        );
-        const data = response.data[0].price;
+        // First, check if the identifier is a symbol or a name
+        const searchResponse = await axios.get(`https://financialmodelingprep.com/api/v3/search?query=${identifier}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`);
+        const symbol = searchResponse.data[0].symbol;
 
-        res.send(`${data}`);
-    } catch (error) {
-        console.log('Error fetching stock price', error);
-        res.status(500).send('Internal server error');
-    }
-});
-
-router.get('/stockData/:symbol', async (req, res) => {
-    const { symbol } = req.params;
-    try {
         const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`);
         const data = {
             price: response.data[0].price,
@@ -114,7 +69,6 @@ router.get('/stockData/:symbol', async (req, res) => {
             volume: response.data[0].volume,
             exchange: response.data[0].exchange,
             sharesOutstanding: response.data[0].sharesOutstanding
-
         };
         console.log('this is data', data);
         res.send([data]); // wrap data object inside an array so that it can be used with `selectedStockData`
@@ -125,9 +79,15 @@ router.get('/stockData/:symbol', async (req, res) => {
 });
 
 
-router.get('/stockNews/:symbol', async (req, res) => {
-    const { symbol } = req.params;
+
+
+router.get('/stockNews/:identifier', async (req, res) => {
+    const { identifier } = req.params;
     try {
+        // First, check if the identifier is a symbol or a name
+        const searchResponse = await axios.get(`https://financialmodelingprep.com/api/v3/search-name?query=${identifier}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`);
+        const symbol = searchResponse.data[0].symbol;
+
         const response = await axios.get(
             `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=50&apikey=19198710f19b50ecd5513c63a590ad31`
         );
@@ -149,6 +109,7 @@ router.get('/stockNews/:symbol', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+
 
 router.get('/watchlist/:userId', rejectUnauthenticated, (req, res) => {
     const userId = req.params.userId;
