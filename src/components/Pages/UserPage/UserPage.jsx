@@ -11,20 +11,10 @@ import TickerBar from "../../Shared/TickerBar/TickerBar";
 function UserPage() {
   const user = useSelector((store) => store.user);
   const earnings = useSelector((store) => store.earningsReducer.earnings);
-  const selectedSymbol =
-    useSelector((store) => store.earningsReducer.selectedSymbol) || "";
-  const selectedPrice = useSelector(
-    (store) => store.earningsReducer.selectedPrice
-  );
-  const selectedStocksNews = useSelector(
-    (store) => store.earningsReducer.selectedStocksNews
-  );
-  const selectedStockData = useSelector(
-    (store) => store.earningsReducer.selectedStockData
-  );
-  const watchlistsTickers = useSelector(
-    (store) => store.earningsReducer.watchlistsTickers
-  );
+  const selectedSymbol = useSelector((store) => store.earningsReducer.selectedSymbol) || "";
+  const selectedStocksNews = useSelector((store) => store.earningsReducer.selectedStocksNews);
+  const selectedStockData = useSelector((store) => store.earningsReducer.selectedStockData);
+  const watchlistsTickers = useSelector((store) => store.earningsReducer.watchlistsTickers);
   const dispatch = useDispatch();
   const [submitClicked, setSubmitClicked] = useState(false);
   const [symbolInput, setSymbolInput] = useState("");
@@ -194,7 +184,7 @@ function UserPage() {
                                   <div className="row">
                                     <div className="col-md-6">
                                       <h4>
-                                        {info.name} ({selectedSymbol})
+                                        {info.name} ({selectedStockData[0].symbol})
                                       </h4>
                                     </div>
                                     <div className="col-md-6 d-flex justify-content-end">

@@ -60,6 +60,7 @@ router.get('/stockData/:identifier', async (req, res) => {
         const response = await axios.get(`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`);
         const data = {
             price: response.data[0].price,
+            symbol: response.data[0].symbol,
             changesPercentage: response.data[0].changesPercentage,
             name: response.data[0].name,
             yearHigh: response.data[0].yearHigh,
