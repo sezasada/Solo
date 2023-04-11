@@ -131,7 +131,7 @@ function UserPage() {
                 </div>
               </form>
             </div>
-            <div className='col-md-6'>
+            <div className='col-lg-6 col-12'>
               <br />
               <div style={{ display: 'flex' }}>
                 <div style={{ display: 'inline-block', minWidth: '10%', display: 'flex', flexGrow: '1', marginLeft: '20px', marginBottom: '20px' }}>
