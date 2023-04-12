@@ -47,6 +47,10 @@
   display: flex;
   align-items: center;
 }
+.autocomplete-input {
+  background-color: white !important;
+  width: 500px !important;
+}
 
 .price-container h3 {
   margin-right: 10px;

@@ -6,6 +6,8 @@ import FavoritesPage from "../FavoritesPage/FavoritesPage";
 import axios from "axios";
 import "./UserPage.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import TickerBar from "../../Shared/TickerBar/TickerBar";
 
 function UserPage() {
@@ -25,6 +27,8 @@ function UserPage() {
   const dispatch = useDispatch();
   const [submitClicked, setSubmitClicked] = useState(false);
   const [symbolInput, setSymbolInput] = useState("");
+  const [companySearch, setCompanySearch] = useState("");
+  const [companyOptions, setCompanyOptions] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
@@ -40,15 +44,62 @@ function UserPage() {
       setIsLoading(false);
     }
   }, [selectedSymbol]);
+  useEffect(() => {
+    if (companySearch) {
+      fetchCompanyNames(companySearch);
+    } else {
+      setCompanyOptions([]);
+    }
+  }, [companySearch]);
+  const fetchCompanyNames = async (identifier) => {
+    try {
+      const nameResponse = await axios.get(
+        `https://financialmodelingprep.com/api/v3/search-name?query=${identifier}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
+      );
+      const symbolResponse = await axios.get(
+        `https://financialmodelingprep.com/api/v3/search?query=${identifier}&limit=1&apikey=19198710f19b50ecd5513c63a590ad31`
+      );
+      const companies = [
+        ...(nameResponse.data || []),
+        ...(symbolResponse.data || []),
+      ];
+
+      const modifiedCompanies = companies.map((company) => {
+        if (company.symbol.endsWith(".NE")) {
+          return { ...company, symbol: company.symbol.replace(".NE", "") };
+        } else if (company.symbol.endsWith(".SW")) {
+          return { ...company, symbol: company.symbol.replace(".SW", "") };
+        } else if (company.symbol.endsWith(".TO")) {
+          return { ...company, symbol: company.symbol.replace(".TO", "") };
+        } else {
+          return company;
+        }
+      });
+
+      setCompanyOptions(modifiedCompanies);
+    } catch (error) {
+      console.error("Error fetching company names", error);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const input = event.target.symbolInput.value;
+    const input = event.target.symbolInput.value.trim();
     setIsLoading(true);
     try {
+      let selectedSymbol = "";
+      // Check if the input is a company name or a ticker symbol
+      const company = companyOptions.find(
+        (option) => option.name === companySearch
+      );
+      if (company) {
+        selectedSymbol = company.symbol;
+      } else {
+        selectedSymbol = symbolInput;
+      }
       const fetchResult = await dispatch({
         type: "SUBMIT_SYMBOL",
-        payload: input,
+        payload: selectedSymbol,
       });
       if (fetchResult.error) {
         // Show an alert if no results found
@@ -99,27 +150,15 @@ function UserPage() {
     dispatch({ type: "FILTER_EARNINGS", payload: event.target.value });
   };
 
-  const handleLoadMoreNews = async () => {
-    setIsLoading(true);
-    try {
-      await dispatch({
-        type: "FETCH_MORE_STOCK_NEWS",
-        payload: { symbol: selectedSymbol, numArticles: numNewsArticles + 2 },
-      });
-      const displayedArticles = selectedStocksNews.slice(0, numNewsArticles);
-      const newArticles = selectedStocksNews
-        .slice(numNewsArticles)
-        .filter(
-          (article) =>
-            !displayedArticles.some(
-              (displayedArticle) => displayedArticle.title === article.title
-            )
-        );
-      setNumNewsArticles(numNewsArticles + newArticles.length);
-    } finally {
-      setIsLoading(false);
+  const handleChange = (event, value) => {
+    if (value) {
+      const symbol = value.symbol.replace(".NE", "");
+
+      setSymbolInput(symbol);
+      setCompanySearch(value.name);
     }
   };
+
   const noResultsFound = submitClicked && selectedStockData.length === 0;
   console.log("this is watchticks", watchlistsTickers);
   return (
@@ -138,15 +177,25 @@ function UserPage() {
           >
             <form onSubmit={handleSubmit}>
               <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control input-text-box"
-                  placeholder="symbol"
-                  aria-label="Text input with dropdown button"
-                  name="symbolInput"
-                  value={symbolInput}
-                  onChange={(event) => setSymbolInput(event.target.value)}
+                <Autocomplete
+                  options={companyOptions}
+                  getOptionLabel={(option) =>
+                    `${option.name} (${option.symbol})`
+                  }
+                  onInputChange={(_, value) => setCompanySearch(value)}
+                  inputValue={companySearch}
+                  onChange={handleChange}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Company"
+                      variant="outlined"
+                      className="autocomplete-input"
+                      name="symbolInput"
+                    />
+                  )}
                 />
+
                 <select
                   className="btn btn-dark mx-2"
                   name="year"
@@ -692,9 +741,7 @@ function UserPage() {
                   </div>
                 </div>
               ) : (
-                <div >
-                  
-                </div>
+                <div></div>
               )}
             </div>
           </div>
