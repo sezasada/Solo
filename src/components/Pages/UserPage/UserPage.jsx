@@ -11,10 +11,17 @@ import TickerBar from "../../Shared/TickerBar/TickerBar";
 function UserPage() {
   const user = useSelector((store) => store.user);
   const earnings = useSelector((store) => store.earningsReducer.earnings);
-  const selectedSymbol = useSelector((store) => store.earningsReducer.selectedSymbol) || "";
-  const selectedStocksNews = useSelector((store) => store.earningsReducer.selectedStocksNews);
-  const selectedStockData = useSelector((store) => store.earningsReducer.selectedStockData);
-  const watchlistsTickers = useSelector((store) => store.earningsReducer.watchlistsTickers);
+  const selectedSymbol =
+    useSelector((store) => store.earningsReducer.selectedSymbol) || "";
+  const selectedStocksNews = useSelector(
+    (store) => store.earningsReducer.selectedStocksNews
+  );
+  const selectedStockData = useSelector(
+    (store) => store.earningsReducer.selectedStockData
+  );
+  const watchlistsTickers = useSelector(
+    (store) => store.earningsReducer.watchlistsTickers
+  );
   const dispatch = useDispatch();
   const [submitClicked, setSubmitClicked] = useState(false);
   const [symbolInput, setSymbolInput] = useState("");
@@ -39,8 +46,16 @@ function UserPage() {
     const input = event.target.symbolInput.value;
     setIsLoading(true);
     try {
-      await Promise.all([dispatch({ type: "SUBMIT_SYMBOL", payload: input })]);
-      setSubmitClicked(true);
+      const fetchResult = await dispatch({
+        type: "SUBMIT_SYMBOL",
+        payload: input,
+      });
+      if (fetchResult.error) {
+        // Show an alert if no results found
+        alert("No results found");
+      } else {
+        setSubmitClicked(true);
+      }
     } finally {
       setIsLoading(false);
       setSymbolInput("");
@@ -105,6 +120,7 @@ function UserPage() {
       setIsLoading(false);
     }
   };
+  const noResultsFound = submitClicked && selectedStockData.length === 0;
   console.log("this is watchticks", watchlistsTickers);
   return (
     <div className="bod">
@@ -150,6 +166,14 @@ function UserPage() {
               </div>
             </form>
           </div>
+          {noResultsFound && (
+            <div className="no-results">
+              <p>
+                No results found. Please try again with a different symbol or
+                name.
+              </p>
+            </div>
+          )}
           <div className="col-lg-6 col-12">
             <br />
             <div style={{ display: "flex" }}>
@@ -184,7 +208,8 @@ function UserPage() {
                                   <div className="row">
                                     <div className="col-md-6">
                                       <h4>
-                                        {info.name} ({selectedStockData[0].symbol})
+                                        {info.name} (
+                                        {selectedStockData[0].symbol})
                                       </h4>
                                     </div>
                                     <div className="col-md-6 d-flex justify-content-end">
@@ -453,10 +478,10 @@ function UserPage() {
               <div>
                 <div class="container">
                   <div class="text-container">
+                    <span class="text-animation">Submission confirmed</span>
                     <span class="text-animation">
-                    Submission confirmed
+                      Calculating results, standby
                     </span>
-                    <span class="text-animation">Calculating results, standby</span>
                   </div>
                   <div class="loader-container">
                     <div class="dots-bars-2"></div>
@@ -615,6 +640,7 @@ function UserPage() {
                 >
                   <div>
                     {selectedStocksNews
+                      .filter((article) => article)
                       .slice(0, numNewsArticles)
                       .map((article, index) => (
                         <div key={index}>
@@ -655,6 +681,7 @@ function UserPage() {
                               className="link-danger"
                               style={{ paddingLeft: "5px" }}
                               href={article.url}
+                              target="_blank"
                               rel="noreferrer"
                             >
                               find out more
@@ -662,17 +689,12 @@ function UserPage() {
                           </div>
                         </div>
                       ))}
-                    {selectedStocksNews?.length > numNewsArticles && (
-                      <div>
-                        <button onClick={handleLoadMoreNews}>
-                          Load More News
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </div>
               ) : (
-                <div></div>
+                <div >
+                  
+                </div>
               )}
             </div>
           </div>
