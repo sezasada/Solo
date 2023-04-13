@@ -27,7 +27,11 @@
   white-space: nowrap;
   overflow-x: auto;
 }
-
+.input-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #report {
   display: inline-block;
   width: 300px;
@@ -47,10 +51,7 @@
   display: flex;
   align-items: center;
 }
-.autocomplete-input {
-  background-color: white !important;
-  width: 500px !important;
-}
+
 
 .price-container h3 {
   margin-right: 10px;
@@ -96,7 +97,6 @@ th {
   position: relative;
   text-align: center;
   margin-top: 100px;
-
 }
 .text-animation {
   position: absolute;

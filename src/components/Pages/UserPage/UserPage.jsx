@@ -5,12 +5,37 @@ import News from "../../Shared/News/News";
 import FavoritesPage from "../FavoritesPage/FavoritesPage";
 import axios from "axios";
 import "./UserPage.css";
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/dist/sweetalert2.css';
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/dist/sweetalert2.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import styled from "@emotion/styled";
 import TickerBar from "../../Shared/TickerBar/TickerBar";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
+// created a custom theme specifically for the Textfield. I wanted specific features to be transparent.
+const customTheme = createMuiTheme({
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        "&$focused": {
+          color: "transparent",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      root: {
+        "&:hover $notchedOutline": {
+          borderColor: "transparent",
+        },
+        "&$focused $notchedOutline": {
+          borderColor: "transparent",
+        },
+      },
+    },
+  },
+});
 
 function UserPage() {
   const user = useSelector((store) => store.user);
@@ -163,10 +188,11 @@ function UserPage() {
       setCompanySearch(value.name);
     }
   };
-
-  const noResultsFound = submitClicked && selectedSymbol !== "" && selectedStockData.length === 0;
+ 
   console.log("this is watchticks", watchlistsTickers);
   return (
+    <ThemeProvider theme={customTheme}>
+
     <div className="bod">
       <TickerBar favorites={favorites} />
       <div className=".container-fluid">
@@ -175,7 +201,6 @@ function UserPage() {
             <h3 className="market-watcher">Market Watcher</h3>
           </div>
           <hr />
-
           <div
             className="row input-row"
             style={{ width: "53%", margin: "0 auto" }}
@@ -183,6 +208,10 @@ function UserPage() {
             <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <Autocomplete
+                  style={{
+                    backgroundColor: "white",
+                    width: "500px",
+                  }}
                   options={companyOptions}
                   getOptionLabel={(option) =>
                     `${option.name} (${option.symbol})`
@@ -193,7 +222,7 @@ function UserPage() {
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      label="Company"
+                      label="Input a company name or ticker symbol here"
                       variant="outlined"
                       className="autocomplete-input"
                       name="symbolInput"
@@ -749,6 +778,8 @@ function UserPage() {
         <News />
       </div>
     </div>
+    </ThemeProvider>
+
   );
 }
 
