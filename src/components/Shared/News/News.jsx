@@ -82,7 +82,7 @@ function News() {
                       paddingTop: "10px",
                     }}
                   >
-                    <div className="text-container" style={{ flex: "1" }}>
+                    <div className="text-containers" style={{ flex: "1" }}>
                       <p
                         style={{ fontStyle: "italic", paddingLeft: "5px" }}
                         className="source"

@@ -5,6 +5,8 @@ import News from "../../Shared/News/News";
 import FavoritesPage from "../FavoritesPage/FavoritesPage";
 import axios from "axios";
 import "./UserPage.css";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/dist/sweetalert2.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -81,7 +83,6 @@ function UserPage() {
       console.error("Error fetching company names", error);
     }
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const input = event.target.symbolInput.value.trim();
@@ -102,8 +103,12 @@ function UserPage() {
         payload: selectedSymbol,
       });
       if (fetchResult.error) {
-        // Show an alert if no results found
-        alert("No results found");
+        // Show a sweet alert if no results found
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No results found!",
+        });
       } else {
         setSubmitClicked(true);
       }
@@ -159,7 +164,7 @@ function UserPage() {
     }
   };
 
-  const noResultsFound = submitClicked && selectedStockData.length === 0;
+  const noResultsFound = submitClicked && selectedSymbol !== "" && selectedStockData.length === 0;
   console.log("this is watchticks", watchlistsTickers);
   return (
     <div className="bod">
@@ -215,14 +220,6 @@ function UserPage() {
               </div>
             </form>
           </div>
-          {noResultsFound && (
-            <div className="no-results">
-              <p>
-                No results found. Please try again with a different symbol or
-                name.
-              </p>
-            </div>
-          )}
           <div className="col-lg-6 col-12">
             <br />
             <div style={{ display: "flex" }}>
