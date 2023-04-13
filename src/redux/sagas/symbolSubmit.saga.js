@@ -5,13 +5,9 @@ import axios from "axios";
 function* handleSubmit(action) {
   const searchTerm = action.payload;
   let symbol = null;
-
   try {
     // Fetch company details using the search term
-    const response = yield axios.get(
-      `https://financialmodelingprep.com/api/v3/search?query=${searchTerm}&limit=10&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
-    );
-
+    const response = yield axios.get(`api/earnings/stockData/${searchTerm}`);
     // Find the first matching company with the same symbol or name as the search term
     const foundCompany = response.data.find(
       (company) =>

@@ -4,6 +4,10 @@
   margin: 0;
 }
 
+.swal-confirm-button {
+  border-color: #000000 !important;
+}
+
 .market-watcher {
   display: flex;
   justify-content: center;

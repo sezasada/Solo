@@ -64,7 +64,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
       `https://financialmodelingprep.com/api/v3/search?query=${input.ticker}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
     );
     if (searchResponse.data.length === 0) {
-      res.status(404).send("No results found");
+      res.sendStatus("yes results found");
       return;
     }
     const symbol = searchResponse.data[0].symbol;

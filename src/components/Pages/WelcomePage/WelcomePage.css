@@ -1,7 +1,4 @@
 .bodys {
-/* display: flex;
-justify-content: center;
-align-items: center; */
   background: linear-gradient(-45deg, #222222,
       #444444,
       #666666,
@@ -11,8 +8,16 @@ align-items: center; */
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-40%);
+}
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -26,6 +31,7 @@ align-items: center; */
     background-position: 0% 50%;
   }
 }
+
 .market-title {
   display: flex;
   justify-content: center;
