@@ -34,7 +34,7 @@ function UserPage() {
   const [companySearch, setCompanySearch] = useState("");
   const [companyOptions, setCompanyOptions] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
-  const [isInputValid, setIsInputValid] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const [numNewsArticles, setNumNewsArticles] = useState(2);
@@ -76,6 +76,8 @@ function UserPage() {
       },
     },
   });
+  
+
   useEffect(() => {
     if (selectedSymbol !== "") {
       setIsLoading(true);
@@ -95,6 +97,7 @@ function UserPage() {
           confirmButton: "swal-confirm-button",
         },
       });
+      setInputValue(''); 
     }
   }, [error]);
   useEffect(() => {

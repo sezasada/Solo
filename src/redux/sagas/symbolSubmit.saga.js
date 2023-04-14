@@ -27,6 +27,7 @@ function* handleSubmit(action) {
   } catch (error) {
     console.log("Error fetching company details:", error);
     yield put({ type: "FETCH_EARNINGS_ERROR", payload: { error: error.message } });
+    yield put({ type: "RESET_DATA" });
     return;
   }
 

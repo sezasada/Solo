@@ -69,6 +69,18 @@ const soloReducer = (
       return { ...state, watchlistName: action.payload };
     case "SET_NEW_DATA":
       return { ...state, newData: action.payload };
+    case "RESET_DATA":
+      return {
+        ...state,
+        earnings: [],
+        selectedSymbol: "",
+        favorites: [],
+        selectedEarnings: [],
+        selectedPrice: null,
+        selectedStockData: [],
+        newData: {},
+        error: null,
+      };
     default:
       return state;
   }
