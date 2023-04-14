@@ -1,5 +1,4 @@
 import { put, takeEvery } from "redux-saga/effects";
-
 import axios from "axios";
 
 function* handleSubmit(action) {
@@ -8,6 +7,11 @@ function* handleSubmit(action) {
   try {
     // Fetch company details using the search term
     const response = yield axios.get(`api/earnings/stockData/${searchTerm}`);
+    
+    if (response.data.length === 0) {
+      throw new Error("No results found");
+    }
+
     // Find the first matching company with the same symbol or name as the search term
     const foundCompany = response.data.find(
       (company) =>
@@ -22,7 +26,7 @@ function* handleSubmit(action) {
     }
   } catch (error) {
     console.log("Error fetching company details:", error);
-    yield put({ type: "FETCH_EARNINGS_ERROR", payload: error });
+    yield put({ type: "FETCH_EARNINGS_ERROR", payload: { error: error.message } });
     return;
   }
 

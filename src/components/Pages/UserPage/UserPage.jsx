@@ -15,7 +15,7 @@ import TickerBar from "../../Shared/TickerBar/TickerBar";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 function UserPage() {
   const dispatch = useDispatch();
-
+  const error = useSelector((store) => store.earningsReducer.error);
   const user = useSelector((store) => store.user);
   const earnings = useSelector((store) => store.earningsReducer.earnings);
   const selectedSymbol =
@@ -84,6 +84,20 @@ function UserPage() {
     }
   }, [selectedSymbol]);
   useEffect(() => {
+    if (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "The selected company or ticker symbol doesn't have available earnings reports or stock data. Please note that companies may have different tickers on multiple exchanges (e.g., AAPL on NASDAQ and APC.F on Frankfurt Stock Exchange). Try a different option or ensure you're using the correct ticker symbol.",
+        confirmButtonColor: "#000000",
+        confirmButtonText: "Okay",
+        customClass: {
+          confirmButton: "swal-confirm-button",
+        },
+      });
+    }
+  }, [error]);
+  useEffect(() => {
     if (companySearch) {
       fetchCompanyNames(companySearch);
     } else {
@@ -126,7 +140,7 @@ function UserPage() {
     event.preventDefault();
     const input = event.target.symbolInput.value.trim();
 
-    setIsLoading(true); // set isLoading to true here
+    setIsLoading(true);
 
     try {
       let selectedSymbol = "";
@@ -144,7 +158,8 @@ function UserPage() {
         type: "SUBMIT_SYMBOL",
         payload: selectedSymbol,
       });
-      if (fetchResult.error) {
+      // Check if the selectedSymbol exists in the API response
+      if (fetchResult.payload && fetchResult.payload.error) {
         // Show a sweet alert if no results found
         Swal.fire({
           icon: "error",
