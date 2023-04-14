@@ -47,7 +47,7 @@ function LoginForm() {
             onChange={(event) => setUsername(event.target.value)}
             style={{
               backgroundColor: 'transparent',
-              width: '130%',
+              width: '100%',
               boxSizing: 'border-box',
               border: 'none',
               fontSize: '1.3rem',
@@ -55,8 +55,18 @@ function LoginForm() {
               boxShadow: 'inset 0px -3px 0px 0px rgba(187,187,187,0.2)',
               transition: 'box-shadow 0.2s ease-in'
             }}
-            onFocus={(event) => event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(34,193,195,0.7)'}
-            onBlur={(event) => event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(187,187,187,0.2)'}
+            onFocus={(event) => {
+              event.target.style.boxShadow =
+                "inset 0px -3px 0px 0px rgba(34,193,195,0.7)";
+              event.target.style.border = "none";
+              event.target.style.outline = 'none';
+
+            }}
+            onBlur={(event) => {
+              event.target.style.boxShadow =
+                "inset 0px -3px 0px 0px rgba(187,187,187,0.2)";
+              event.target.style.border = "none";
+            }}
             placeholder="Enter your username"
           />
           <style>{`
@@ -87,7 +97,7 @@ function LoginForm() {
             onChange={(event) => setPassword(event.target.value)}
             style={{
               backgroundColor: 'transparent',
-              width: '130%',
+              width: '100%',
               boxSizing: 'border-box',
               border: 'none',
               fontSize: '1.3rem',
@@ -95,8 +105,16 @@ function LoginForm() {
               boxShadow: 'inset 0px -3px 0px 0px rgba(187,187,187,0.2)',
               transition: 'box-shadow 0.2s ease-in'
             }}
-            onFocus={(event) => event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(34,193,195,0.7)'}
-            onBlur={(event) => event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(187,187,187,0.2)'}
+            onFocus={(event) => {
+              event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(34,193,195,0.7)';
+              event.target.style.border = 'none';
+              event.target.style.outline = 'none';
+
+            }}
+            onBlur={(event) => {
+              event.target.style.boxShadow = 'inset 0px -3px 0px 0px rgba(187,187,187,0.2)';
+              event.target.style.border = 'none';
+            }}
             placeholder="Enter your password"
           />
         </label>
@@ -132,45 +150,6 @@ function LoginForm() {
         />
       </div>
     </form>
-
-
-
-
-    // <form className="formPanel" onSubmit={login}>
-    //   <h2>Login</h2>
-    // {errors.loginMessage && (
-    //   <h3 className="alert" role="alert">
-    //     {errors.loginMessage}
-    //   </h3>
-    // )}
-    //   <div>
-    //     <label htmlFor="username">
-    //       Username:
-    //       <input
-    // type="text"
-    // name="username"
-    // required
-    // value={username}
-    // onChange={(event) => setUsername(event.target.value)}
-    //       />
-    //     </label>
-    //   </div>
-    //   <div>
-    //     <label htmlFor="password">
-    //       Password:
-    //       <input
-    //         type="password"
-    //         name="password"
-    //         required
-    //         value={password}
-    //         onChange={(event) => setPassword(event.target.value)}
-    //       />
-    //     </label>
-    //   </div>
-    //   <div>
-    //     <input className="btn" type="submit" name="submit" value="Log In" />
-    //   </div>
-    // </form>
   );
 }
 
