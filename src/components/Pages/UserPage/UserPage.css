@@ -2,7 +2,8 @@
   background-color: #181818;
   color: white;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .swal-confirm-button {
