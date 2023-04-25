@@ -12,6 +12,7 @@ const userRouter = require('./routes/user.router');
 const earningsRouter = require('./routes/earnings.router');
 const favoritesRouter = require('./routes/favorites.router');
 const marketNewsRouter = require('./routes/marketNews.router');
+const openaiRouter = require('./routes/openai.router');
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,7 +30,7 @@ app.use('/api/user', userRouter);
 app.use('/api/favorites', favoritesRouter);
 app.use('/api/earnings', earningsRouter);
 app.use('/api/marketNews', marketNewsRouter);
-
+app.use('/api/openai', openaiRouter);
 
 
 
