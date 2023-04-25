@@ -2,30 +2,35 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
-const apikey = process.env.OPENAI_API_KEY;
 
-router.post("/generate", async (req, res) => {
+const openaiApiKey = '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';
+router.use(express.json());
+  
+const headers = {
+  'Content-Type': 'application/json',
+  'Authorization': `Bearer ${openaiApiKey}`,
+};
+
+router.post('/generate', async (req, res) => {
   try {
-    const prompt = req.body.prompt;
+    const input = req.body.text;
 
-    const openaiResponse = await axios.post(
-      `https://api.openai.com/v1/engines/davinci/completions`,
+    const response = await axios.post(
+      'https://api.openai.com/v1/chat/completions',
       {
-        prompt: prompt,
-        max_tokens: 10,
+        model: 'gpt-3.5-turbo',
+        messages: [{role: 'user', content: `${input}`}],
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apikey}`,
-        },
-      }
+      { headers }
     );
 
-    res.json(openaiResponse.data.choices[0].text);
-  } catch (error) {
-    console.log("Error with OpenAI API:", error);
-    res.status(500);
+    const chatGptResponse = response.data.choices[0].message.content;
+
+    console.log(chatGptResponse);
+    res.status(200).json({ message: chatGptResponse });
+  } catch (err) {
+    console.log('Error: ' + err);
+    res.status(500).json({ error: 'An error occurred while processing your request' });
   }
 });
 
