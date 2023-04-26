@@ -3,9 +3,8 @@ const router = express.Router();
 const axios = require("axios");
 require("dotenv").config();
 
-const openaiApiKey = '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';
+const openaiApiKey = process.env.OPENAI_API_KEY;
 router.use(express.json());
-  
 const headers = {
   'Content-Type': 'application/json',
   'Authorization': `Bearer ${openaiApiKey}`,

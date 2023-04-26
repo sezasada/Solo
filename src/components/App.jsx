@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   HashRouter as Router,
   Redirect,
   Route,
   Switch,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
-import Nav from './Shared/Nav/Nav';
-import Footer from './Shared/Footer/Footer';
-import WelcomePage from './Pages/WelcomePage/WelcomePage';
-import ProtectedRoute from './Shared/ProtectedRoute/ProtectedRoute';
-import FavoritesPage from './Pages/FavoritesPage/FavoritesPage';
-import AboutPage from './Pages/AboutPage/AboutPage';
-import UserPage from './Pages/UserPage/UserPage';
-import InfoPage from './Pages/InfoPage/InfoPage';
-import LandingPage from './Pages/LandingPage/LandingPage';
-import LoginPage from './Pages/LoginPage/LoginPage';
-import RegisterPage from './Pages/RegisterPage/RegisterPage';
-import TickerBar from './Shared/TickerBar/TickerBar';
+import Nav from "./Shared/Nav/Nav";
+import Footer from "./Shared/Footer/Footer";
+import WelcomePage from "./Pages/WelcomePage/WelcomePage";
+import ProtectedRoute from "./Shared/ProtectedRoute/ProtectedRoute";
+import FavoritesPage from "./Pages/FavoritesPage/FavoritesPage";
+import AboutPage from "./Pages/AboutPage/AboutPage";
+import UserPage from "./Pages/UserPage/UserPage";
+import InfoPage from "./Pages/InfoPage/InfoPage";
+import LandingPage from "./Pages/LandingPage/LandingPage";
+import LoginPage from "./Pages/LoginPage/LoginPage";
+import RegisterPage from "./Pages/RegisterPage/RegisterPage";
+import TickerBar from "./Shared/TickerBar/TickerBar";
+import ChatPage from "./Pages/ChatPage/ChatPage";
 
-
-import './App.css';
+import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user);
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
+    dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
-
 
   return (
     <Router>
@@ -71,39 +70,30 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
-          <Route
-            exact
-            path="/favorites"
-          >
+          <Route exact path="/favorites">
             <FavoritesPage />
           </Route>
 
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/login">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the login page
               <LoginPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/registration">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the registration page
               <RegisterPage />
-            }
+            )}
           </Route>
 
           <Route exact path="/home">
@@ -113,19 +103,18 @@ function App() {
             <WelcomePage />
             {/* } */}
           </Route>
-
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/chatbot">
+            <ChatPage />
+          </Route>
+          <Route exact path="/login">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the Landing page
               <LandingPage />
-            }
+            )}
           </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}

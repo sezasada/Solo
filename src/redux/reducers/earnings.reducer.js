@@ -10,6 +10,7 @@ const soloReducer = (
     watchlistName: "Watchlist",
     marketNews: [],
     newData: {},
+    generatedText: [],
     error: null,
   },
   action
@@ -19,6 +20,8 @@ const soloReducer = (
       return { ...state, earnings: action.payload };
     case "FETCH_EARNINGS_ERROR":
       return { ...state, error: action.payload };
+    case "SET_GENERATED_TEXT":
+      return { ...state, generatedText: action.payload };
     case "SET_SELECTED_STOCK_NEWS":
       return { ...state, selectedStocksNews: action.payload };
     case "SET_MARKET_NEWS":
