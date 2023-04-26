@@ -1,9 +1,10 @@
 import { put, takeEvery } from "redux-saga/effects";
+import axios from "axios";
 
 function* openaisaga(action) {
   try {
     const response = yield axios.post(
-      "/generate",
+      "/api/openai/generate",
       { text: action.payload },
       {
         headers: {
@@ -12,7 +13,7 @@ function* openaisaga(action) {
       }
     );
 
-    yield put({ type: SET_GENERATED_TEXT, payload: response.data.message });
+    yield put({ type: "SET_GENERATED_TEXT", payload: response.data.message });
   } catch (error) {
     console.log("Error:", error);
   }
@@ -23,3 +24,4 @@ function* watchFetchOpenAi() {
 }
 
 export default watchFetchOpenAi;
+

@@ -10,7 +10,7 @@ const soloReducer = (
     watchlistName: "Watchlist",
     marketNews: [],
     newData: {},
-    generatedText: [],
+    generatedText: "",
     error: null,
   },
   action
