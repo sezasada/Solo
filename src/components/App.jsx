@@ -97,11 +97,7 @@ function App() {
           </Route>
 
           <Route exact path="/home">
-            {/* {user.id ? */}
-            {/* <Redirect to="/user" /> */}
-            {/* : */}
-            <WelcomePage />
-            {/* } */}
+            {user.id ? <UserPage /> : <WelcomePage />}
           </Route>
           <Route exact path="/chatbot">
             <ChatPage />
