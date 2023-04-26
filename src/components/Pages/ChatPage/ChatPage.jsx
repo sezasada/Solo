@@ -34,7 +34,52 @@ function ChatPage() {
       setInputText("");
     }
   }, [generatedText]);
-
+  const renderChatContent = () => {
+    if (chatHistory.length === 0) {
+      return (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              textAlign: "center",
+              width: "70%",
+              paddingTop: "100px",
+              fontSize: "20px",
+            }}
+          >
+            <p>
+              ChatGPT is an AI language model that can be used to analyze and
+              understand financial data. Trained on a vast dataset of text from
+              the internet, books, and other sources, it can engage in natural
+              language conversations with humans and provide information on
+              various topics, including finance.
+            </p>
+            <p>
+              With advanced machine learning algorithms, ChatGPT can analyze the
+              context of a conversation and generate appropriate responses to
+              questions about financial data. It has the potential to
+              revolutionize the way we analyze and understand financial
+              information, helping us to solve complex problems with its vast
+              knowledge base and analytical capabilities.
+            </p>
+            <p>
+              As it constantly learns and improves through interactions with
+              humans, ChatGPT can become an invaluable tool for anyone seeking
+              to gain insights into the world of finance.
+            </p>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <></> // ... (the rest of your code for displaying chat history)
+      );
+    }
+  };
   return (
     <div className="chatpage">
       <div className="middlechatpage">
@@ -46,6 +91,7 @@ function ChatPage() {
           }}
         >
           <div style={{ width: "100%" }}>
+            {renderChatContent()}
             {chatHistory.map((chat, index) => (
               <div key={index}>
                 <div
