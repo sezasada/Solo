@@ -23,6 +23,10 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
+
+  [services.resources]
+    memory = 1024
+
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
@@ -42,3 +46,7 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+
+[scale]
+  count = 3
+  max_per_region = 1
