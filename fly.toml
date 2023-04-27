@@ -1,4 +1,4 @@
-# fly.toml file generated for marketwatcher on 2023-03-10T15:40:04-06:00
+# fly.toml file generated for marketwatcher on 2023-04-27T13:59:50-05:00
 
 app = "marketwatcher"
 kill_signal = "SIGINT"
@@ -8,9 +8,14 @@ processes = []
 
 [env]
   PORT = "8080"
+  PRIMARY_REGION = "den"
 
 [experimental]
+  allowed_public_ports = []
   auto_rollback = true
+  cmd = []
+  entrypoint = []
+  exec = []
 
 [[services]]
   http_checks = []
