@@ -28,19 +28,23 @@ router.get("/earnings", async (req, res) => {
       ["2021-05-11", "2021-07-10"],
       ["2021-03-11", "2021-05-10"],
       ["2021-01-11", "2021-03-10"],
-   
     ];
 
-    const data = [];
-
-    for (const [fromDate, toDate] of dateRanges) {
+    const fetchEarningsInRange = async (fromDate, toDate) => {
       const response = await axios.get(
         `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=19198710f19b50ecd5513c63a590ad31`
       );
-      data.push(...response.data);
-    }
+      return response.data;
+    };
 
-    res.json(data);
+    const fetchPromises = dateRanges.map(([fromDate, toDate]) =>
+      fetchEarningsInRange(fromDate, toDate)
+    );
+
+    const data = await Promise.all(fetchPromises);
+    const flattenedData = data.flat();
+
+    res.json(flattenedData);
   } catch (error) {
     console.log("Error fetching earnings", error);
     res.status(500).send("Internal server error");
