@@ -227,7 +227,7 @@ function UserPage() {
       setCompanySearch(value.name);
     }
   };
-
+console.log('this is earnings', selectedEarnings);
   return (
     <ThemeProvider theme={customTheme}>
       <div className="bod">

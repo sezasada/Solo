@@ -57,7 +57,6 @@ function FavoritesList() {
 
     };
 
-    console.log('selectedStockData', selectedStockData)
     return (
         <div className="favorites-container">
             <div className="favorites">

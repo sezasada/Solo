@@ -50,7 +50,6 @@ function LandingPage() {
     setSelectedYear(event.target.value);
     dispatch({ type: 'FILTER_EARNINGS', payload: event.target.value });
   };
-  console.log('selectedStockData:', selectedStockData);
 
   return (
     <div>

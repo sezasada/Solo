@@ -3,9 +3,7 @@ import axios from "axios"
 
 function* watchlistData() {
     try {
-        const response = yield axios.get(`/api/favorites/stockData`);
-        console.log("this is stock data",response.data)
-    
+        const response = yield axios.get(`/api/favorites/stockData`);    
             yield put({ type: 'SET_WATCHLIST_STOCKS', payload: response.data });
     } catch (error) {
         console.log('Error fetching stock news', error);
