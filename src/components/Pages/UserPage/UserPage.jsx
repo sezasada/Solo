@@ -34,7 +34,7 @@ function UserPage() {
   const [companySearch, setCompanySearch] = useState("");
   const [companyOptions, setCompanyOptions] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const [numNewsArticles, setNumNewsArticles] = useState(2);
@@ -76,7 +76,6 @@ function UserPage() {
       },
     },
   });
-  
 
   useEffect(() => {
     if (selectedSymbol !== "") {
@@ -97,7 +96,7 @@ function UserPage() {
           confirmButton: "swal-confirm-button",
         },
       });
-      setInputValue(''); 
+      setInputValue("");
     }
   }, [error]);
   useEffect(() => {
@@ -701,7 +700,7 @@ function UserPage() {
                               height: "50px",
                             }}
                           >
-                            {report.eps.toFixed(2)}
+                            {report.eps ? report.eps.toFixed(2) : "N/A"}
                           </td>
                           <td
                             style={{
@@ -711,18 +710,9 @@ function UserPage() {
                               height: "50px",
                             }}
                           >
-                            {report.epsEstimated.toFixed(2)}
-                          </td>
-                          <td
-                            style={{
-                              border: "1px solid grey",
-                              padding: "5px",
-                              textAlign: "left",
-                              height: "50px",
-                            }}
-                            className="revenue-cell"
-                          >
-                            ${report.revenue.toLocaleString()}
+                            {report.epsEstimated
+                              ? report.epsEstimated.toFixed(2)
+                              : "N/A"}
                           </td>
                           <td
                             style={{
@@ -733,7 +723,22 @@ function UserPage() {
                             }}
                             className="revenue-cell"
                           >
-                            ${report.revenueEstimated?.toLocaleString()}
+                            {report.revenue
+                              ? `$${report.revenue.toLocaleString()}`
+                              : "N/A"}
+                          </td>
+                          <td
+                            style={{
+                              border: "1px solid grey",
+                              padding: "5px",
+                              textAlign: "left",
+                              height: "50px",
+                            }}
+                            className="revenue-cell"
+                          >
+                            {report.revenueEstimated
+                              ? `$${report.revenueEstimated.toLocaleString()}`
+                              : "N/A"}
                           </td>
                         </tr>
                       );
