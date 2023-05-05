@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv').config();
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
@@ -15,7 +16,8 @@ router.get("/earnings", async (req, res) => {
       ["2023-04-12", "2023-05-11"],
       ["2023-03-12", "2023-04-11"],
       ["2023-02-12", "2023-03-11"],
-      ["2022-12-12", "2023-02-11"],
+      ["2023-01-12", "2023-02-11"],
+      ["2022-12-12", "2023-01-11"],
       ["2022-10-11", "2022-12-11"],
       ["2022-08-11", "2022-10-10"],
       ["2022-06-11", "2022-08-10"],
@@ -32,7 +34,7 @@ router.get("/earnings", async (req, res) => {
 
     const fetchEarningsInRange = async (fromDate, toDate) => {
       const response = await axios.get(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=19198710f19b50ecd5513c63a590ad31`
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.EARNING_API_KEY}`
       );
       return response.data;
     };
@@ -55,7 +57,7 @@ router.get("/stockData/:identifier", async (req, res) => {
   const { identifier } = req.params;
   try {
     const searchResponse = await axios.get(
-      `https://financialmodelingprep.com/api/v3/search?query=${identifier}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
+      `https://financialmodelingprep.com/api/v3/search?query=${identifier}&limit=1&exchange=NASDAQ&apikey=${process.env.EARNING_API_KEY}`
     );
     if (searchResponse.data.length === 0) {
       res.status(404);
@@ -64,7 +66,7 @@ router.get("/stockData/:identifier", async (req, res) => {
     const symbol = searchResponse.data[0].symbol;
 
     const response = await axios.get(
-      `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=19198710f19b50ecd5513c63a590ad31`
+      `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${process.env.EARNING_API_KEY}`
     );
     const data = {
       price: response.data[0].price,
@@ -92,7 +94,7 @@ router.get("/stockNews/:identifier", async (req, res) => {
   try {
     // First, check if the identifier is a symbol or a name
     const searchResponse = await axios.get(
-      `https://financialmodelingprep.com/api/v3/search-name?query=${identifier}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
+      `https://financialmodelingprep.com/api/v3/search-name?query=${identifier}&limit=1&exchange=NASDAQ&apikey=${process.env.EARNING_API_KEY}`
     );
     if (searchResponse.data.length === 0) {
       res.status(404).send("No results found");
@@ -101,7 +103,7 @@ router.get("/stockNews/:identifier", async (req, res) => {
     const symbol = searchResponse.data[0].symbol;
 
     const response = await axios.get(
-      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=50&apikey=19198710f19b50ecd5513c63a590ad31`
+      `https://financialmodelingprep.com/api/v3/stock_news?tickers=${symbol}&limit=50&apikey=${process.env.EARNING_API_KEY}`
     );
     const data = response.data.map((article) => ({
       title: article.title,

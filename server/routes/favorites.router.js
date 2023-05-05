@@ -3,6 +3,7 @@ const express = require("express");
 const pool = require("../modules/pool");
 const router = express.Router();
 const axios = require("axios");
+require('dotenv').config();
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
@@ -20,7 +21,7 @@ router.get("/stockData", rejectUnauthenticated, (req, res) => {
       const apiresponses = [];
       for (let x = 0; x < favorites.length; x++) {
         const response = await axios.get(
-          `https://financialmodelingprep.com/api/v3/quote/${favorites[x]}?apikey=19198710f19b50ecd5513c63a590ad31`
+          `https://financialmodelingprep.com/api/v3/quote/${favorites[x]}?apikey=${process.env.EARNING_API_KEY}`
         );
         const data = {
           ticker: favorites[x],
@@ -61,7 +62,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
 
   try {
     const searchResponse = await axios.get(
-      `https://financialmodelingprep.com/api/v3/search?query=${input.ticker}&limit=1&exchange=NASDAQ&apikey=19198710f19b50ecd5513c63a590ad31`
+      `https://financialmodelingprep.com/api/v3/search?query=${input.ticker}&limit=1&exchange=NASDAQ&apikey=${process.env.EARNING_API_KEY}`
     );
     if (searchResponse.data.length === 0) {
       res.sendStatus("yes results found");
