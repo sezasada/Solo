@@ -2,7 +2,7 @@
 
 ## Problem
 
-Discovering earnings reports can be quite a challenge. I often found myself navigating through numerous websites in search of the relevant data I needed. Unfortunately, many of these sites are cluttered with adds and extraneous information, causing distractions and hindering my ability to focus on the task at hand.
+Viewing earnings reports can be quite a challenge. I often found myself navigating through numerous websites in search of the relevant data I needed. Unfortunately, many of these sites are cluttered with adds and extraneous information, causing distractions and hindering my ability to focus on the task at hand.
 
 ## Description
 
