@@ -1,3 +1,8 @@
+
+// This is an ugly reducer. 
+// In the future I plan to create a new reducer for each case
+// Not a very attractive looking file
+
 const soloReducer = (
   state = {
     earnings: [],

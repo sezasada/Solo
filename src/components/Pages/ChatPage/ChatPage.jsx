@@ -76,7 +76,7 @@ function ChatPage() {
       );
     } else {
       return (
-        <></> // ... (the rest of your code for displaying chat history)
+        <></> // ... (the rest of the code for displaying chat history. Not set up yet)
       );
     }
   };

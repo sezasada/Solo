@@ -13,6 +13,11 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import styled from "@emotion/styled";
 import TickerBar from "../../Shared/TickerBar/TickerBar";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
+// This is the component for the entire user page
+// I intend to componatize in the future to clean this up
+// Lots of inline styling (ugly). 
+
 function UserPage() {
   const dispatch = useDispatch();
   const error = useSelector((store) => store.earningsReducer.error);
@@ -106,6 +111,9 @@ function UserPage() {
       setCompanyOptions([]);
     }
   }, [companySearch]);
+
+  // I will move the api calls to the backend in the future. 
+  // For now i'm storing them in .env file.
   const fetchCompanyNames = async (identifier) => {
     try {
       const nameResponse = await axios.get(
