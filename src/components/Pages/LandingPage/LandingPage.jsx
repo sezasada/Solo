@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import News from '../../Shared/News/News';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// Not being used
+// This page was intended for users who do not have accounts
+// Might use later, for now it will not be shown
+
 function LandingPage() {
   const earnings = useSelector(store => store.earningsReducer.earnings);
   const selectedSymbol = useSelector(store => store.earningsReducer.selectedSymbol);

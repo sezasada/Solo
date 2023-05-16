@@ -1,6 +1,8 @@
 import { useHistory } from "react-router-dom";
 import "./WelcomePage.css";
 
+// This is the page users see upon logging in / before logging in 
+
 function WelcomePage() {
   const history = useHistory();
 
