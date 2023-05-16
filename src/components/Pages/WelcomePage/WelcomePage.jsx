@@ -1,5 +1,4 @@
 import { useHistory } from "react-router-dom";
-import backgroundImage from "./Back.jpeg";
 import "./WelcomePage.css";
 
 function WelcomePage() {
