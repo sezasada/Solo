@@ -11,13 +11,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
+
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
 .content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-40%);
 }
+
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -36,6 +49,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 .market-watchers {
   font-size: 100px;
@@ -60,3 +74,55 @@ button:hover {
   transform: scale(1.1);
 }
 
+
+
+.secret-unlocked {
+  background-color: red;
+  color: #fff;
+  padding-left: 5em;
+  padding-right: 5em;
+  border-radius: 12px;
+}
+
+.secret-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.codClip {
+  border: 5px solid white;
+  width: 75%;
+  height: 45%;
+  margin-bottom: 20px;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+
+
+@keyframes shake {
+  0% { transform: translate(0.5px, 0.5px) rotate(0deg); }
+  10% { transform: translate(-0.5px, -1px) rotate(-0.5deg); }
+  20% { transform: translate(-1.5px, 0px) rotate(0.5deg); }
+  30% { transform: translate(1.5px, 1px) rotate(0deg); }
+  40% { transform: translate(0.5px, -0.5px) rotate(0.5deg); }
+  50% { transform: translate(-0.5px, 1px) rotate(-0.5deg); }
+  60% { transform: translate(-1.5px, 0.5px) rotate(0deg); }
+  70% { transform: translate(1.5px, 0.5px) rotate(-0.5deg); }
+  80% { transform: translate(-0.5px, -0.5px) rotate(0.5deg); }
+  90% { transform: translate(0.5px, 1px) rotate(0deg); }
+  100% { transform: translate(0.5px, -1px) rotate(-0.5deg); }
+}
+
+
+.shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  animation-iteration-count: infinite;
+}
