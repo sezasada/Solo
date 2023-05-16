@@ -4,6 +4,7 @@ import "./WelcomePage.css";
 
 function WelcomePage() {
   const [clickedLetters, setClickedLetters] = useState("");
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const secretSequence = "easy";
   const videoRef = useRef(null);
   const history = useHistory();
@@ -26,8 +27,10 @@ function WelcomePage() {
     const video = videoRef.current;
     if (video.paused) {
       video.play();
+      setIsVideoPlaying(true); // Add this line
     } else {
       video.pause();
+      setIsVideoPlaying(false); // And this line
     }
   };
 
@@ -36,7 +39,7 @@ function WelcomePage() {
   }
 
   return (
-    <div className="bodys">
+    <div className={`bodys ${isVideoPlaying ? "bodys-top-align" : ""}`}>
       <div className="page-content">
         <div className="content-wrapper">
           <div className="market-title">
