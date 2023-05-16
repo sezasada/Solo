@@ -5,7 +5,7 @@ import "./WelcomePage.css";
 function WelcomePage() {
   const [clickedLetters, setClickedLetters] = useState("");
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const secretSequence = "easy";
+  const secretSequence = "easyandover";
   const videoRef = useRef(null);
   const history = useHistory();
 
@@ -27,10 +27,10 @@ function WelcomePage() {
     const video = videoRef.current;
     if (video.paused) {
       video.play();
-      setIsVideoPlaying(true); // Add this line
+      setIsVideoPlaying(true); 
     } else {
       video.pause();
-      setIsVideoPlaying(false); // And this line
+      setIsVideoPlaying(false);
     }
   };
 
