@@ -9,6 +9,7 @@ import SmartToyIcon from "@mui/icons-material/SmartToy";
 function ChatPage() {
   const [inputText, setInputText] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); 
 
   const generatedText = useSelector(
     (store) => store.earningsReducer.generatedText
@@ -22,9 +23,13 @@ function ChatPage() {
   });
 
   const handleSubmit = () => {
+    setIsLoading(true);
     dispatch(generateTextRequest(inputText));
   };
 
+  const handleClear = () => {
+    setChatHistory([])
+  }
   useEffect(() => {
     if (generatedText && inputText) {
       setChatHistory([
@@ -32,6 +37,7 @@ function ChatPage() {
         { userText: inputText, aiText: generatedText },
       ]);
       setInputText("");
+      setIsLoading(false);
     }
   }, [generatedText]);
   const renderChatContent = () => {
@@ -76,7 +82,7 @@ function ChatPage() {
       );
     } else {
       return (
-        <></> // ... (the rest of the code for displaying chat history. Not set up yet)
+        <></> 
       );
     }
   };
@@ -143,6 +149,9 @@ function ChatPage() {
               </div>
             ))}
           </div>
+          <div className="loading-spinner">
+          {isLoading && <div class="dots-bars-2"></div>} 
+          </div>
           <div className="input-containersssss" style={{ width: "80%" }}>
             <FormControl
               sx={{
@@ -199,8 +208,12 @@ function ChatPage() {
                     </InputAdornment>
                   ),
                 }}
+               
               />
             </FormControl>
+            <div>
+            <button onClick={handleClear}><div>CLEAR</div><div>HISTORY</div></button>
+            </div>
           </div>
         </div>
       </div>
