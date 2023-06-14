@@ -1,19 +1,20 @@
 import React from 'react';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import './CpiPage.css';
 
 function CpiPage() {
+    const dispatch = useDispatch();
+    const cpiData = useSelector((store) => store.cpiReducer);
 
+    useEffect(() => {
+        dispatch({ type: "FETCH_CPI_DATA" });
+    }, []);
 
-    const cpiData1 = [
-        { date: '2023-05-31', value: 4.05 },
-        { date: '2023-04-30', value: 4.93 },
-        // continue for all dates...
-    ];
-    const cpiData2 = [
-        { date: '2023-05-31', value: 4.05 },
-        { date: '2023-04-30', value: 4.93 },
-        // continue for all dates...
-    ];
+    // Split the data into two halves
+    const half = Math.ceil(cpiData.length / 2);
+    const cpiDataFirstHalf = cpiData.slice(0, half);
+    const cpiDataSecondHalf = cpiData.slice(half);
 
     const stats = {
         lastValue: '4.05%',
@@ -49,10 +50,10 @@ function CpiPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cpiData1.map((data, index) => (
+                            {cpiDataFirstHalf.map((data, index) => (
                                 <tr key={index}>
                                     <td className="column">{new Date(data.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</td>
-                                    <td className="column">{data.value.toFixed(2)}%</td>
+                                    <td className="column">{data.value}%</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -66,10 +67,10 @@ function CpiPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {cpiData2.map((data, index) => (
+                            {cpiDataSecondHalf.map((data, index) => (
                                 <tr key={index}>
                                     <td className="column">{new Date(data.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</td>
-                                    <td className="column">{data.value.toFixed(2)}%</td>
+                                    <td className="column">{data.value}%</td>
                                 </tr>
                             ))}
                         </tbody>

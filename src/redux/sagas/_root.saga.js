@@ -14,6 +14,7 @@ import { watchFetchWatchlistName, watchSetWatchlistName } from './watchlistName.
 import watchFetchStockNews from './fetchMoreStockNews.saga';
 import watchWatchlistSaga from './fetchWatchlistStocks.saga';
 import watchFetchOpenAi from './openai.saga';
+import cpiSaga from './cpi.saga';
 
 export default function* rootSaga() {
   yield all([
@@ -33,5 +34,6 @@ export default function* rootSaga() {
     watchFetchStockNews(),
     watchWatchlistSaga(),
     watchFetchOpenAi(),
+    cpiSaga(),
   ]);
 }
