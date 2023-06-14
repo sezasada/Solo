@@ -71,25 +71,6 @@
   margin: 20px;
 }
 
-table {
-  border-collapse: collapse;
-  border: 1px solid grey;
-  width: 100%;
-  table-layout: fixed;
-}
-
-th,
-td {
-  text-align: left;
-  padding: 5px;
-  color: white;
-  border: 1px solid grey;
-  width: 14.28%;
-}
-
-th {
-  background-color: #333;
-}
 
 .revenue-cell {
   width: auto;

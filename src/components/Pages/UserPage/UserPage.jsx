@@ -235,7 +235,7 @@ function UserPage() {
       setCompanySearch(value.name);
     }
   };
-console.log('this is earnings', selectedEarnings);
+  console.log('this is earnings', selectedEarnings);
   return (
     <ThemeProvider theme={customTheme}>
       <div className="bod">
@@ -340,24 +340,24 @@ console.log('this is earnings', selectedEarnings);
                                           (ticker) =>
                                             ticker.ticker === selectedSymbol
                                         ) && (
-                                          <button
-                                            className="btn btn-dark"
-                                            onClick={handleDeleteFavorite}
-                                          >
-                                            Delete from Watchlist
-                                          </button>
-                                        )}
+                                            <button
+                                              className="btn btn-dark"
+                                              onClick={handleDeleteFavorite}
+                                            >
+                                              Delete from Watchlist
+                                            </button>
+                                          )}
                                         {!watchlistsTickers.find(
                                           (ticker) =>
                                             ticker.ticker === selectedSymbol
                                         ) && (
-                                          <button
-                                            className="btn btn-dark"
-                                            onClick={handleAddFavorite}
-                                          >
-                                            Add to Watchlist
-                                          </button>
-                                        )}
+                                            <button
+                                              className="btn btn-dark"
+                                              onClick={handleAddFavorite}
+                                            >
+                                              Add to Watchlist
+                                            </button>
+                                          )}
                                       </div>
                                     </div>
                                     <div className="row">
@@ -613,61 +613,83 @@ console.log('this is earnings', selectedEarnings);
                   </div>
                 </div>
               ) : (
-                <table style={{ border: "1px solid grey", marginLeft: "20px" }}>
+                <table style={{
+                  border: "1px solid grey", marginLeft: "20px", borderCollapse: "collapse",
+                  width: "100%",
+                  tableLayout: "fixed"
+                }}>
                   {submitClicked ? (
                     <thead>
                       <tr>
                         <th
                           style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                         >
                           Symbol
                         </th>
                         <th
-                          style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                           style={{
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                         >
                           Date
                         </th>
                         <th
-                          style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                           style={{
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                         >
                           EPS
                         </th>
                         <th
-                          style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                           style={{
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                         >
                           EPS Estimated
                         </th>
                         <th
-                          style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                           style={{
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                           className="revenue-cell"
                         >
                           Revenue
                         </th>
                         <th
-                          style={{
-                            border: "1px solid grey",
-                            padding: "5px",
+                           style={{
+                            backgroundColor: "#333",
                             textAlign: "left",
+                            padding: "5px",
+                            color: "white",
+                            border: "1px solid grey",
+                            width: "14.28%"
                           }}
                           className="revenue-cell"
                         >
