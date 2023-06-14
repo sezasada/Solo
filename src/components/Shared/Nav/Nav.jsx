@@ -19,6 +19,11 @@ function Nav() {
             ChatGPT
           </Link>
         )}
+        {user.id && (
+          <Link className="navLink" to="/cpiData">
+            CPI Data
+          </Link>
+        )}
         {!user.id && (
           <Link className="navLink" to="/login">
             Login / Register

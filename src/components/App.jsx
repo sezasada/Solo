@@ -19,8 +19,8 @@ import InfoPage from "./Pages/InfoPage/InfoPage";
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import RegisterPage from "./Pages/RegisterPage/RegisterPage";
-import TickerBar from "./Shared/TickerBar/TickerBar";
 import ChatPage from "./Pages/ChatPage/ChatPage";
+import CpiPage from "./Pages/CpiPage/CpiPage";
 
 import "./App.css";
 
@@ -89,6 +89,9 @@ function App() {
           </Route>
           <Route exact path="/chatbot">
             <ChatPage />
+          </Route>
+          <Route exact path="/cpiData">
+            <CpiPage />
           </Route>
           <Route exact path="/login">
             {user.id ? (
