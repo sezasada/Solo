@@ -11,28 +11,38 @@ function CpiPage() {
         dispatch({ type: "FETCH_CPI_DATA" });
     }, []);
 
+    function findLatestReport(data) {
+        if (!data || data.length === 0) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+        return sortedData[0];
+    }
+
+    const latestReport = findLatestReport(cpiData);
+
+    function longTermAverage(data) {
+        if (!data || data.length === 0) {
+            return null;
+        }
+
+        let total = 0;
+        for (let i = 0; i < data.length; i++) {
+            total += parseFloat(data[i].value);
+        }
+
+        return (total / data.length).toFixed(2);
+    }
+
+
+    const avgCPI = longTermAverage(cpiData);
+
     // Split the data into two halves
     const half = Math.ceil(cpiData.length / 2);
     const cpiDataFirstHalf = cpiData.slice(0, half);
     const cpiDataSecondHalf = cpiData.slice(half);
 
-    const stats = {
-        lastValue: '4.05%',
-        latestPeriod: 'May 2023',
-        lastUpdated: 'Jun 13 2023, 08:33 EDT',
-        nextRelease: 'Jul 12 2023, 08:30 EDT',
-        longTermAverage: '3.28%',
-        averageGrowthRate: '-9.78%',
-        valueFromLastMonth: '4.93%',
-        changeFromLastMonth: '-17.90%',
-        valueFromOneYearAgo: '8.58%',
-        changeFromOneYearAgo: '-52.83%',
-        frequency: 'Monthly',
-        unit: 'Percent Index 1982-84=100',
-        adjustment: 'Seasonally Adjusted',
-        downloadSourceFile: 'Upgrade',
-        notes: 'All urban consumers, all items.'
-    }
 
     return (
         <div>
@@ -77,13 +87,26 @@ function CpiPage() {
                     </table>
                     <div className="stats-table">
                         <div className="table-header">Stats</div>
-
-                        {Object.entries(stats).map(([key, value], index) => (
-                            <div className="row" key={index}>
-                                <div className="columnss">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</div>
-                                <div className="columnss">{value}</div>
-                            </div>
-                        ))}
+                        <div className="latest-report">
+                            <p className="left-value">Last Value</p>
+                            <p className="right-value">{latestReport.value}%</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Last Period</p>
+                            <p className="right-value">{new Date(latestReport.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Last Updated</p>
+                            <p className="right-value">{new Date(latestReport.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Next Release</p>
+                            <p className="right-value">TBD</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Long Term Average</p>
+                            <p className="right-value">{avgCPI}%</p>
+                        </div>
                     </div>
                 </div>
             </div>

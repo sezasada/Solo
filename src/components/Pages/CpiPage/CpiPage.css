@@ -82,3 +82,13 @@
     border: 1px solid grey;
     width: 50%
 }
+
+
+.latest-report{
+    display: flex;
+    justify-content: space-between; 
+}
+
+.right-value {
+    margin-right: 30%; 
+}
