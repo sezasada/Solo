@@ -35,8 +35,108 @@ function CpiPage() {
         return (total / data.length).toFixed(2);
     }
 
-
     const avgCPI = longTermAverage(cpiData);
+
+    // Compound annual growth rate
+
+    function CAGR(data) {
+        if (!data || data.length < 2) {
+            return null;
+        }
+
+        let startValue = parseFloat(data[0].value);
+        let endValue = parseFloat(data[data.length - 1].value);
+
+        let years = data.length / 12;
+
+        let cagr = ((Math.pow((endValue / startValue), (1 / years))) - 1) * 100;
+
+        return cagr.toFixed(2);
+    }
+
+    const cagr = CAGR(cpiData);
+
+    // Last report 
+
+    function findSecondLatestReport(data) {
+        if (!data || data.length < 2) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+        return sortedData[1];
+    }
+
+    const secondLatestReport = findSecondLatestReport(cpiData);
+
+    // Change from last month
+
+    function calculatePercentChange(data) {
+        if (!data || data.length < 2) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let currentMonthValue = sortedData[0].value;
+        let previousMonthValue = sortedData[1].value;
+
+        let percentChange = ((currentMonthValue - previousMonthValue) / previousMonthValue) * 100;
+
+        return percentChange.toFixed(2);
+    }
+
+    const percentChange = calculatePercentChange(cpiData);
+
+    // Change from one year ago 
+
+    function calculateAnnualPercentChange(data) {
+        if (!data || data.length < 13) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let currentMonthValue = sortedData[0].value;
+        let previousYearValue = sortedData[12].value; // Get the value from 12 months ago
+
+        let percentChange = ((currentMonthValue - previousYearValue) / previousYearValue) * 100;
+
+        return percentChange.toFixed(2);
+    }
+
+    const annualPercentChange = calculateAnnualPercentChange(cpiData);
+
+    // Value from one year ago 
+    function findValueOneYearAgo(data) {
+        if (!data || data.length < 13) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let previousYearValue = sortedData[12].value; // Get the value from 12 months ago
+
+        return previousYearValue;
+    }
+
+    const valueOneYearAgo = findValueOneYearAgo(cpiData);
+
+    // Next Months CPI Release
+    function findNextRelease(data) {
+        if (!data || data.length === 0) {
+            return null;
+        }
+
+        let sortedData = [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
+        let latestDate = new Date(sortedData[0].date);
+
+        let nextMonth = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1 + 1, 0); // +1 for next month, +1 as JS months are zero-based
+
+        return nextMonth;
+    }
+
+    const nextRelease = findNextRelease(cpiData);
 
     // Split the data into two halves
     const half = Math.ceil(cpiData.length / 2);
@@ -89,24 +189,51 @@ function CpiPage() {
                         <div className="table-header">Stats</div>
                         <div className="latest-report">
                             <p className="left-value">Last Value</p>
-                            <p className="right-value">{latestReport.value}%</p>
+                            <p className="right-value">{latestReport ? `${latestReport.value}%` : 'Loading...'}</p>
                         </div>
                         <div className="latest-report">
                             <p className="left-value">Last Period</p>
-                            <p className="right-value">{new Date(latestReport.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+                            <p className="right-value">{latestReport ? new Date(latestReport.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Loading...'}</p>
                         </div>
                         <div className="latest-report">
                             <p className="left-value">Last Updated</p>
-                            <p className="right-value">{new Date(latestReport.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                            <p className="right-value">{latestReport ? new Date(latestReport.date).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Loading...'}</p>
                         </div>
                         <div className="latest-report">
                             <p className="left-value">Next Release</p>
-                            <p className="right-value">TBD</p>
+                            <p className="right-value">{new Date(nextRelease).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
                         </div>
+
                         <div className="latest-report">
                             <p className="left-value">Long Term Average</p>
                             <p className="right-value">{avgCPI}%</p>
                         </div>
+                        <div className="latest-report">
+                            <p className="left-value">Compound Annual Growth Rate</p>
+                            <p className="right-value">{cagr}%</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Value from Last Month</p>
+                            <p className="right-value">{secondLatestReport.value}%</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Change from Last Month</p>
+                            <p className="right-value">{percentChange}%</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Value from 1 Year Ago</p>
+                            <p className="right-value">{valueOneYearAgo}%</p>
+                        </div>
+
+                        <div className="latest-report">
+                            <p className="left-value">Change from 1 Year Ago</p>
+                            <p className="right-value">{annualPercentChange}%</p>
+                        </div>
+                        <div className="latest-report">
+                            <p className="left-value">Frequency</p>
+                            <p className="right-value">Monthly</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
