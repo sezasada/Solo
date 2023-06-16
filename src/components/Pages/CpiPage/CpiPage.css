@@ -1,3 +1,8 @@
+.master {
+    background-color: #181818;
+    color: white;
+}
+
 .wrapper {
     display: flex;
     justify-content: left;
@@ -7,6 +12,7 @@
 }
 
 .title {
+    margin-top: 20px;
     margin-left: 5%;
 }
 
@@ -15,25 +21,61 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    border: 2px solid black;
 }
 
 .cpi-table {
     display: flex;
-    border: 1px solid grey;
     flex-direction: column;
-    width: 50%;
-    margin: 10px;
+    width: 100%;
+    margin: 0px 30px 10px 20px;
+    /* top, right, bottom, left */
+}
+
+.table-section {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-top: 5px solid grey;
+    margin-right: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tables-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.table-title {
+    border-bottom: 1px solid grey;
+    font-size: 17px;
+    font-weight: bold;
+    width: 100%;
+}
+
+.Historical-Data {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 24px;
 }
 
 .stats-table {
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-top: 5px solid grey;
     display: flex;
     flex-direction: column;
     width: 40%;
+    height: 100%;
 }
 
-.stats-body {
-    border: 2px solid black
+.stats-data {
+    padding: 10px;
+
 }
 
 .row {
@@ -45,14 +87,22 @@
 .columnss {
     flex: 1;
     padding: 0.5em;
-    border-bottom: 2px solid #ddd;
 }
 
 .table-header {
-    font-size: 20px;
+    font-size: 17px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
     font-weight: bold;
     text-align: left;
-    border-bottom: 1px solid black;
+}
+
+.table-title2 {
+    border-bottom: 1px solid grey;
+    font-size: 17px;
+    font-weight: bold;
+    width: 100%;
 }
 
 .section-header {
@@ -63,32 +113,47 @@
 }
 
 .column {
+    border-bottom: 1px solid grey;
     text-align: left;
     padding: 5px;
-    border: 1px solid grey;
-    width: 400px;
+    width: 100%;
+}
+
+.column2 {
+    border-bottom: 1px solid grey;
+    text-align: right;
+    padding: 5px;
+    width: 100%;
+
 }
 
 .column-header {
     text-align: left;
     padding: 5px;
-    border: 1px solid grey;
-    width: 400px;
+    border-bottom: 1px solid grey;
+    width: 100%
 }
 
 .column-header2 {
-    text-align: left;
+    text-align: right;
     padding: 5px;
-    border: 1px solid grey;
-    width: 50%
+    border-bottom: 1px solid grey;
 }
 
 
-.latest-report{
+.latest-report {
     display: flex;
-    justify-content: space-between; 
+    margin-bottom: -6px;
+}
+
+.left-value {
+    border-bottom: 1px solid grey;
+    width: 100%;
+    text-align: left;
 }
 
 .right-value {
-    margin-right: 30%; 
+    border-bottom: 1px solid grey;
+    width: 100%;
+    text-align: right;
 }
