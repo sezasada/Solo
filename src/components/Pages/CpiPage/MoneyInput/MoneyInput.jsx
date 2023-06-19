@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import "./MoneyInput.css";
 
 const calculateInflationAdjustedValue = (value, cpiPast, cpiPresent) => {
     if (!cpiPast || !cpiPresent) {
@@ -37,14 +38,16 @@ function MoneyInput() {
     }
 
     return (
-        <div>
+        <div className="cpi-calc">
             <div className="title">
                 <h2>Value of US Dollar Accounting for Inflation</h2>
             </div>
-            <input type="number" placeholder="Enter $ Amount" onChange={(e) => setAmount(e.target.value)} />
-
-            <div>
-                <p>${amount} in {startYear} has the same buying power as ${dollarValues[currentYear]} in {currentYear}</p>
+            <div className="input-body">
+                <input type="number" placeholder="Enter $ Amount" onChange={(e) => setAmount(e.target.value)} />
+            </div>
+            <div className="statistic-body">
+                <div><span className="amount">${amount}</span> in {startYear} has the same buying power as</div>
+                <div><span className="dollarValues">${dollarValues[currentYear]}</span> in {currentYear}</div>
             </div>
         </div>
     );

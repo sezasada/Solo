@@ -249,11 +249,10 @@ function CpiPage() {
                                 <p className="right-value">Monthly</p>
                             </div>
                         </div>
-
+                        <MoneyInput/>
                     </div>
                 </div>
             </div>
-            <MoneyInput />
         </div>
     );
 }
